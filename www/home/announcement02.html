@@ -1,0 +1,63 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Announcement 02</title>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+</head>
+<body>
+    <h1 data-dojo-type="dojox/mobile/Heading" data-dojo-props="label: 'Announcement 02'">
+        <span data-dojo-type="dojox/mobile/ToolBarButton" data-dojo-props="label: 'Skip', defaultColor: 'mblColorBlue', moveTo: 'viewHome', transition: 'slidev'" style="float: right;"></span>
+    </h1>
+    <div style="height: 200px;" data-dojo-type="dojox/mobile/RoundRect" data-dojo-props="shadow: true">
+        <div data-dojo-type="app/widget/PnlScrollable" data-dojo-props="height: '200px'">
+            <ul data-dojo-type="app/widget/special/home/ListPairedDevice">
+            </ul>
+        </div>
+    </div>
+    <div style="height: 200px;" data-dojo-type="dojox/mobile/RoundRect" data-dojo-props="shadow: true">
+        <div data-dojo-type="app/widget/PnlScrollable" data-dojo-props="height: '200px'">
+            <ul id="lstMessage" data-dojo-type="app/widget/ListMessage">
+            </ul>
+        </div>
+    </div>
+    <form>
+        <div data-dojo-type="dojox/mobile/RoundRect">
+            <div data-dojo-type="dojox/mobile/FormLayout" data-dojo-props="columns:'auto'">
+                <div>
+                    <label>Your message</label>
+                    <fieldset>
+                        <input id="txtMessage" data-dojo-type="dojox/mobile/TextBox" value="" />
+                        <button class="mblBlueButton" data-dojo-type="app/widget/BtnSendText" data-dojo-props="textId: 'txtMessage'">Send</button>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+    </form>
+    <!--div style="height: 200px;" data-dojo-type="dojox/mobile/RoundRect" data-dojo-props="shadow: true">
+        <div data-dojo-type="app/widget/PnlScrollable" data-dojo-props="height: '200px'">
+            <div data-dojo-type="dojox/mobile/Pane">
+                <p>1</p>
+                <p>2</p>
+                <p>3</p>
+                <p>4</p>
+                <p>5</p>
+                <p>6</p>
+                <p>7</p>
+                <p>8</p>
+                <p>9</p>
+                <p>10</p>
+                <p>1</p>
+                <p>2</p>
+                <p>3</p>
+                <p>4</p>
+                <p>5</p>
+                <p>6</p>
+                <p>7</p>
+                <p>8</p>
+                <p>9</p>
+                <p>10</p>
+            </div>
+        </div>
+    </div-->
+</body>
+</html>

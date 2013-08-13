@@ -1,0 +1,22 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Graphic</title>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+</head>
+<body>
+    <h1 data-dojo-type="dojox/mobile/Heading" back="Back" moveto="#viewHome">Graphic</h1>
+    <div id="viewGauges" data-dojo-type="dojox/mobile/View" selected="true">
+        <div data-dojo-type="dojox/mobile/ContentPane" data-dojo-props="href: 'home/guages.html'">
+        </div>
+    </div>
+    <div id="viewSpinWheel" data-dojo-type="dojox/mobile/View">
+        <div data-dojo-type="dojox/mobile/ContentPane" data-dojo-props="href: 'home/spinWheel.html'">
+        </div>
+    </div>
+    <ul data-dojo-type="dojox/mobile/TabBar">
+        <li data-dojo-type="app/widget/TbbSwitchView" data-dojo-props="selected: true, viewId: 'viewGauges'">Guages</li>
+        <li data-dojo-type="app/widget/TbbSwitchView" data-dojo-props="viewId: 'viewSpinWheel'">Spin Wheel</li>
+    </ul>
+</body>
+</html>
