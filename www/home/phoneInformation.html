@@ -5,53 +5,55 @@
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 </head>
 <body>
-    <h1 data-dojo-type="dojox/mobile/Heading">Phone Information</h1>
-    <form>
-        <div data-dojo-type="dojox/mobile/RoundRect">
-            <div data-dojo-type="dojox/mobile/FormLayout">
-                <fieldset>
-                    <legend>Phone</legend>
+    <div data-dojo-type="dojox/mobile/ScrollableView">
+        <h1 data-dojo-type="dojox/mobile/Heading">Phone Information</h1>
+        <form>
+            <div data-dojo-type="dojox/mobile/RoundRect">
+                <div data-dojo-type="dojox/mobile/FormLayout">
+                    <fieldset>
+                        <legend>Phone</legend>
+                        <div>
+                            <label>Platform</label>
+                            <input id="txtPlatform" data-dojo-type="dojox/mobile/TextBox" value="undefined" disabled />
+                        </div>
+                        <div>
+                            <label>Version</label>
+                            <input id="txtVersion" data-dojo-type="dojox/mobile/TextBox" value="undefined" disabled />
+                        </div>
+                    </fieldset>
                     <div>
-                        <label>Platform</label>
-                        <input id="txtPlatform" data-dojo-type="dojox/mobile/TextBox" value="undefined" disabled />
+                        <label>Connection</label>
+                        <input id="txtConnection" data-dojo-type="dojox/mobile/TextBox" value="undefined" disabled />
                     </div>
-                    <div>
-                        <label>Version</label>
-                        <input id="txtVersion" data-dojo-type="dojox/mobile/TextBox" value="undefined" disabled />
-                    </div>
-                </fieldset>
-                <div>
-                    <label>Connection</label>
-                    <input id="txtConnection" data-dojo-type="dojox/mobile/TextBox" value="undefined" disabled />
+                    <fieldset>
+                        <legend>Contact</legend>
+                        <div>
+                            <input id="txtName" data-dojo-type="dojox/mobile/TextBox" value="undefined" disabled />
+                            <input id="txtPhone" data-dojo-type="dojox/mobile/TextBox" value="undefined" disabled />
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <legend>Location</legend>
+                        <div>
+                            <input id="txtLatitude" data-dojo-type="dojox/mobile/TextBox" value="undefined" disabled />
+                            <input id="txtLongitude" data-dojo-type="dojox/mobile/TextBox" value="undefined" disabled />
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <legend>Accelerometer</legend>
+                        <div>
+                            <input id="txtX" data-dojo-type="dojox/mobile/TextBox" value="undefined" disabled />
+                        </div>
+                        <div>
+                            <input id="txtY" data-dojo-type="dojox/mobile/TextBox" value="undefined" disabled />
+                        </div>
+                        <div>
+                            <input id="txtZ" data-dojo-type="dojox/mobile/TextBox" value="undefined" disabled />
+                        </div>
+                    </fieldset>
                 </div>
-                <fieldset>
-                    <legend>Contact</legend>
-                    <div>
-                        <input id="txtName" data-dojo-type="dojox/mobile/TextBox" value="undefined" disabled />
-                        <input id="txtPhone" data-dojo-type="dojox/mobile/TextBox" value="undefined" disabled />
-                    </div>
-                </fieldset>
-                <fieldset>
-                    <legend>Location</legend>
-                    <div>
-                        <input id="txtLatitude" data-dojo-type="dojox/mobile/TextBox" value="undefined" disabled />
-                        <input id="txtLongitude" data-dojo-type="dojox/mobile/TextBox" value="undefined" disabled />
-                    </div>
-                </fieldset>
-                <fieldset>
-                    <legend>Accelerometer</legend>
-                    <div>
-                        <input id="txtX" data-dojo-type="dojox/mobile/TextBox" value="undefined" disabled />
-                    </div>
-                    <div>
-                        <input id="txtY" data-dojo-type="dojox/mobile/TextBox" value="undefined" disabled />
-                    </div>
-                    <div>
-                        <input id="txtZ" data-dojo-type="dojox/mobile/TextBox" value="undefined" disabled />
-                    </div>
-                </fieldset>
             </div>
-        </div>
-    </form>
+        </form>
+    </div>
 </body>
 </html>

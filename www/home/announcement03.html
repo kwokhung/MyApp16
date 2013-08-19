@@ -12,5 +12,30 @@
         <button class="mblBlueButton" data-dojo-type="app/widget/BtnSwitchView" data-dojo-props="viewId: 'viewHome'">Start</button>
         <button class="mblBlueButton" data-dojo-type="app/widget/BtnLinkTo" data-dojo-props="url: 'http://apache.org'">Link to http://apache.org</button>
     </div>
+    <div data-dojo-type="dojox/mobile/RoundRect">
+        <button class="mblBlueButton" data-dojo-type="app/widget/BtnSwitchView" data-dojo-props="viewId: 'viewHome'">Start</button>
+        <button class="mblBlueButton" data-dojo-type="app/widget/BtnLinkTo" data-dojo-props="url: 'http://test02atmblinus.azurewebsites.net/www/download.html'">Link to http://test02atmblinus.azurewebsites.net/www/download.html</button>
+    </div>
+    <div data-dojo-type="dojox/mobile/RoundRect">
+        <button class="mblBlueButton" data-dojo-type="app/widget/BtnSwitchView" data-dojo-props="viewId: 'viewHome'">Start</button>
+        <button class="mblBlueButton" data-dojo-type="app/widget/BtnGetResourceFrom" data-dojo-props="url: 'http://test02atmblinus.azurewebsites.net/www/MyApp.apk'">Download My App</button>
+    </div>
+    <div data-dojo-type="dojox/mobile/RoundRect">
+        <button class="mblBlueButton" data-dojo-type="app/widget/BtnSwitchView" data-dojo-props="viewId: 'viewHome'">Start</button>
+        <button class="mblBlueButton" data-dojo-type="app/widget/BtnLinkTo" data-dojo-props="url: 'geo:0,0?q=police'">Call the Police</button>
+    </div>
+    <ul data-dojo-type="dojox/mobile/RoundRectList">
+        <li data-dojo-type="dojox/mobile/ListItem" data-dojo-props='onClick: "window.location=\"geo:0,0?q=police\";"'>Call the Police</li>
+        <li data-dojo-type="dojox/mobile/ListItem" data-dojo-props='onClick: "window.open(\"geo:0,0?q=towing\", \"_blank\", \"location=yes\");"'>Call for a Tow Truck</li>
+        <li data-dojo-type="dojox/mobile/ListItem" data-dojo-props='onClick: onClickHandler'>Alert</li>
+        <li data-dojo-type="dojox/mobile/ListItem">
+            <button data-dojo-type="dojox/mobile/Button" data-dojo-props='onClick: onClickHandler'>
+                Alert
+            </button>
+        </li>
+    </ul>
+    <button data-dojo-type="dojox/mobile/Button" data-dojo-props='onClick: onClickHandler'>
+        Alert
+    </button>
 </body>
 </html>

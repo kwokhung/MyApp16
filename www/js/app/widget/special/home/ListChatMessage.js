@@ -16,31 +16,31 @@ define([
             socket.on("connect", lang.hitch(this, function () {
                 this.appendMessage("connect", "Connected");
 
-                socket.on("announcement", function (msg) {
-                    this.appendMessage("announcement", msg);
-                });
+                socket.on("announcement", lang.hitch(this, function (message) {
+                    this.appendMessage("announcement", message);
+                }));
 
-                socket.on("nicknames", function (nicknames) {
+                socket.on("nicknames", lang.hitch(this, function (nicknames) {
                     this.appendMessage("nicknames", JSON.stringify(nicknames));
-                });
+                }));
 
-                socket.on("user message", this.appendMessage);
+                socket.on("user message", lang.hitch(this, this.appendMessage));
 
-                socket.on("reconnect", function () {
+                socket.on("reconnect", lang.hitch(this, function () {
                     this.appendMessage("System", "Reconnected to the server");
-                });
+                }));
 
-                socket.on("reconnecting", function () {
+                socket.on("reconnecting", lang.hitch(this, function () {
                     this.appendMessage("System", "Attempting to re-connect to the server");
-                });
+                }));
 
-                socket.on("error", function (e) {
-                    this.appendMessage("System", (e ? e : "A unknown error occurred"));
-                });
+                socket.on("error", lang.hitch(this, function (e) {
+                    this.appendMessage("System", (e ? e.type : "A unknown error occurred"));
+                }));
 
-                socket.on("disconnect", function () {
+                socket.on("disconnect", lang.hitch(this, function () {
                     this.appendMessage("disconnect", "Disconnected");
-                });
+                }));
             }));
         },
         postCreate: function () {

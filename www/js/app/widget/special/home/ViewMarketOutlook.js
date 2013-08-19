@@ -3,10 +3,10 @@ define([
     "dojo/_base/lang",
     "dojo/on",
     "dojo/string",
-    "dojox/mobile/ScrollableView",
+    "dojox/mobile/View",
     "app/util/app"
-], function (declare, lang, on, string, ScrollableView, app) {
-    return declare("app.widget.special.home.ViewMarketOutlook", [ScrollableView], {
+], function (declare, lang, on, string, View, app) {
+    return declare("app.widget.special.home.ViewMarketOutlook", [View], {
         postCreate: function () {
             this.inherited(arguments);
 

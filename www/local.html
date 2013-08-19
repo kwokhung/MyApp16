@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>My App 16</title>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
+    <link rel="stylesheet" type="text/css" href="http://172.21.72.71:9080/javascript/js/dojo/dojo-release-1.9.1-src/dojox/mobile/themes/custom/custom.css" />
+    <link rel="stylesheet" type="text/css" href="http://172.21.72.71:9080/javascript/js/dojo/dojo-release-1.9.1-src/dojox/mobile/themes/common/domButtons/DomButtonRedBadge.css" />
+    <link rel="stylesheet" type="text/css" href="http://172.21.72.71:9080/javascript/js/dojo/dojo-release-1.9.1-src/dojox/mobile/themes/common/domButtons/DomButtonGreenBadge.css" />
+    <link rel="stylesheet" type="text/css" href="http://172.21.72.71:9080/javascript/js/dojo/dojo-release-1.9.1-src/dojox/mobile/themes/common/domButtons/DomButtonBlueBadge.css" />
+    <style type="text/css">
+        @import "css/main.css";
+    </style>
+    <script type="text/javascript" src="js/socket.io.js"></script>
+    <script type="text/javascript">
+        var dojoConfig = {
+            baseUrl: ".",
+            tlmSiblingOfDojo: false,
+            selectorEngine: "lite",
+            isDebug: true,
+            parseOnLoad: false,
+            async: true,
+            hashPollFrequency: 100,
+            packages: [{
+                "name": "dojo",
+                "location": "http://172.21.72.71:9080/javascript/js/dojo/dojo-release-1.9.1-src/dojo"
+            }, {
+                "name": "dojox",
+                "location": "http://172.21.72.71:9080/javascript/js/dojo/dojo-release-1.9.1-src/dojox"
+            }, {
+                "name": "dijit",
+                "location": "http://172.21.72.71:9080/javascript/js/dojo/dojo-release-1.9.1-src/dijit"
+            }, {
+                "name": "app",
+                "location": "js/app"
+            }],
+            locale: (location.search.match(/locale=([\w\-]+)/) ? RegExp.$1 : "en"),
+            extraLocale: [
+                "en",
+                "zh",
+                "zh-cn"
+            ],
+            dojoBlankHtmlUrl: "js/dojo/resources/blank.html"
+        };
+    </script>
+    <!--script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/dojo/1.9.1/dojo/dojo.js"></script-->
+    <script type="text/javascript" src="http://172.21.72.71:9080/javascript/js/dojo/dojo-release-1.9.1-src/dojo/dojo.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+    <script type="text/javascript">
+        main();
+    </script>
+</head>
+<body style="-webkit-user-select: none; outline: none; visibility: hidden;">
+    <div id="blkMain" data-dojo-type="app/widget/special/layout/PnlMain" data-dojo-props="href: 'layout/main.html'">
+    </div>
+</body>
+</html>

@@ -5,48 +5,55 @@
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 </head>
 <body>
-    <h1 data-dojo-type="dojox/mobile/Heading" data-dojo-props="label: 'Announcement 04'">
-        <span data-dojo-type="dojox/mobile/ToolBarButton" data-dojo-props="label: 'Start', defaultColor: 'mblColorBlue', moveTo: 'viewHome', transition: 'slidev'" style="float: right;"></span>
-    </h1>
-    <div style="height: 200px;" data-dojo-type="dojox/mobile/GridLayout" data-dojo-props='cols:3'>
-        <div data-dojo-type="dojox/mobile/Pane">
-            <button class="mblBlueButton" data-dojo-type="dojox/mobile/Button">Button 1</button>
+    <div data-dojo-type="dojox/mobile/ScrollableView">
+        <h1 data-dojo-type="dojox/mobile/Heading" data-dojo-props="label: 'Announcement 04'">
+            <span data-dojo-type="dojox/mobile/ToolBarButton" data-dojo-props="label: 'Start', defaultColor: 'mblColorBlue', moveTo: 'viewHome', transition: 'slidev'" style="float: right;"></span>
+        </h1>
+        <div style="height: 200px;" data-dojo-type="dojox/mobile/GridLayout" data-dojo-props="cols: 3">
+            <div data-dojo-type="dojox/mobile/Pane">
+                <button class="mblRedButton full" data-dojo-type="dojox/mobile/Button">Button 1</button>
+            </div>
+            <div data-dojo-type="dojox/mobile/Pane">
+                <button class="baseBtn orangeBtn full" data-dojo-type="dojox/mobile/Button">Button 2</button>
+            </div>
+            <div data-dojo-type="dojox/mobile/Pane">
+                <button class="mblBlueButton full" data-dojo-type="dojox/mobile/Button">Button 3</button>
+            </div>
+            <div data-dojo-type="dojox/mobile/Pane">
+                <button class="mblRedButton full" data-dojo-type="dojox/mobile/Button">Button 4</button>
+            </div>
+            <div data-dojo-type="dojox/mobile/Pane">
+                <button class="mblButton full" data-dojo-type="dojox/mobile/Button">Button 5</button>
+            </div>
+            <div data-dojo-type="dojox/mobile/Pane">
+                <button class="mblBlueButton full" data-dojo-type="dojox/mobile/Button">Button 6</button>
+            </div>
         </div>
-        <div data-dojo-type="dojox/mobile/Pane">
-            <button class="mblBlueButton" data-dojo-type="dojox/mobile/Button">Button 2</button>
-        </div>
-        <div data-dojo-type="dojox/mobile/Pane">
-            <button class="mblBlueButton" data-dojo-type="dojox/mobile/Button">Button 3</button>
-        </div>
-        <div data-dojo-type="dojox/mobile/Pane">
-            <button class="mblBlueButton" data-dojo-type="dojox/mobile/Button">Button 4</button>
-        </div>
-        <div data-dojo-type="dojox/mobile/Pane">
-            <button class="mblBlueButton" data-dojo-type="dojox/mobile/Button">Button 5</button>
-        </div>
-        <div data-dojo-type="dojox/mobile/Pane">
-            <button class="mblBlueButton" data-dojo-type="dojox/mobile/Button">Button 6</button>
-        </div>
+        <ul data-dojo-type="dojox/mobile/IconContainer" data-dojo-props="single: true, iconBase: 'resource/image/home/icon1.png'">
+            <li data-dojo-type="dojox/mobile/IconItem" data-dojo-props="badge: 'New', badgeClass: 'mblDomButtonRedBadge', label: 'Settings'">
+                <div data-dojo-type="dojox/mobile/RoundRect" data-dojo-props="shadow: true">
+                    App #1
+                </div>
+            </li>
+            <li data-dojo-type="dojox/mobile/IconItem" data-dojo-props="moveTo: 'viewImage', transition: 'slide', badge: '12', badgeClass: 'mblDomButtonGreenBadge', label: 'Info'">
+                <div data-dojo-type="dojox/mobile/RoundRect" data-dojo-props="shadow: true">
+                    App #2
+                </div>
+            </li>
+            <li data-dojo-type="dojox/mobile/IconItem" data-dojo-props="label: 'Contacts'">
+                <div data-dojo-type="dojox/mobile/RoundRect" data-dojo-props="shadow: true">
+                    App #3
+                </div>
+            </li>
+        </ul>
+        <ul style="width: 100%; height: 210px;" data-dojo-type="dojox/mobile/IconMenu" data-dojo-props="cols: 3">
+            <li data-dojo-type="dojox/mobile/IconMenuItem" data-dojo-props="label: 'Mute', icon: 'resource/image/home/icon1.png', selected: true"></li>
+            <li data-dojo-type="dojox/mobile/IconMenuItem" data-dojo-props="label: 'Keypad', icon: 'resource/image/home/icon2.png'"></li>
+            <li data-dojo-type="dojox/mobile/IconMenuItem" data-dojo-props="label: 'Settings', icon: 'resource/image/home/icon3.png'"></li>
+            <li data-dojo-type="dojox/mobile/IconMenuItem" data-dojo-props="label: 'Info', icon: 'resource/image/home/icon4.png'"></li>
+            <li data-dojo-type="dojox/mobile/IconMenuItem" data-dojo-props="label: 'Tour', icon: 'resource/image/home/icon5.png', moveTo: 'viewImage', transition: 'slide'"></li>
+            <li data-dojo-type="dojox/mobile/IconMenuItem" data-dojo-props="label: 'Contacts', icon: 'resource/image/home/icon6.png'"></li>
+        </ul>
     </div>
-    <ul data-dojo-type="dojox/mobile/IconContainer" data-dojo-props="transition: 'slide', single: true, iconBase: 'resource/image/home/icon1.png'">
-        <li data-dojo-type="dojox/mobile/IconItem" data-dojo-props="badge: 'New', badgeClass: 'mblDomButtonRedBadge', label: 'Settings'">
-            <div data-dojo-type="dojox/mobile/RoundRect" data-dojo-props="shadow: true">
-                App #1
-            </div>
-        </li>
-        <li data-dojo-type="dojox/mobile/IconItem" data-dojo-props="badge: '12', badgeClass: 'mblDomButtonBlueBadge', label: 'Info'">
-            <div data-dojo-type="dojox/mobile/RoundRect" data-dojo-props="shadow: true">
-                App #2
-            </div>
-        </li>
-    </ul>
-    <ul style="width: 274px; height: 210px; margin: 20px;" data-dojo-type="dojox/mobile/IconMenu" data-dojo-props="cols: 3">
-        <li data-dojo-type="dojox/mobile/IconMenuItem" data-dojo-props="label: 'Mute', icon: 'resource/image/home/icon1.png', selected: true"></li>
-        <li data-dojo-type="dojox/mobile/IconMenuItem" data-dojo-props="label: 'Keypad', icon: 'resource/image/home/icon2.png'"></li>
-        <li data-dojo-type="dojox/mobile/IconMenuItem" data-dojo-props="label: 'Settings', icon: 'resource/image/home/icon3.png'"></li>
-        <li data-dojo-type="dojox/mobile/IconMenuItem" data-dojo-props="label: 'Info', icon: 'resource/image/home/icon4.png'"></li>
-        <li data-dojo-type="dojox/mobile/IconMenuItem" data-dojo-props="label: 'Tour', icon: 'resource/image/home/icon5.png', moveTo: 'viewImage', transition: 'slide'"></li>
-        <li data-dojo-type="dojox/mobile/IconMenuItem" data-dojo-props="label: 'Contacts', icon: 'resource/image/home/icon6.png'"></li>
-    </ul>
 </body>
 </html>
