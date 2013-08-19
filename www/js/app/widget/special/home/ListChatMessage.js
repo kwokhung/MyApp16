@@ -16,6 +16,10 @@ define([
             socket.on("connect", lang.hitch(this, function () {
                 this.appendMessage("connect", "Connected");
 
+                socket.on("data", lang.hitch(this, function (data) {
+                    this.appendMessage("data", data);
+                }));
+
                 socket.on("announcement", lang.hitch(this, function (message) {
                     this.appendMessage("announcement", message);
                 }));
