@@ -1,8 +1,8 @@
 define([
     "dojo/_base/declare",
-    "dojox/mobile/ScrollablePane"
-], function (declare, ScrollablePane) {
-    return declare("app.widget.PnlScrollable", [ScrollablePane], {
+    "dojox/mobile/ScrollableView"
+], function (declare, ScrollableView) {
+    return declare("app.widget.ViewScrollable", [ScrollableView], {
         postCreate: function () {
             this.inherited(arguments);
 
