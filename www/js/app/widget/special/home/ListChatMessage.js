@@ -50,6 +50,8 @@ define([
                 socket.on("someone.said", lang.hitch(this, function (data) {
                     this.appendMessage("someone.said", data.what);
                 }));
+
+                this.iAmResourceMonitor();
             }));
 
             socket.on("connect_failed", lang.hitch(this, function (e) {
