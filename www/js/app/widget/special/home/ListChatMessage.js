@@ -84,6 +84,7 @@ define([
             this.appendMessage("System", data.message);
         },
         whoAreThere: function () {
+            alert("whoAreThere");
             this.socket.emit("who.are.there", null, this.logMessage);
         },
         postCreate: function () {
@@ -95,7 +96,6 @@ define([
 
                 this.handleMessage();
                 this.socket.emit("i.am", { who: "Resource Monitor" }, this.logMessage);
-                this.socket.emit("who.are.there", null, this.logMessage);
             }
         }
     });

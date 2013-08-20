@@ -10,9 +10,10 @@
     </h1>
     <div data-dojo-type="dojox/mobile/RoundRect" data-dojo-props="shadow: true">
         <div data-dojo-type="app/widget/PnlScrollable" data-dojo-props="height: '500px'">
-            <ul data-dojo-type="app/widget/special/home/ListChatMessage" data-dojo-props="resourceUrl: 'http://test10atmblinus.azurewebsites.net'">
+            <ul id="listChatMessage" data-dojo-type="app/widget/special/home/ListChatMessage" data-dojo-props="resourceUrl: 'http://test10atmblinus.azurewebsites.net'">
             </ul>
         </div>
     </div>
+    <button class="mblBlueButton" data-dojo-type="app/widget/special/home/BtnWhoAreThere" data-dojo-props="socketId: 'listChatMessage'">Who are there?</button>
 </body>
 </html>
