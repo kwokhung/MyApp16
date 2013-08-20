@@ -48,7 +48,7 @@ define([
                 }));
 
                 socket.on("someone.said", lang.hitch(this, function (data) {
-                    this.appendMessage("someone.said", data.what);
+                    this.appendMessage("someone.said", data.what + " by " + data.who);
                 }));
 
                 this.iAmResourceMonitor();
@@ -85,11 +85,14 @@ define([
         logMessage: function (data) {
             this.appendMessage("System", data.message);
         },
-        whoAreThere: function () {
-            this.socket.emit("who.are.there", null, lang.hitch(this, this.logMessage));
-        },
         iAmResourceMonitor: function () {
             this.socket.emit("i.am", { who: "Resource Monitor" }, lang.hitch(this, this.logMessage));
+        },
+        tellOther: function () {
+            this.socket.emit("tell.other", { who: "Resource Monitor", what: "" }, lang.hitch(this, this.logMessage));
+        },
+        whoAreThere: function () {
+            this.socket.emit("who.are.there", null, lang.hitch(this, this.logMessage));
         },
         postCreate: function () {
             this.inherited(arguments);
