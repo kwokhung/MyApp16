@@ -84,12 +84,10 @@ define([
             this.appendMessage("System", data.message);
         },
         whoAreThere: function () {
-            alert("whoAreThere");
-            this.socket.emit("who.are.there", null);
+            this.socket.emit("who.are.there", null, lang.hitch(this, this.logMessage));
         },
         iAmResourceMonitor: function () {
-            alert("iAmResourceMonitor");
-            this.socket.emit("i.am", { who: "Resource Monitor" });
+            this.socket.emit("i.am", { who: "Resource Monitor" }, lang.hitch(this, this.logMessage));
         },
         postCreate: function () {
             this.inherited(arguments);
