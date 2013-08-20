@@ -1,12 +1,14 @@
 define([
     "dojo/_base/declare",
     "dojo/_base/lang",
+    "dojo/_base/array",
     "dojox/mobile/RoundRectStoreList",
     "app/util/StoredData",
     "app/util/app"
-], function (declare, lang, RoundRectStoreList, StoredData, app) {
+], function (declare, lang, array, RoundRectStoreList, StoredData, app) {
     return declare("app.widget.special.home.ListChatMessage", [RoundRectStoreList, StoredData], {
         resourceUrl: null,
+        socket: null,
         appendMessage: function (label, message) {
             if (typeof message == "undefined" && (typeof message == "string" || message.constructor == String)) {
                 this.store.put({ "id": this.id + "_" + (this.data.length + 1), "label": label, "rightText": message.replace(/\n/g, "<br />"), "variableHeight": true });
@@ -16,7 +18,9 @@ define([
             }
         },
         handleMessage: function () {
-            var socket = io.connect(this.resourceUrl, { "force new connection": false });
+            this.socket = io.connect(this.resourceUrl, { "force new connection": false });
+
+            var socket = this.socket;
 
             socket.on("connecting", lang.hitch(this, function () {
                 this.appendMessage("System", "connecting");
@@ -35,6 +39,12 @@ define([
 
                 socket.on("he.is", lang.hitch(this, function (data) {
                     this.appendMessage("he.is", data.who);
+                }));
+
+                socket.on("they.are", lang.hitch(this, function (data) {
+                    array.forEach(data.who, lang.hitch(this, function (item, index) {
+                        this.appendMessage("they.are", item.id);
+                    }));
                 }));
 
                 socket.on("someone.said", lang.hitch(this, function (data) {
@@ -70,6 +80,12 @@ define([
                 this.appendMessage("System", (e ? e.type : "unknown error"));
             }));
         },
+        logMessage: function (data) {
+            this.appendMessage("System", data.message);
+        },
+        whoAreThere: function () {
+            this.socket.emit("who.are.there", null, this.logMessage);
+        },
         postCreate: function () {
             this.inherited(arguments);
 
@@ -78,6 +94,8 @@ define([
                 this.setStore(this.store);
 
                 this.handleMessage();
+                this.socket.emit("i.am", { who: "Resource Monitor" }, this.logMessage);
+                this.socket.emit("who.are.there", null, this.logMessage);
             }
         }
     });
