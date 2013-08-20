@@ -37,15 +37,9 @@ define([
                     this.appendMessage("he is", data.who);
                 }));
 
-                socket.on("announcement", lang.hitch(this, function (message) {
-                    this.appendMessage("announcement", message);
+                socket.on("someone said", lang.hitch(this, function (data) {
+                    this.appendMessage("someone said", data.what);
                 }));
-
-                socket.on("nicknames", lang.hitch(this, function (nicknames) {
-                    this.appendMessage("nicknames", JSON.stringify(nicknames));
-                }));
-
-                socket.on("user message", lang.hitch(this, this.appendMessage));
             }));
 
             socket.on("connect_failed", lang.hitch(this, function (e) {
