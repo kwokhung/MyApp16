@@ -8,7 +8,12 @@ define([
     return declare("app.widget.special.home.ListChatMessage", [RoundRectStoreList, StoredData], {
         resourceUrl: null,
         appendMessage: function (label, message) {
-            this.store.put({ "id": this.id + "_" + (this.data.length + 1), "label": label, "rightText": message.replace(/\n/g, "<br />"), "variableHeight": true });
+            if (typeof message == "undefined" && (typeof message == "string" || message.constructor == String)) {
+                this.store.put({ "id": this.id + "_" + (this.data.length + 1), "label": label, "rightText": message.replace(/\n/g, "<br />"), "variableHeight": true });
+            }
+            else {
+                this.store.put({ "id": this.id + "_" + (this.data.length + 1), "label": label, "rightText": message, "variableHeight": true });
+            }
         },
         handleMessage: function () {
             var socket = io.connect(this.resourceUrl, { "force new connection": false });

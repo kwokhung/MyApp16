@@ -13,7 +13,13 @@ define([
         appendPairedDevice: function (label, message) {
             var itemCount = this.data.length;
             var itemId = this.id + "_" + (itemCount + 1);
-            this.store.put({ "id": itemId, "label": label, "rightText": message, "variableHeight": true, "anchorLabel": true });
+
+            if (typeof message == "undefined" && (typeof message == "string" || message.constructor == String)) {
+                this.store.put({ "id": itemId, "label": label, "rightText": message.replace(/\n/g, "<br />"), "variableHeight": true, "anchorLabel": true });
+            }
+            else {
+                this.store.put({ "id": itemId, "label": label, "rightText": message, "variableHeight": true, "anchorLabel": true });
+            }
 
             on(registry.byId(itemId), "anchorLabelClicked", lang.hitch(this, function (e) {
                 if (e != null) {
