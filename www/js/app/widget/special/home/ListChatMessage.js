@@ -29,16 +29,16 @@ define([
                     this.appendMessage("heartbeat", heartbeat);
                 }));
 
-                socket.on("you are", lang.hitch(this, function (data) {
-                    this.appendMessage(data.who, data.message);
+                socket.on("you.are", lang.hitch(this, function (data) {
+                    this.appendMessage("you.are", data.who);
                 }));
 
-                socket.on("he is", lang.hitch(this, function (data) {
-                    this.appendMessage("he is", data.who);
+                socket.on("he.is", lang.hitch(this, function (data) {
+                    this.appendMessage("he.is", data.who);
                 }));
 
-                socket.on("someone said", lang.hitch(this, function (data) {
-                    this.appendMessage("someone said", data.what);
+                socket.on("someone.said", lang.hitch(this, function (data) {
+                    this.appendMessage("someone.said", data.what);
                 }));
             }));
 
