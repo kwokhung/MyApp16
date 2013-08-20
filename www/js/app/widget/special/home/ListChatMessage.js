@@ -25,8 +25,8 @@ define([
             socket.on("connect", lang.hitch(this, function () {
                 this.appendMessage("System", "connect");
 
-                socket.on("heartbeat", lang.hitch(this, function (heartbeat) {
-                    this.appendMessage("heartbeat", heartbeat);
+                socket.on("heartbeat", lang.hitch(this, function (data) {
+                    this.appendMessage("heartbeat", data.time);
                 }));
 
                 socket.on("you.are", lang.hitch(this, function (data) {
