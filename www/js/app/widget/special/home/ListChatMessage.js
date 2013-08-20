@@ -18,11 +18,23 @@ define([
         handleMessage: function () {
             var socket = io.connect(this.resourceUrl, { "force new connection": false });
 
-            socket.on("connect", lang.hitch(this, function () {
-                this.appendMessage("connect", "Connected");
+            socket.on("connecting", lang.hitch(this, function () {
+                this.appendMessage("System", "connecting");
+            }));
 
-                socket.on("data", lang.hitch(this, function (data) {
-                    this.appendMessage("data", data);
+            socket.on("connect", lang.hitch(this, function () {
+                this.appendMessage("System", "connect");
+
+                socket.on("heartbeat", lang.hitch(this, function (heartbeat) {
+                    this.appendMessage("heartbeat", heartbeat);
+                }));
+
+                socket.on("you are", lang.hitch(this, function (data) {
+                    this.appendMessage(data.who, data.message);
+                }));
+
+                socket.on("he is", lang.hitch(this, function (data) {
+                    this.appendMessage("he is", data.who);
                 }));
 
                 socket.on("announcement", lang.hitch(this, function (message) {
@@ -34,22 +46,34 @@ define([
                 }));
 
                 socket.on("user message", lang.hitch(this, this.appendMessage));
+            }));
 
-                socket.on("reconnect", lang.hitch(this, function () {
-                    this.appendMessage("System", "Reconnected to the server");
-                }));
+            socket.on("connect_failed", lang.hitch(this, function (e) {
+                this.appendMessage("System", (e ? e.type : "connect_failed"));
+            }));
 
-                socket.on("reconnecting", lang.hitch(this, function () {
-                    this.appendMessage("System", "Attempting to re-connect to the server");
-                }));
+            socket.on("message", lang.hitch(this, function (message, callback) {
+                this.appendMessage("System", message);
+            }));
 
-                socket.on("error", lang.hitch(this, function (e) {
-                    this.appendMessage("System", (e ? e.type : "A unknown error occurred"));
-                }));
+            socket.on("disconnect", lang.hitch(this, function () {
+                this.appendMessage("disconnect", "disconnect");
+            }));
 
-                socket.on("disconnect", lang.hitch(this, function () {
-                    this.appendMessage("disconnect", "Disconnected");
-                }));
+            socket.on("reconnecting", lang.hitch(this, function () {
+                this.appendMessage("System", "reconnecting");
+            }));
+
+            socket.on("reconnect", lang.hitch(this, function () {
+                this.appendMessage("System", "reconnect");
+            }));
+
+            socket.on("reconnect_failed", lang.hitch(this, function () {
+                this.appendMessage("System", (e ? e.type : "reconnect_failed"));
+            }));
+
+            socket.on("error", lang.hitch(this, function (e) {
+                this.appendMessage("System", (e ? e.type : "unknown error"));
             }));
         },
         postCreate: function () {
