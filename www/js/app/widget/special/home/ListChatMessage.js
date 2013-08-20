@@ -85,7 +85,11 @@ define([
         },
         whoAreThere: function () {
             alert("whoAreThere");
-            this.socket.emit("who.are.there", null, this.logMessage);
+            this.socket.emit("who.are.there", null);
+        },
+        iAmResourceMonitor: function () {
+            alert("iAmResourceMonitor");
+            this.socket.emit("i.am", { who: "Resource Monitor" });
         },
         postCreate: function () {
             this.inherited(arguments);
@@ -95,7 +99,6 @@ define([
                 this.setStore(this.store);
 
                 this.handleMessage();
-                this.socket.emit("i.am", { who: "Resource Monitor" }, this.logMessage);
             }
         }
     });
