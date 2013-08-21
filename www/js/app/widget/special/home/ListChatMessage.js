@@ -7,6 +7,7 @@ define([
     "app/util/app"
 ], function (declare, lang, array, RoundRectStoreList, StoredData, app) {
     return declare("app.widget.special.home.ListChatMessage", [RoundRectStoreList, StoredData], {
+        who: null,
         resourceUrl: null,
         socket: null,
         appendMessage: function (label, message) {
@@ -86,10 +87,10 @@ define([
             this.appendMessage("System", data.message);
         },
         iAmResourceMonitor: function () {
-            this.socket.emit("i.am", { who: "Resource Monitor" }, lang.hitch(this, this.logMessage));
+            this.socket.emit("i.am", { who: this.who }, lang.hitch(this, this.logMessage));
         },
-        tellOther: function () {
-            this.socket.emit("tell.other", { who: "Resource Monitor", what: "" }, lang.hitch(this, this.logMessage));
+        tellOther: function (what) {
+            this.socket.emit("tell.other", { who: this.who, what: what }, lang.hitch(this, this.logMessage));
         },
         whoAreThere: function () {
             this.socket.emit("who.are.there", null, lang.hitch(this, this.logMessage));
