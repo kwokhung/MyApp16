@@ -7,8 +7,8 @@ define([
     "app/util/app"
 ], function (declare, lang, array, RoundRectStoreList, StoredData, app) {
     return declare("app.widget.special.home.ListChatMessage", [RoundRectStoreList, StoredData], {
-        who: null,
         resourceUrl: null,
+        who: null,
         socket: null,
         appendMessage: function (label, message) {
             if (typeof message == "undefined" && (typeof message == "string" || message.constructor == String)) {
@@ -18,9 +18,10 @@ define([
                 this.store.put({ "id": this.id + "_" + (this.data.length + 1), "label": label, "rightText": message, "variableHeight": true });
             }
         },
+        logMessage: function (data) {
+            this.appendMessage("System", data.message);
+        },
         handleMessage: function () {
-            this.socket = io.connect(this.resourceUrl, { "force new connection": false });
-
             var socket = this.socket;
 
             socket.on("connecting", lang.hitch(this, function () {
@@ -83,9 +84,6 @@ define([
                 this.appendMessage("System", (e ? e.type : "unknown error"));
             }));
         },
-        logMessage: function (data) {
-            this.appendMessage("System", data.message);
-        },
         iAmResourceMonitor: function () {
             this.socket.emit("i.am", { who: this.who }, lang.hitch(this, this.logMessage));
         },
@@ -101,6 +99,8 @@ define([
             if (this.resourceUrl != null) {
                 this.storeLabel = "Chat Message";
                 this.setStore(this.store);
+
+                this.socket = io.connect(this.resourceUrl, { "force new connection": false });
 
                 this.handleMessage();
             }
