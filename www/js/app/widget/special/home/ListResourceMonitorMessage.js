@@ -2,13 +2,14 @@ define([
     "dojo/_base/declare",
     "dojo/_base/lang",
     "dojo/_base/array",
+    "dijit/registry",
     "dojox/mobile/RoundRectStoreList",
-    "app/util/StoredData",
-    "app/util/app"
-], function (declare, lang, array, RoundRectStoreList, StoredData, app) {
-    return declare("app.widget.special.home.ListChatMessage", [RoundRectStoreList, StoredData], {
+    "app/util/StoredData"
+], function (declare, lang, array, registry, RoundRectStoreList, StoredData) {
+    return declare("app.widget.special.home.ListResourceMonitorMessage", [RoundRectStoreList, StoredData], {
         resourceUrl: null,
         who: null,
+        resourceListId: null,
         socket: null,
         appendMessage: function (label, message) {
             if (typeof message == "undefined" && (typeof message == "string" || message.constructor == String)) {
@@ -47,13 +48,21 @@ define([
                     array.forEach(data.who, lang.hitch(this, function (item, index) {
                         this.appendMessage("they.are", item.id);
                     }));
+
+                    if (this.resourceListId != null) {
+                        registry.byId(this.resourceListId).theyAre(data.who);
+                    }
                 }));
 
                 socket.on("someone.said", lang.hitch(this, function (data) {
                     this.appendMessage("someone.said", data.what + " by " + data.who);
                 }));
 
-                this.iAmResourceMonitor();
+                socket.on("someone.joined", lang.hitch(this, function (data) {
+                    this.appendMessage("someone.joined", data.who);
+                }));
+
+                this.iAm();
             }));
 
             socket.on("connect_failed", lang.hitch(this, function (e) {
@@ -84,7 +93,7 @@ define([
                 this.appendMessage("System", (e ? e.type : "unknown error"));
             }));
         },
-        iAmResourceMonitor: function () {
+        iAm: function () {
             this.socket.emit("i.am", { who: this.who }, lang.hitch(this, this.logMessage));
         },
         tellOther: function (what) {
@@ -97,7 +106,7 @@ define([
             this.inherited(arguments);
 
             if (this.resourceUrl != null) {
-                this.storeLabel = "Chat Message";
+                this.storeLabel = "Resource Monitor Message";
                 this.setStore(this.store);
 
                 this.socket = io.connect(this.resourceUrl, { "force new connection": false });

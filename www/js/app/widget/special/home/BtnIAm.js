@@ -7,18 +7,18 @@ define([
     "dojox/mobile/Button",
     "app/util/app"
 ], function (declare, lang, on, string, registry, Button, app) {
-    return declare("app.widget.special.home.BtnIAmResourceMonitor", [Button], {
-        socketId: null,
+    return declare("app.widget.special.home.BtnIAm", [Button], {
+        resourceMonitorId: null,
         postCreate: function () {
             this.inherited(arguments);
 
-            if (this.socketId != null) {
+            if (this.resourceMonitorId != null) {
                 on(this, "click", lang.hitch(this, function (e) {
                     if (e != null) {
                         e.preventDefault();
                     }
 
-                    registry.byId(this.socketId).iAmResourceMonitor();
+                    registry.byId(this.resourceMonitorId).iAm();
                 }));
             }
         }

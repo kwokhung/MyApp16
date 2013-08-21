@@ -8,17 +8,17 @@ define([
     "app/util/app"
 ], function (declare, lang, on, string, registry, Button, app) {
     return declare("app.widget.special.home.BtnWhoAreThere", [Button], {
-        socketId: null,
+        resourceMonitorId: null,
         postCreate: function () {
             this.inherited(arguments);
 
-            if (this.socketId != null) {
+            if (this.resourceMonitorId != null) {
                 on(this, "click", lang.hitch(this, function (e) {
                     if (e != null) {
                         e.preventDefault();
                     }
 
-                    registry.byId(this.socketId).whoAreThere();
+                    registry.byId(this.resourceMonitorId).whoAreThere();
                 }));
             }
         }

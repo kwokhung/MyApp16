@@ -6,7 +6,7 @@
 </head>
 <body>
     <h1 data-dojo-type="dojox/mobile/Heading" data-dojo-props="label: 'Announcement 01'">
-        <span data-dojo-type="dojox/mobile/ToolBarButton" data-dojo-props="label: 'Skip', defaultColor: 'mblColorBlue', moveTo: 'viewHome', transition: 'slidev'" style="float: right;"></span>
+        <span style="float: right;" data-dojo-type="dojox/mobile/ToolBarButton" data-dojo-props="label: 'Skip', defaultColor: 'mblColorBlue', moveTo: 'viewHome', transition: 'slidev'"></span>
     </h1>
     <div data-dojo-type="dojox/mobile/ScrollableView" data-dojo-mixins="app/widget/_Resizable">
         <div style="height: 200px;" data-dojo-type="dojox/mobile/RoundRect" data-dojo-props="shadow: true">
@@ -17,13 +17,7 @@
         </div>
         <div style="height: 200px;" data-dojo-type="dojox/mobile/RoundRect" data-dojo-props="shadow: true">
             <div data-dojo-type="dojox/mobile/ScrollablePane" data-dojo-mixins="app/widget/_Resizable" data-dojo-props="height: '200px'">
-                <ul data-dojo-type="app/widget/special/home/ListChatMessage" data-dojo-props="resourceUrl: 'http://test08atmblinus.azurewebsites.net'">
-                </ul>
-            </div>
-        </div>
-        <div style="height: 200px;" data-dojo-type="dojox/mobile/RoundRect" data-dojo-props="shadow: true">
-            <div data-dojo-type="dojox/mobile/ScrollablePane" data-dojo-mixins="app/widget/_Resizable" data-dojo-props="height: '200px'">
-                <ul data-dojo-type="app/widget/special/home/ListChatMessage" data-dojo-props="resourceUrl: 'http://test10atmblinus.azurewebsites.net'">
+                <ul data-dojo-type="app/widget/special/home/ListResourceMonitorMessage" data-dojo-props="resourceUrl: 'http://test08atmblinus.azurewebsites.net'">
                 </ul>
             </div>
         </div>

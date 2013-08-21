@@ -1,0 +1,19 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Resource List</title>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+</head>
+<body>
+    <h1 data-dojo-type="dojox/mobile/Heading" data-dojo-props="back: 'Back', moveTo: '#viewResourceMonitor'">Resource List</h1>
+    <div style="height: 100%;" data-dojo-type="dojox/mobile/ScrollableView" data-dojo-mixins="app/widget/_Resizable">
+        <div data-dojo-type="dojox/mobile/RoundRect" data-dojo-props="shadow: true">
+            <div data-dojo-type="dojox/mobile/ScrollablePane" data-dojo-mixins="app/widget/_Resizable" data-dojo-props="height: '500px'">
+                <ul id="listResource" data-dojo-type="app/widget/special/home/ListResource" data-dojo-props="resourceMonitorId: 'listResourceMonitorMessage'">
+                </ul>
+            </div>
+        </div>
+        <button class="mblBlueButton" data-dojo-type="app/widget/special/home/BtnWhoAreThere" data-dojo-props="resourceMonitorId: 'listResourceMonitorMessage'">Who are there?</button>
+    </div>
+</body>
+</html>
