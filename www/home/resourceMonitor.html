@@ -5,17 +5,23 @@
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 </head>
 <body>
-    <h1 data-dojo-type="dojox/mobile/Heading" data-dojo-props="label: 'Resource Monitor'">
-        <span data-dojo-type="dojox/mobile/ToolBarButton" data-dojo-props="label: 'Skip', defaultColor: 'mblColorBlue', moveTo: 'viewHome', transition: 'slidev'" style="float: right;"></span>
-    </h1>
-    <div data-dojo-type="dojox/mobile/RoundRect" data-dojo-props="shadow: true">
-        <div data-dojo-type="app/widget/PnlScrollable" data-dojo-props="height: '500px'">
-            <ul id="listChatMessage" data-dojo-type="app/widget/special/home/ListChatMessage" data-dojo-props="who: 'Resource Monitor', resourceUrl: 'http://test10atmblinus.azurewebsites.net'">
-            </ul>
+    <h1 data-dojo-type="dojox/mobile/Heading" data-dojo-props="back: 'Back', moveTo: '#viewHome'">Resource Monitor</h1>
+    <div style="height: 100%;" data-dojo-type="dojox/mobile/ScrollableView" data-dojo-mixins="app/widget/_Resizable">
+        <div data-dojo-type="dojox/mobile/RoundRect" data-dojo-props="shadow: true">
+            <div data-dojo-type="dojox/mobile/ScrollablePane" data-dojo-mixins="app/widget/_Resizable" data-dojo-props="height: '500px'">
+                <ul id="listChatMessage" data-dojo-type="app/widget/special/home/ListChatMessage" data-dojo-props="who: 'Resource Monitor', resourceUrl: 'http://test10atmblinus.azurewebsites.net'">
+                </ul>
+            </div>
         </div>
+        <button class="mblRedButton" data-dojo-type="app/widget/special/home/BtnIAmResourceMonitor" data-dojo-props="socketId: 'listChatMessage'">I am resource monitor.</button>
+        <button class="mblGreenButton" data-dojo-type="app/widget/special/home/BtnTellOther" data-dojo-props="socketId: 'listChatMessage'">Tell other.</button>
+        <button class="mblBlueButton" data-dojo-type="app/widget/special/home/BtnWhoAreThere" data-dojo-props="socketId: 'listChatMessage'">Who are there?</button>
     </div>
-    <button class="mblRedButton" data-dojo-type="app/widget/special/home/BtnIAmResourceMonitor" data-dojo-props="socketId: 'listChatMessage'">I am resource monitor.</button>
-    <button class="mblGreenButton" data-dojo-type="app/widget/special/home/BtnTellOther" data-dojo-props="socketId: 'listChatMessage'">Tell other.</button>
-    <button class="mblBlueButton" data-dojo-type="app/widget/special/home/BtnWhoAreThere" data-dojo-props="socketId: 'listChatMessage'">Who are there?</button>
+    <h1 data-dojo-type="dojox/mobile/Heading" data-dojo-props="fixed: 'bottom'">
+        <ul data-dojo-type="dojox/mobile/TabBar" data-dojo-props="barType: 'tabBar', fill: 'auto', center: true">
+            <li data-dojo-type="dojox/mobile/TabBarButton" data-dojo-props="selected: true, moveTo: 'viewGauges'">Tell other.</li>
+            <li data-dojo-type="dojox/mobile/TabBarButton" data-dojo-props="moveTo: 'viewSpinWheel'">Who are there?</li>
+        </ul>
+    </h1>
 </body>
 </html>
