@@ -2,17 +2,17 @@ define([
     "dojo/_base/declare",
     "dojo/_base/lang",
     "dojo/_base/array",
-    "dijit/registry",
+    "dojo/topic",
     "dojox/mobile/RoundRectStoreList",
     "app/util/StoredData"
-], function (declare, lang, array, registry, RoundRectStoreList, StoredData) {
+], function (declare, lang, array, topic, RoundRectStoreList, StoredData) {
     return declare("app.widget.special.home.ListResourceMonitorMessage", [RoundRectStoreList, StoredData], {
         resourceUrl: null,
         who: null,
-        resourceListId: null,
         socket: null,
+        resourceSubscriber: null,
         appendMessage: function (label, message) {
-            if (typeof message == "undefined" && (typeof message == "string" || message.constructor == String)) {
+            if (typeof message != "undefined" && (typeof message == "string" || message.constructor == String)) {
                 this.store.put({ "id": this.id + "_" + (this.data.length + 1), "label": label, "rightText": message.replace(/\n/g, "<br />"), "variableHeight": true });
             }
             else {
@@ -49,8 +49,8 @@ define([
                         this.appendMessage("there.are", item.id);
                     }));
 
-                    if (this.resourceListId != null) {
-                        registry.byId(this.resourceListId).thereAre(data.who);
+                    if (this.resourceSubscriber != null) {
+                        topic.publish("/resourceList/there.are", data.who);
                     }
                 }));
 
@@ -112,6 +112,21 @@ define([
                 this.socket = io.connect(this.resourceUrl, { "force new connection": false });
 
                 this.handleMessage();
+
+                if (this.resourceSubscriber != null) {
+                    this.resourceSubscriber.remove();
+                    this.resourceSubscriber = null;
+                }
+
+                this.resourceSubscriber = topic.subscribe("/resourceMonitor/who.are.there", lang.hitch(this, this.whoAreThere));
+            }
+        },
+        destroy: function () {
+            this.inherited(arguments);
+
+            if (this.resourceSubscriber != null) {
+                this.resourceSubscriber.remove();
+                this.resourceSubscriber = null;
             }
         }
     });

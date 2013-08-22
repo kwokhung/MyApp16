@@ -14,7 +14,7 @@ define([
             var itemCount = this.data.length;
             var itemId = this.id + "_" + (itemCount + 1);
 
-            if (typeof message == "undefined" && (typeof message == "string" || message.constructor == String)) {
+            if (typeof message != "undefined" && (typeof message == "string" || message.constructor == String)) {
                 this.store.put({ "id": itemId, "label": label, "rightText": message.replace(/\n/g, "<br />"), "variableHeight": true, "anchorLabel": true });
             }
             else {

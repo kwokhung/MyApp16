@@ -2,14 +2,14 @@ define([
     "dojo/_base/declare",
     "dojo/_base/lang",
     "dojo/_base/array",
-    "dijit/registry",
+    "dojo/topic",
     "dojox/mobile/RoundRectStoreList",
     "app/util/StoredData"
-], function (declare, lang, array, registry, RoundRectStoreList, StoredData) {
+], function (declare, lang, array, topic, RoundRectStoreList, StoredData) {
     return declare("app.widget.special.home.ListResource", [RoundRectStoreList, StoredData], {
-        resourceMonitorId: null,
+        resourceSubscriber: null,
         appendMessage: function (message) {
-            if (typeof message == "undefined" && (typeof message == "string" || message.constructor == String)) {
+            if (typeof message != "undefined" && (typeof message == "string" || message.constructor == String)) {
                 this.store.put({ "id": this.id + "_" + (this.data.length + 1), "label": message.replace(/\n/g, "<br />"), "variableHeight": true });
             }
             else {
@@ -27,11 +27,18 @@ define([
         postCreate: function () {
             this.inherited(arguments);
 
-            if (this.resourceMonitorId != null) {
-                this.storeLabel = "Resource";
-                this.setStore(this.store);
+            this.storeLabel = "Resource";
+            this.setStore(this.store);
 
-                registry.byId(this.resourceMonitorId).whoAreThere();
+            this.resourceSubscriber = topic.subscribe("/resourceList/there.are", lang.hitch(this, this.thereAre));
+            topic.publish("/resourceMonitor/who.are.there");
+        },
+        destroy: function () {
+            this.inherited(arguments);
+
+            if (this.resourceSubscriber != null) {
+                this.resourceSubscriber.remove();
+                this.resourceSubscriber = null;
             }
         }
     });
