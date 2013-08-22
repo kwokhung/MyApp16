@@ -16,7 +16,7 @@ define([
                 this.store.put({ "id": this.id + "_" + (this.data.length + 1), "label": message, "variableHeight": true });
             }
         },
-        theyAre: function (who) {
+        thereAre: function (who) {
             array.forEach(this.store.query({}), lang.hitch(this, function (item, index) {
                 this.store.remove(item.id);
             }));

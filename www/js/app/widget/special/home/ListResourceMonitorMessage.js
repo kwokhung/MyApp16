@@ -44,13 +44,13 @@ define([
                     this.appendMessage("he.is", data.who);
                 }));
 
-                socket.on("they.are", lang.hitch(this, function (data) {
+                socket.on("there.are", lang.hitch(this, function (data) {
                     array.forEach(data.who, lang.hitch(this, function (item, index) {
-                        this.appendMessage("they.are", item.id);
+                        this.appendMessage("there.are", item.id);
                     }));
 
                     if (this.resourceListId != null) {
-                        registry.byId(this.resourceListId).theyAre(data.who);
+                        registry.byId(this.resourceListId).thereAre(data.who);
                     }
                 }));
 
