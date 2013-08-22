@@ -5,8 +5,8 @@
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 </head>
 <body>
+    <h1 data-dojo-type="dojox/mobile/Heading">Phone Information</h1>
     <div data-dojo-type="dojox/mobile/ScrollableView">
-        <h1 data-dojo-type="dojox/mobile/Heading">Phone Information</h1>
         <form>
             <div data-dojo-type="dojox/mobile/RoundRect">
                 <div data-dojo-type="dojox/mobile/FormLayout">
@@ -55,5 +55,22 @@
             </div>
         </form>
     </div>
+    <h1 data-dojo-type="dojox/mobile/Heading" data-dojo-props="fixed: 'bottom'">
+        <table style="width: 100%; border: none; border-collapse: collapse; padding: 0;">
+            <tbody>
+                <tr>
+                    <td style="width: 33%;"></td>
+                    <td style="width: 34%;">
+                        <div style="height: 42px;" data-dojo-type="dojox/mobile/GridLayout" data-dojo-props="cols: 1">
+                            <div data-dojo-type="dojox/mobile/Pane">
+                                <button class="mblBlueButton full" data-dojo-type="app/widget/BtnGetResourceFrom" data-dojo-props="url: 'http://test16atmblinus.azurewebsites.net/www/MyApp16.apk'">Upgrade</button>
+                            </div>
+                        </div>
+                    </td>
+                    <td style="width: 33%;"></td>
+                </tr>
+            </tbody>
+        </table>
+    </h1>
 </body>
 </html>
