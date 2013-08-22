@@ -13,7 +13,28 @@
                 </ul>
             </div>
         </div>
-        <button class="mblBlueButton" data-dojo-type="app/widget/special/home/BtnWhoAreThere" data-dojo-props="resourceMonitorId: 'listResourceMonitorMessage'">Who are there?</button>
     </div>
+    <h1 data-dojo-type="dojox/mobile/Heading" data-dojo-props="fixed: 'bottom'">
+        <table style="width: 100%; border: none; border-collapse: collapse; padding: 0;">
+            <tbody>
+                <tr>
+                    <td style="width: 33%;">
+                        <span style="float: left;" data-dojo-type="dojox/mobile/ToolBarButton" data-dojo-props="label: 'Home', moveTo: '#viewHome', transition: 'slide', transitionDir: -1, arrow: 'left'"></span>
+                    </td>
+                    <td style="width: 34%;">
+                        <div style="height: 42px;" data-dojo-type="dojox/mobile/GridLayout" data-dojo-props="cols: 1">
+                            <div data-dojo-type="dojox/mobile/Pane">
+                                <!--button style="background-color: green;" data-dojo-type="app/widget/special/home/BtnWhoAreThere" data-dojo-mixins="app/widget/_Classless, app/widget/_WithClass" data-dojo-props="classes: 'pointer', resourceMonitorId: 'listResourceMonitorMessage'">Who are there?</button-->
+                                <button class="mblBlueButton full" data-dojo-type="app/widget/special/home/BtnWhoAreThere" data-dojo-props="resourceMonitorId: 'listResourceMonitorMessage'">Who are there?</button>
+                            </div>
+                        </div>
+                    </td>
+                    <td style="width: 33%;">
+                        <span style="float: right;" data-dojo-type="dojox/mobile/ToolBarButton" data-dojo-props="label: 'Home', moveTo: '#viewHome', transition: 'slide', transitionDir: 1, arrow: 'right'"></span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </h1>
 </body>
 </html>
