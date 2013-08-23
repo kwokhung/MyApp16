@@ -51,9 +51,7 @@ define([
                         this.appendMessage("there.are", item.id);
                     }));
 
-                    if (this.whoAreThereSubscriber != null) {
-                        topic.publish("/resourceList/there.are", data.who);
-                    }
+                    topic.publish("/resourceList/there.are", data.who);
                 }));
 
                 socket.on("someone.said", lang.hitch(this, function (data) {
