@@ -115,6 +115,7 @@ define([
             this.socket.emit("who.are.there", null, lang.hitch(this, this.logMessage));
         },
         whatAreSaid: function () {
+            alert("whatAreSaid")
         },
         postCreate: function () {
             this.inherited(arguments);

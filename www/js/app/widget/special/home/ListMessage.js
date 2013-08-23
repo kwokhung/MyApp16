@@ -8,6 +8,7 @@ define([
 ], function (declare, lang, array, topic, RoundRectStoreList, StoredData) {
     return declare("app.widget.special.home.ListMessage", [RoundRectStoreList, StoredData], {
         messageSubscriber: null,
+        clearMessageSubscriber: null,
         appendMessage: function (who, what) {
             if (typeof what != "undefined" && (typeof what == "string" || what.constructor == String)) {
                 this.store.put({ "id": this.id + "_" + (this.data.length + 1), "label": "<span style='color: blue;'>" + who + "</span><br />" + what.replace(/\n/g, "<br />"), "variableHeight": true });
@@ -19,6 +20,11 @@ define([
         someoneSaid: function (data) {
             this.appendMessage(data.who, data.what);
         },
+        clearMessage: function () {
+            array.forEach(this.store.query({}), lang.hitch(this, function (item, index) {
+                this.store.remove(item.id);
+            }));
+        },
         postCreate: function () {
             this.inherited(arguments);
 
@@ -26,6 +32,7 @@ define([
             this.setStore(this.store);
 
             this.messageSubscriber = topic.subscribe("/messageList/someone.said", lang.hitch(this, this.someoneSaid));
+            this.clearMessageSubscriber = topic.subscribe("/messageList/clear.message", lang.hitch(this, this.clearMessage));
             topic.publish("/resourceMonitor/what.are.said");
         },
         destroy: function () {
@@ -34,6 +41,11 @@ define([
             if (this.messageSubscriber != null) {
                 this.messageSubscriber.remove();
                 this.messageSubscriber = null;
+            }
+
+            if (this.clearMessageSubscriber != null) {
+                this.clearMessageSubscriber.remove();
+                this.clearMessageSubscriber = null;
             }
         }
     });
