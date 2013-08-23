@@ -95,8 +95,13 @@ define([
                 this.appendMessage("System", (e ? e.type : "unknown error"));
             }));
         },
-        iAm: function () {
-            this.socket.emit("i.am", { who: this.who }, lang.hitch(this, this.logMessage));
+        iAm: function (who) {
+            if (typeof who != "undefined" && who != null && who != "") {
+                this.socket.emit("i.am", { who: who }, lang.hitch(this, this.logMessage));
+            }
+            else {
+                this.socket.emit("i.am", { who: this.who }, lang.hitch(this, this.logMessage));
+            }
         },
         tellOther: function (what) {
             this.socket.emit("tell.other", { who: this.who, what: what }, lang.hitch(this, this.logMessage));
@@ -115,25 +120,8 @@ define([
 
                 this.handleMessage();
 
-                if (this.iAmSubscriber != null) {
-                    this.iAmSubscriber.remove();
-                    this.iAmSubscriber = null;
-                }
-
                 this.iAmSubscriber = topic.subscribe("/resourceMonitor/i.am", lang.hitch(this, this.iAm));
-
-                if (this.tellOtherSubscriber != null) {
-                    this.tellOtherSubscriber.remove();
-                    this.tellOtherSubscriber = null;
-                }
-
                 this.tellOtherSubscriber = topic.subscribe("/resourceMonitor/tell.other", lang.hitch(this, this.tellOther));
-
-                if (this.whoAreThereSubscriber != null) {
-                    this.whoAreThereSubscriber.remove();
-                    this.whoAreThereSubscriber = null;
-                }
-
                 this.whoAreThereSubscriber = topic.subscribe("/resourceMonitor/who.are.there", lang.hitch(this, this.whoAreThere));
             }
         },
