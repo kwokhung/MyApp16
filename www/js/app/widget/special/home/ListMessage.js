@@ -33,7 +33,6 @@ define([
 
             this.messageSubscriber = topic.subscribe("/messageList/someone.said", lang.hitch(this, this.someoneSaid));
             this.clearMessageSubscriber = topic.subscribe("/messageList/clear.message", lang.hitch(this, this.clearMessage));
-            topic.publish("/resourceMonitor/what.are.said");
         },
         destroy: function () {
             this.inherited(arguments);

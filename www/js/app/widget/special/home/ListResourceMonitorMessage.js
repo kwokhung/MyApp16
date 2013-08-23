@@ -13,7 +13,6 @@ define([
         iAmSubscriber: null,
         tellOtherSubscriber: null,
         whoAreThereSubscriber: null,
-        whatAreSaidSubscriber: null,
         appendMessage: function (label, message) {
             if (typeof message != "undefined" && (typeof message == "string" || message.constructor == String)) {
                 this.store.put({ "id": this.id + "_" + (this.data.length + 1), "label": label, "rightText": message.replace(/\n/g, "<br />"), "variableHeight": true });
@@ -60,9 +59,7 @@ define([
                 socket.on("someone.said", lang.hitch(this, function (data) {
                     this.appendMessage("someone.said", data.what + " by " + data.who);
 
-                    if (this.whatAreSaidSubscriber != null) {
-                        topic.publish("/messageList/someone.said", { who: data.who, what: data.what });
-                    }
+                    topic.publish("/messageList/someone.said", { who: data.who, what: data.what });
                 }));
 
                 socket.on("someone.joined", lang.hitch(this, function (data) {
@@ -131,7 +128,6 @@ define([
                 this.iAmSubscriber = topic.subscribe("/resourceMonitor/i.am", lang.hitch(this, this.iAm));
                 this.tellOtherSubscriber = topic.subscribe("/resourceMonitor/tell.other", lang.hitch(this, this.tellOther));
                 this.whoAreThereSubscriber = topic.subscribe("/resourceMonitor/who.are.there", lang.hitch(this, this.whoAreThere));
-                this.whatAreSaidSubscriber = topic.subscribe("/resourceMonitor/what.are.said", lang.hitch(this, this.whatAreSaid));
             }
         },
         destroy: function () {
@@ -150,11 +146,6 @@ define([
             if (this.whoAreThereSubscriber != null) {
                 this.whoAreThereSubscriber.remove();
                 this.whoAreThereSubscriber = null;
-            }
-
-            if (this.whatAreSaidSubscriber != null) {
-                this.whatAreSaidSubscriber.remove();
-                this.whatAreSaidSubscriber = null;
             }
         }
     });
