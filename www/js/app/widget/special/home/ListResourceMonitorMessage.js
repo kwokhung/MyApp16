@@ -10,7 +10,9 @@ define([
         resourceUrl: null,
         who: null,
         socket: null,
-        resourceSubscriber: null,
+        iAmSubscriber: null,
+        tellOtherSubscriber: null,
+        whoAreThereSubscriber: null,
         appendMessage: function (label, message) {
             if (typeof message != "undefined" && (typeof message == "string" || message.constructor == String)) {
                 this.store.put({ "id": this.id + "_" + (this.data.length + 1), "label": label, "rightText": message.replace(/\n/g, "<br />"), "variableHeight": true });
@@ -49,7 +51,7 @@ define([
                         this.appendMessage("there.are", item.id);
                     }));
 
-                    if (this.resourceSubscriber != null) {
+                    if (this.whoAreThereSubscriber != null) {
                         topic.publish("/resourceList/there.are", data.who);
                     }
                 }));
@@ -113,20 +115,44 @@ define([
 
                 this.handleMessage();
 
-                if (this.resourceSubscriber != null) {
-                    this.resourceSubscriber.remove();
-                    this.resourceSubscriber = null;
+                if (this.iAmSubscriber != null) {
+                    this.iAmSubscriber.remove();
+                    this.iAmSubscriber = null;
                 }
 
-                this.resourceSubscriber = topic.subscribe("/resourceMonitor/who.are.there", lang.hitch(this, this.whoAreThere));
+                this.iAmSubscriber = topic.subscribe("/resourceMonitor/i.am", lang.hitch(this, this.iAm));
+
+                if (this.tellOtherSubscriber != null) {
+                    this.tellOtherSubscriber.remove();
+                    this.tellOtherSubscriber = null;
+                }
+
+                this.tellOtherSubscriber = topic.subscribe("/resourceMonitor/tell.other", lang.hitch(this, this.tellOther));
+
+                if (this.whoAreThereSubscriber != null) {
+                    this.whoAreThereSubscriber.remove();
+                    this.whoAreThereSubscriber = null;
+                }
+
+                this.whoAreThereSubscriber = topic.subscribe("/resourceMonitor/who.are.there", lang.hitch(this, this.whoAreThere));
             }
         },
         destroy: function () {
             this.inherited(arguments);
 
-            if (this.resourceSubscriber != null) {
-                this.resourceSubscriber.remove();
-                this.resourceSubscriber = null;
+            if (this.iAmSubscriber != null) {
+                this.iAmSubscriber.remove();
+                this.iAmSubscriber = null;
+            }
+
+            if (this.tellOtherSubscriber != null) {
+                this.tellOtherSubscriber.remove();
+                this.tellOtherSubscriber = null;
+            }
+
+            if (this.whoAreThereSubscriber != null) {
+                this.whoAreThereSubscriber.remove();
+                this.whoAreThereSubscriber = null;
             }
         }
     });

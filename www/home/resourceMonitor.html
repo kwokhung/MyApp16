@@ -9,7 +9,7 @@
     <div style="height: 100%;" data-dojo-type="dojox/mobile/ScrollableView" data-dojo-mixins="app/widget/_Resizable">
         <div data-dojo-type="dojox/mobile/RoundRect" data-dojo-props="shadow: true">
             <div data-dojo-type="dojox/mobile/ScrollablePane" data-dojo-mixins="app/widget/_Resizable" data-dojo-props="height: '450px'">
-                <ul id="listResourceMonitorMessage" data-dojo-type="app/widget/special/home/ListResourceMonitorMessage" data-dojo-props="resourceUrl: 'http://test10atmblinus.azurewebsites.net', who: 'Resource Monitor'">
+                <ul data-dojo-type="app/widget/special/home/ListResourceMonitorMessage" data-dojo-props="resourceUrl: 'http://localhost:3000', who: 'Resource Monitor'">
                 </ul>
             </div>
         </div>
@@ -20,10 +20,10 @@
                     <td style="width: 34%;">
                         <div style="height: 42px;" data-dojo-type="dojox/mobile/GridLayout" data-dojo-props="cols: 2">
                             <div data-dojo-type="dojox/mobile/Pane">
-                                <button class="mblRedButton full" data-dojo-type="app/widget/special/home/BtnIAm" data-dojo-props="resourceMonitorId: 'listResourceMonitorMessage'">I am...</button>
+                                <button class="mblRedButton full" data-dojo-type="app/widget/special/home/BtnIAm">I am...</button>
                             </div>
                             <div data-dojo-type="dojox/mobile/Pane">
-                                <button class="mblBlueButton full" data-dojo-type="app/widget/special/home/BtnTellOther" data-dojo-props="resourceMonitorId: 'listResourceMonitorMessage'">Tell other...</button>
+                                <button class="mblBlueButton full" data-dojo-type="app/widget/special/home/BtnTellOther">Tell other...</button>
                             </div>
                         </div>
                     </td>
