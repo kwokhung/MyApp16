@@ -8,12 +8,12 @@ define([
 ], function (declare, lang, array, topic, RoundRectStoreList, StoredData) {
     return declare("app.widget.special.home.ListResource", [RoundRectStoreList, StoredData], {
         resourceSubscriber: null,
-        appendMessage: function (message) {
-            if (typeof message != "undefined" && (typeof message == "string" || message.constructor == String)) {
-                this.store.put({ "id": this.id + "_" + (this.data.length + 1), "label": message.replace(/\n/g, "<br />"), "variableHeight": true });
+        appendMessage: function (who) {
+            if (typeof who != "undefined" && (typeof who == "string" || who.constructor == String)) {
+                this.store.put({ "id": this.id + "_" + (this.data.length + 1), "label": who.replace(/\n/g, "<br />"), "variableHeight": true });
             }
             else {
-                this.store.put({ "id": this.id + "_" + (this.data.length + 1), "label": message, "variableHeight": true });
+                this.store.put({ "id": this.id + "_" + (this.data.length + 1), "label": who, "variableHeight": true });
             }
         },
         thereAre: function (who) {
