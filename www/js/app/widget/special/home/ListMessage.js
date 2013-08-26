@@ -11,10 +11,18 @@ define([
         clearMessageSubscriber: null,
         appendMessage: function (who, what) {
             if (typeof what != "undefined" && (typeof what == "string" || what.constructor == String)) {
-                this.store.put({ "id": this.id + "_" + (this.data.length + 1), "label": "<span style='color: blue;'>" + who + "</span><br />" + what.replace(/\n/g, "<br />"), "variableHeight": true });
+                this.store.put({
+                    "id": this.id + "_" + (this.data.length + 1),
+                    "label": "<span style='color: blue;'>" + who + "</span><br />" + what.replace(/\n/g, "<br />"),
+                    "variableHeight": true
+                });
             }
             else {
-                this.store.put({ "id": this.id + "_" + (this.data.length + 1), "label": "<span style='color: blue;'>" + who + "</span><br />" + what, "variableHeight": true });
+                this.store.put({
+                    "id": this.id + "_" + (this.data.length + 1),
+                    "label": "<span style='color: blue;'>" + who + "</span><br />" + what,
+                    "variableHeight": true
+                });
             }
         },
         someoneSaid: function (data) {

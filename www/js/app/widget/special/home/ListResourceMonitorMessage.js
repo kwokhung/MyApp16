@@ -15,10 +15,20 @@ define([
         whoAreThereSubscriber: null,
         appendMessage: function (label, message) {
             if (typeof message != "undefined" && (typeof message == "string" || message.constructor == String)) {
-                this.store.put({ "id": this.id + "_" + (this.data.length + 1), "label": label, "rightText": message.replace(/\n/g, "<br />"), "variableHeight": true });
+                this.store.put({
+                    "id": this.id + "_" + (this.data.length + 1),
+                    "label": label,
+                    "rightText": message.replace(/\n/g, "<br />"),
+                    "variableHeight": true
+                });
             }
             else {
-                this.store.put({ "id": this.id + "_" + (this.data.length + 1), "label": label, "rightText": message, "variableHeight": true });
+                this.store.put({
+                    "id": this.id + "_" + (this.data.length + 1),
+                    "label": label,
+                    "rightText": message,
+                    "variableHeight": true
+                });
             }
         },
         logMessage: function (data) {
@@ -35,7 +45,12 @@ define([
                 this.appendMessage("System", "connect");
 
                 socket.on("heartbeat", lang.hitch(this, function (data) {
-                    this.appendMessage("heartbeat", data.time);
+                    this.appendMessage("heartbeat", data.when);
+
+                    socket.emit("heartbeat", {
+                        who: this.who,
+                        when: new Date().getTime()
+                    }, lang.hitch(this, this.logMessage));
                 }));
 
                 socket.on("you.are", lang.hitch(this, function (data) {
@@ -49,7 +64,7 @@ define([
 
                 socket.on("there.are", lang.hitch(this, function (data) {
                     array.forEach(data.who, lang.hitch(this, function (item, index) {
-                        this.appendMessage("there.are", item.id);
+                        this.appendMessage("there.are", item.who);
                     }));
 
                     topic.publish("/resourceList/there.are", data.who);
@@ -63,6 +78,12 @@ define([
 
                 socket.on("someone.joined", lang.hitch(this, function (data) {
                     this.appendMessage("someone.joined", data.who);
+                }));
+
+                socket.on("someone.beat", lang.hitch(this, function (data) {
+                    this.appendMessage("someone.beat", data.when + " by " + data.who);
+
+                    topic.publish("/resourceList/someone.beat", { who: data.who, when: data.when });
                 }));
 
                 this.iAm();
@@ -98,15 +119,26 @@ define([
         },
         iAm: function (who) {
             if (typeof who != "undefined" && who != null && who != "") {
-                this.socket.emit("i.am", { who: who }, lang.hitch(this, this.logMessage));
+                this.socket.emit("i.am", {
+                    who: who,
+                    when: new Date().getTime()
+                }, lang.hitch(this, this.logMessage));
+
                 this.who = who;
             }
             else {
-                this.socket.emit("i.am", { who: this.who }, lang.hitch(this, this.logMessage));
+                this.socket.emit("i.am", {
+                    who: this.who,
+                    when: new Date().getTime()
+                }, lang.hitch(this, this.logMessage));
             }
         },
         tellOther: function (what) {
-            this.socket.emit("tell.other", { who: this.who, what: what }, lang.hitch(this, this.logMessage));
+            this.socket.emit("tell.other", {
+                who: this.who,
+                what: what,
+                when: new Date().getTime()
+            }, lang.hitch(this, this.logMessage));
         },
         whoAreThere: function () {
             this.socket.emit("who.are.there", null, lang.hitch(this, this.logMessage));
