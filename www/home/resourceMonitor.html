@@ -9,7 +9,7 @@
     <div style="height: 100%;" data-dojo-type="dojox/mobile/ScrollableView" data-dojo-mixins="app/widget/_Resizable">
         <div data-dojo-type="dojox/mobile/RoundRect" data-dojo-props="shadow: true">
             <div data-dojo-type="dojox/mobile/ScrollablePane" data-dojo-mixins="app/widget/_Resizable" data-dojo-props="height: '450px'">
-                <ul data-dojo-type="app/widget/special/home/ListResourceMonitorMessage" data-dojo-props="resourceUrl: 'http://test10atmblinus.azurewebsites.net', who: 'Resource Monitor'">
+                <ul id="listResourceMonitorMessage" data-dojo-type="app/widget/special/home/ListResourceMonitorMessage" data-dojo-props="resourceUrl: 'http://localhost:3000', who: 'Resource Monitor'">
                 </ul>
             </div>
         </div>
@@ -31,7 +31,7 @@
                 </tr>
             </tbody>
         </table>
-        <div style="height: 200px;" data-dojo-type="dojox/mobile/Opener" data-dojo-mixins="app/widget/_ShowHideSubscriber" data-dojo-props="showTopicId: '/diagIAm/show', hideTopicId: '/diagIAm/hide'">
+        <div style="height: 200px;" data-dojo-type="dojox/mobile/Overlay" data-dojo-mixins="app/widget/_ShowHideSubscriber" data-dojo-props="showTopicId: '/diagIAm/show', hideTopicId: '/diagIAm/hide'">
             <h1 data-dojo-type="dojox/mobile/Heading" data-dojo-props="label:'I am'">
                 <span style="float: right;" data-dojo-type="dojox/mobile/ToolBarButton" data-dojo-mixins="app/widget/_Publishable" data-dojo-props="label:'Done', topicId: '/diagIAm/hide'"></span>
             </h1>
@@ -46,7 +46,7 @@
                 </div>
             </form>
         </div>
-        <div style="height: 200px;" data-dojo-type="dojox/mobile/Opener" data-dojo-mixins="app/widget/_ShowHideSubscriber" data-dojo-props="showTopicId: '/diagTellOther/show', hideTopicId: '/diagTellOther/hide'">
+        <div style="height: 200px;" data-dojo-type="dojox/mobile/Overlay" data-dojo-mixins="app/widget/_ShowHideSubscriber" data-dojo-props="showTopicId: '/diagTellOther/show', hideTopicId: '/diagTellOther/hide'">
             <h1 data-dojo-type="dojox/mobile/Heading" data-dojo-props="label:'Tell other'">
                 <span style="float: right;" data-dojo-type="dojox/mobile/ToolBarButton" data-dojo-mixins="app/widget/_Publishable" data-dojo-props="label:'Done', topicId: '/diagTellOther/hide'"></span>
             </h1>
@@ -55,7 +55,7 @@
                     <div data-dojo-type="dojox/mobile/FormLayout" data-dojo-props="columns:'auto'">
                         <div>
                             <input id="txtTellOther" style="width: 250px;" data-dojo-type="dojox/mobile/TextBox" value="" />
-                            <button class="mblRedButton" data-dojo-type="app/widget/special/home/BtnTellOther" data-dojo-props="textId: 'txtTellOther'">Send</button>
+                            <button class="mblRedButton" data-dojo-type="app/widget/special/home/BtnTellOther" data-dojo-props="textId: 'txtTellOther', resourceMonitorId: 'listResourceMonitorMessage'">Send</button>
                         </div>
                     </div>
                 </div>

@@ -8,6 +8,7 @@ define([
 ], function (declare, lang, on, topic, registry, Button) {
     return declare("app.widget.special.home.BtnTellOther", [Button], {
         textId: null,
+        resourceMonitorId: null,
         postCreate: function () {
             this.inherited(arguments);
 
@@ -18,6 +19,7 @@ define([
                     }
 
                     topic.publish("/resourceMonitor/tell.other", registry.byId(this.textId).get("value"));
+                    topic.publish("/messageList/someone.said", { who: registry.byId(this.resourceMonitorId).who, what: registry.byId(this.textId).get("value") });
                 }));
             }
         }

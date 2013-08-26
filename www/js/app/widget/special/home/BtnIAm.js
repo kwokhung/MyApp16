@@ -18,6 +18,7 @@ define([
                     }
 
                     topic.publish("/resourceMonitor/i.am", registry.byId(this.textId).get("value"));
+                    topic.publish("/resourceMonitor/who.are.there");
                 }));
             }
         }

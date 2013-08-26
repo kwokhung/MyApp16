@@ -44,6 +44,7 @@ define([
 
                 socket.on("he.is", lang.hitch(this, function (data) {
                     this.appendMessage("he.is", data.who);
+                    this.whoAreThere();
                 }));
 
                 socket.on("there.are", lang.hitch(this, function (data) {
@@ -98,6 +99,7 @@ define([
         iAm: function (who) {
             if (typeof who != "undefined" && who != null && who != "") {
                 this.socket.emit("i.am", { who: who }, lang.hitch(this, this.logMessage));
+                this.who = who;
             }
             else {
                 this.socket.emit("i.am", { who: this.who }, lang.hitch(this, this.logMessage));
