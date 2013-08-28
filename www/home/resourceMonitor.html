@@ -13,60 +13,26 @@
                 </ul>
             </div>
         </div>
+    </div>
+    <h1 data-dojo-type="dojox/mobile/Heading" data-dojo-props="fixed: 'bottom'">
         <table style="width: 100%; border: none; border-collapse: collapse; padding: 0;">
             <tbody>
                 <tr>
-                    <td style="width: 33%;"></td>
-                    <td style="width: 34%;">
-                        <div style="height: 42px;" data-dojo-type="dojox/mobile/GridLayout" data-dojo-props="cols: 2">
-                            <div data-dojo-type="dojox/mobile/Pane">
-                                <button class="mblRedButton full" data-dojo-type="dojox/mobile/Button" data-dojo-mixins="app/widget/_Publishable" data-dojo-props="topicId: '/diagIAm/show'">I am...</button>
-                            </div>
-                            <div data-dojo-type="dojox/mobile/Pane">
-                                <button class="mblBlueButton full" data-dojo-type="dojox/mobile/Button" data-dojo-mixins="app/widget/_Publishable" data-dojo-props="topicId: '/diagTellOther/show'">Tell other...</button>
-                            </div>
-                        </div>
+                    <td style="width: 25%;">
+                        <span style="float: left;" data-dojo-type="dojox/mobile/ToolBarButton" data-dojo-mixins="app/widget/_Publishable" data-dojo-props="label: 'Top', arrow: 'left', topicId: '/resourceMonitor/goto.top'"></span>
                     </td>
-                    <td style="width: 33%;"></td>
+                    <td style="width: 50%;">
+                        <ul data-dojo-type="dojox/mobile/TabBar" data-dojo-props="barType: 'tabBar', fill: 'auto', center: true">
+                            <li data-dojo-type="dojox/mobile/TabBarButton" data-dojo-props="moveTo: '#viewResourceList', transition: 'slidev', transitionDir: -1">Who are there?</li>
+                            <li data-dojo-type="dojox/mobile/TabBarButton" data-dojo-props="moveTo: '#viewMessageList', transition: 'slidev', transitionDir: -1">What are said?</li>
+                        </ul>
+                    </td>
+                    <td style="width: 25%;">
+                        <span style="float: right;" data-dojo-type="dojox/mobile/ToolBarButton" data-dojo-mixins="app/widget/_Publishable" data-dojo-props="label: 'Bottom', arrow: 'right', topicId: '/resourceMonitor/goto.bottom'"></span>
+                    </td>
                 </tr>
             </tbody>
         </table>
-        <div style="height: 200px;" data-dojo-type="dojox/mobile/Overlay" data-dojo-mixins="app/widget/_ShowHideSubscriber" data-dojo-props="showTopicId: '/diagIAm/show', hideTopicId: '/diagIAm/hide'">
-            <h1 data-dojo-type="dojox/mobile/Heading" data-dojo-props="label:'I am'">
-                <span style="float: right;" data-dojo-type="dojox/mobile/ToolBarButton" data-dojo-mixins="app/widget/_Publishable" data-dojo-props="label:'Done', topicId: '/diagIAm/hide'"></span>
-            </h1>
-            <form>
-                <div data-dojo-type="dojox/mobile/RoundRect">
-                    <div data-dojo-type="dojox/mobile/FormLayout" data-dojo-props="columns:'auto'">
-                        <div>
-                            <input id="txtIAm" style="width: 250px;" data-dojo-type="dojox/mobile/TextBox" value="" />
-                            <button class="mblRedButton" data-dojo-type="app/widget/special/home/BtnIAm" data-dojo-props="textId: 'txtIAm'">Send</button>
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>
-        <div style="height: 200px;" data-dojo-type="dojox/mobile/Overlay" data-dojo-mixins="app/widget/_ShowHideSubscriber" data-dojo-props="showTopicId: '/diagTellOther/show', hideTopicId: '/diagTellOther/hide'">
-            <h1 data-dojo-type="dojox/mobile/Heading" data-dojo-props="label:'Tell other'">
-                <span style="float: right;" data-dojo-type="dojox/mobile/ToolBarButton" data-dojo-mixins="app/widget/_Publishable" data-dojo-props="label:'Done', topicId: '/diagTellOther/hide'"></span>
-            </h1>
-            <form>
-                <div data-dojo-type="dojox/mobile/RoundRect">
-                    <div data-dojo-type="dojox/mobile/FormLayout" data-dojo-props="columns:'auto'">
-                        <div>
-                            <input id="txtTellOther" style="width: 250px;" data-dojo-type="dojox/mobile/TextBox" value="" />
-                            <button class="mblRedButton" data-dojo-type="app/widget/special/home/BtnTellOther" data-dojo-props="textId: 'txtTellOther', resourceMonitorId: 'listResourceMonitorMessage'">Send</button>
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-    <h1 data-dojo-type="dojox/mobile/Heading" data-dojo-props="fixed: 'bottom'">
-        <ul data-dojo-type="dojox/mobile/TabBar" data-dojo-props="barType: 'tabBar', fill: 'auto', center: true">
-            <li data-dojo-type="dojox/mobile/TabBarButton" data-dojo-props="moveTo: '#viewResourceList', transition: 'slidev', transitionDir: -1">Who are there?</li>
-            <li data-dojo-type="dojox/mobile/TabBarButton" data-dojo-props="moveTo: '#viewMessageList', transition: 'slidev', transitionDir: -1">What are said?</li>
-        </ul>
     </h1>
 </body>
 </html>

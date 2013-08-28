@@ -14,6 +14,8 @@ define([
         iAmSubscriber: null,
         tellOtherSubscriber: null,
         whoAreThereSubscriber: null,
+        gotoTopSubscriber: null,
+        gotoBottomSubscriber: null,
         appendMessage: function (label, message) {
             var itemCount = this.data.length;
             var itemId = this.id + "_" + (itemCount + 1);
@@ -152,6 +154,20 @@ define([
         whatAreSaid: function () {
             alert("whatAreSaid")
         },
+        gotoTop: function () {
+            var topItem = registry.byId(this.id + "_" + (1));
+
+            if (typeof topItem != "undefined" && topItem != null) {
+                this.getParent().scrollIntoView(topItem.domNode, true);
+            }
+        },
+        gotoBottom: function () {
+            var bottomItem = registry.byId(this.id + "_" + (this.data.length));
+
+            if (typeof bottomItem != "undefined" && bottomItem != null) {
+                this.getParent().scrollIntoView(bottomItem.domNode, false);
+            }
+        },
         postCreate: function () {
             this.inherited(arguments);
 
@@ -166,6 +182,8 @@ define([
                 this.iAmSubscriber = topic.subscribe("/resourceMonitor/i.am", lang.hitch(this, this.iAm));
                 this.tellOtherSubscriber = topic.subscribe("/resourceMonitor/tell.other", lang.hitch(this, this.tellOther));
                 this.whoAreThereSubscriber = topic.subscribe("/resourceMonitor/who.are.there", lang.hitch(this, this.whoAreThere));
+                this.gotoTopSubscriber = topic.subscribe("/resourceMonitor/goto.top", lang.hitch(this, this.gotoTop));
+                this.gotoBottomSubscriber = topic.subscribe("/resourceMonitor/goto.bottom", lang.hitch(this, this.gotoBottom));
             }
         },
         destroy: function () {
@@ -184,6 +202,16 @@ define([
             if (this.whoAreThereSubscriber != null) {
                 this.whoAreThereSubscriber.remove();
                 this.whoAreThereSubscriber = null;
+            }
+
+            if (this.gotoTopSubscriber != null) {
+                this.gotoTopSubscriber.remove();
+                this.gotoTopSubscriber = null;
+            }
+
+            if (this.gotoBottomSubscriber != null) {
+                this.gotoBottomSubscriber.remove();
+                this.gotoBottomSubscriber = null;
             }
         }
     });
