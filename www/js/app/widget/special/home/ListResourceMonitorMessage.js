@@ -14,6 +14,7 @@ define([
         iAmSubscriber: null,
         tellOtherSubscriber: null,
         whoAreThereSubscriber: null,
+        clearMessageSubscriber: null,
         gotoTopSubscriber: null,
         gotoBottomSubscriber: null,
         appendMessage: function (label, message) {
@@ -154,6 +155,11 @@ define([
         whatAreSaid: function () {
             alert("whatAreSaid")
         },
+        clearMessage: function () {
+            array.forEach(this.store.query({}), lang.hitch(this, function (item, index) {
+                this.store.remove(item.id);
+            }));
+        },
         gotoTop: function () {
             var topItem = registry.byId(this.id + "_" + (1));
 
@@ -182,6 +188,7 @@ define([
                 this.iAmSubscriber = topic.subscribe("/resourceMonitor/i.am", lang.hitch(this, this.iAm));
                 this.tellOtherSubscriber = topic.subscribe("/resourceMonitor/tell.other", lang.hitch(this, this.tellOther));
                 this.whoAreThereSubscriber = topic.subscribe("/resourceMonitor/who.are.there", lang.hitch(this, this.whoAreThere));
+                this.clearMessageSubscriber = topic.subscribe("/resourceMonitor/clear.message", lang.hitch(this, this.clearMessage));
                 this.gotoTopSubscriber = topic.subscribe("/resourceMonitor/goto.top", lang.hitch(this, this.gotoTop));
                 this.gotoBottomSubscriber = topic.subscribe("/resourceMonitor/goto.bottom", lang.hitch(this, this.gotoBottom));
             }
@@ -202,6 +209,11 @@ define([
             if (this.whoAreThereSubscriber != null) {
                 this.whoAreThereSubscriber.remove();
                 this.whoAreThereSubscriber = null;
+            }
+
+            if (this.clearMessageSubscriber != null) {
+                this.clearMessageSubscriber.remove();
+                this.clearMessageSubscriber = null;
             }
 
             if (this.gotoTopSubscriber != null) {
