@@ -16,8 +16,20 @@ define([
             var itemCount = this.data.length;
             var itemId = this.id + "_" + (itemCount + 1);
 
-            var whichDate = new Date(data.when);
-            var when = whichDate.getFullYear() + '-' + (whichDate.getMonth() + 1) + '-' + whichDate.getDay() + ' ' + whichDate.getHours() + ':' + whichDate.getMinutes() + ':' + whichDate.getSeconds();
+            var date = new Date(data.when);
+            var year = date.getFullYear();
+            var month = date.getMonth() + 1;
+            var day = date.getDate();
+            var hh = date.getHours();
+            var mm = date.getMinutes();
+            var ss = date.getSeconds();
+
+            var when = "" + year + "-" +
+            (month < 10 ? "0" + month : month) + "-" +
+            (day < 10 ? "0" + day : day) + " " +
+            (hh < 10 ? "0" + hh : hh) + ":" +
+            (mm < 10 ? "0" + mm : mm) + ":" +
+            (ss < 10 ? "0" + ss : ss);
 
             this.store.put({
                 "id": itemId,
@@ -37,26 +49,41 @@ define([
             }));
         },
         someoneBeat: function (data) {
+            var date = new Date(data.when);
+            var year = date.getFullYear();
+            var month = date.getMonth() + 1;
+            var day = date.getDate();
+            var hh = date.getHours();
+            var mm = date.getMinutes();
+            var ss = date.getSeconds();
+
+            var when = "" + year + "-" +
+            (month < 10 ? "0" + month : month) + "-" +
+            (day < 10 ? "0" + day : day) + " " +
+            (hh < 10 ? "0" + hh : hh) + ":" +
+            (mm < 10 ? "0" + mm : mm) + ":" +
+            (ss < 10 ? "0" + ss : ss);
+
             array.forEach(this.store.query({
                 who: data.who
             }), lang.hitch(this, function (item, index) {
-                item.label = data.who + "<br />" + "<span style='color: blue;'>" + dateLocaleUtils.format(new Date(data.when), {
-                    selector: "date",
-                    datePattern: "yyyy-MM-dd HH:mm:ss",
-                    locale: "en"
-                }) + "</span>";
+                item.label = data.who + "<br />" + "<span style='color: blue;'>" + when + "</span>";
                 this.store.put(item);
             }));
         },
         gotoTop: function () {
-            var topItemId = this.id + "_" + (1);
+            var topItem = registry.byId(this.id + "_" + (1));
 
-            this.getParent().scrollIntoView(registry.byId(topItemId).domNode, true);
+            if (typeof topItem != "undefined" && topItem != null) {
+                this.getParent().scrollIntoView(topItem.domNode, true);
+            }
         },
         gotoBottom: function () {
-            var bottomItemId = this.id + "_" + (this.data.length);
+            var bottomItem = registry.byId(this.id + "_" + (this.data.length));
 
-            this.getParent().scrollIntoView(registry.byId(bottomItemId).domNode, false);
+            if (typeof bottomItem != "undefined" && bottomItem != null) {
+                this.getParent().scrollIntoView(bottomItem.domNode, false);
+            }
         },
         postCreate: function () {
             this.inherited(arguments);

@@ -42,14 +42,18 @@ define([
             }));
         },
         gotoTop: function () {
-            var topItemId = this.id + "_" + (1);
+            var topItem = registry.byId(this.id + "_" + (1));
 
-            this.getParent().scrollIntoView(registry.byId(topItemId).domNode, true);
+            if (typeof topItem != "undefined" && topItem != null) {
+                this.getParent().scrollIntoView(topItem.domNode, true);
+            }
         },
         gotoBottom: function () {
-            var bottomItemId = this.id + "_" + (this.data.length);
+            var bottomItem = registry.byId(this.id + "_" + (this.data.length));
 
-            this.getParent().scrollIntoView(registry.byId(bottomItemId).domNode, false);
+            if (typeof bottomItem != "undefined" && bottomItem != null) {
+                this.getParent().scrollIntoView(bottomItem.domNode, false);
+            }
         },
         postCreate: function () {
             this.inherited(arguments);
