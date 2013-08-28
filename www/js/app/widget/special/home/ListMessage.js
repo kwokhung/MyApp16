@@ -10,20 +10,25 @@ define([
         messageSubscriber: null,
         clearMessageSubscriber: null,
         appendMessage: function (who, what) {
+            var itemCount = this.data.length;
+            var itemId = this.id + "_" + (itemCount + 1);
+
             if (typeof what != "undefined" && (typeof what == "string" || what.constructor == String)) {
                 this.store.put({
-                    "id": this.id + "_" + (this.data.length + 1),
+                    "id": itemId,
                     "label": "<span style='color: blue;'>" + who + "</span><br />" + what.replace(/\n/g, "<br />"),
                     "variableHeight": true
                 });
             }
             else {
                 this.store.put({
-                    "id": this.id + "_" + (this.data.length + 1),
+                    "id": itemId,
                     "label": "<span style='color: blue;'>" + who + "</span><br />" + what,
                     "variableHeight": true
                 });
             }
+
+            this.getParent().scrollIntoView(registry.byId(itemId).domNode);
         },
         someoneSaid: function (data) {
             this.appendMessage(data.who, data.what);
