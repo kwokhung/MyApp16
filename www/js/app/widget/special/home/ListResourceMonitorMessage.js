@@ -3,10 +3,10 @@ define([
     "dojo/_base/lang",
     "dojo/_base/array",
     "dojo/topic",
-    "dojox/mobile/RoundRectStoreList",
     "dijit/registry",
+    "dojox/mobile/RoundRectStoreList",
     "app/util/StoredData"
-], function (declare, lang, array, topic, RoundRectStoreList, registry, StoredData) {
+], function (declare, lang, array, topic, registry, RoundRectStoreList, StoredData) {
     return declare("app.widget.special.home.ListResourceMonitorMessage", [RoundRectStoreList, StoredData], {
         resourceUrl: null,
         who: null,
@@ -35,7 +35,7 @@ define([
                 });
             }
 
-            this.getParent().scrollIntoView(registry.byId(itemId).domNode);
+            this.getParent().scrollIntoView(registry.byId(itemId).domNode, false);
         },
         logMessage: function (data) {
             this.appendMessage("System", data.message);
