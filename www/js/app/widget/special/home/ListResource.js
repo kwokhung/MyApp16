@@ -2,23 +2,27 @@ define([
     "dojo/_base/declare",
     "dojo/_base/lang",
     "dojo/_base/array",
-    "dojo/date/locale",
+    //"dojo/date/locale",
     "dojo/topic",
     "dojox/mobile/RoundRectStoreList",
     "app/util/StoredData"
-], function (declare, lang, array, dateLocaleUtils, topic, RoundRectStoreList, StoredData) {
+], function (declare, lang, array, /*dateLocaleUtils, */topic, RoundRectStoreList, StoredData) {
     return declare("app.widget.special.home.ListResource", [RoundRectStoreList, StoredData], {
         resourceSubscriber: null,
         resourceBeatSubscriber: null,
         appendMessage: function (data) {
+            /*var when = dateLocaleUtils.format(new Date(data.when), {
+                selector: "date",
+                datePattern: "yyyy-MM-dd HH:mm:ss",
+                locale: "en"
+            });*/
+            var whichDate = new Date(data.when);
+            var when = whichDate.getFullYear() + '-' + (whichDate.getMonth() + 1) + '-' + whichDate.getDay() + ' ' + whichDate.getHours() + ':' + whichDate.getMinutes() + ':' + whichDate.getSeconds();
+
             this.store.put({
                 "id": this.id + "_" + (this.data.length + 1),
                 "who": data.who,
-                "label": data.who + "<br />" + "<span style='color: blue;'>" + dateLocaleUtils.format(new Date(data.when), {
-                    selector: "date",
-                    datePattern: "yyyy-MM-dd HH:mm:ss",
-                    locale: "en"
-                }) + "</span>",
+                "label": data.who + "<br />" + "<span style='color: blue;'>" + when + "</span>",
                 "variableHeight": true
             });
         },

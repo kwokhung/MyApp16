@@ -4,8 +4,9 @@ define([
     "dojo/_base/array",
     "dojo/topic",
     "dojox/mobile/RoundRectStoreList",
+    "dijit/registry",
     "app/util/StoredData"
-], function (declare, lang, array, topic, RoundRectStoreList, StoredData) {
+], function (declare, lang, array, topic, RoundRectStoreList, registry, StoredData) {
     return declare("app.widget.special.home.ListResourceMonitorMessage", [RoundRectStoreList, StoredData], {
         resourceUrl: null,
         who: null,
@@ -14,9 +15,12 @@ define([
         tellOtherSubscriber: null,
         whoAreThereSubscriber: null,
         appendMessage: function (label, message) {
+            var itemCount = this.data.length;
+            var itemId = this.id + "_" + (itemCount + 1);
+
             if (typeof message != "undefined" && (typeof message == "string" || message.constructor == String)) {
                 this.store.put({
-                    "id": this.id + "_" + (this.data.length + 1),
+                    "id": itemId,
                     "label": label,
                     "rightText": message.replace(/\n/g, "<br />"),
                     "variableHeight": true
@@ -24,12 +28,14 @@ define([
             }
             else {
                 this.store.put({
-                    "id": this.id + "_" + (this.data.length + 1),
+                    "id": itemId,
                     "label": label,
                     "rightText": message,
                     "variableHeight": true
                 });
             }
+
+            this.getParent().scrollIntoView(registry.byId(itemId).domNode);
         },
         logMessage: function (data) {
             this.appendMessage("System", data.message);
