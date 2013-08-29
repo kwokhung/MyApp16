@@ -4,21 +4,33 @@ define([
     "dojo/_base/array",
     "dojo/on",
     "dojo/string",
-    "dojox/mobile/RoundRectStoreList",
     "dijit/registry",
+    "dojox/mobile/RoundRectStoreList",
     "app/util/StoredData",
     "app/util/app"
-], function (declare, lang, array, on, string, RoundRectStoreList, registry, StoredData, app) {
+], function (declare, lang, array, on, string, registry, RoundRectStoreList, StoredData, app) {
     return declare("app.widget.special.home.ListPairedDevice", [RoundRectStoreList, StoredData], {
         appendPairedDevice: function (label, message) {
             var itemCount = this.data.length;
             var itemId = this.id + "_" + (itemCount + 1);
 
             if (typeof message != "undefined" && (typeof message == "string" || message.constructor == String)) {
-                this.store.put({ "id": itemId, "label": label, "rightText": message.replace(/\n/g, "<br />"), "variableHeight": true, "anchorLabel": true });
+                this.store.put({
+                    "id": itemId,
+                    "label": label,
+                    "rightText": message.replace(/\n/g, "<br />"),
+                    "variableHeight": true,
+                    "anchorLabel": true
+                });
             }
             else {
-                this.store.put({ "id": itemId, "label": label, "rightText": message, "variableHeight": true, "anchorLabel": true });
+                this.store.put({
+                    "id": itemId,
+                    "label": label,
+                    "rightText": message,
+                    "variableHeight": true,
+                    "anchorLabel": true
+                });
             }
 
             on(registry.byId(itemId), "anchorLabelClicked", lang.hitch(this, function (e) {

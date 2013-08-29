@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Setting</title>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+</head>
+<body>
+    <h1 data-dojo-type="dojox/mobile/Heading" data-dojo-props="back: 'Back', moveTo: '#viewResourceMonitor'">Setting</h1>
+    <div style="height: 100%;" data-dojo-type="dojox/mobile/ScrollableView" data-dojo-mixins="app/widget/_Resizable">
+        <form>
+            <div data-dojo-type="dojox/mobile/RoundRect">
+                <div data-dojo-type="dojox/mobile/FormLayout" data-dojo-props="columns:'auto'">
+                    <div>
+                        <fieldset>
+                            <legend>Resource URL</legend>
+                            <!--select data-dojo-type="dijit/form/DataList" data-dojo-props="id: 'listResourceUrl'">
+                                <option>http://localhost:3000</option>
+                                <option>http://localhost:9081</option>
+                                <option>http://172.21.72.71:9081</option>
+                                <option>http://test08atmblinus.azurewebsites.net</option>
+                                <option>http://test10atmblinus.azurewebsites.net</option>
+                            </select>
+                            <input id="txtResourceUrl" style="width: 250px;" data-dojo-type="dojox/mobile/ComboBox" data-dojo-props="list: 'listResourceUrl'" value="http://localhost:3000" /-->
+                            <input id="txtResourceUrl" style="width: 250px;" data-dojo-type="dojox/mobile/TextBox" value="http://localhost:3000" />
+                            <button class="mblRedButton" data-dojo-type="app/widget/special/home/BtnSetResourceUrl" data-dojo-props="textId: 'txtResourceUrl'">Set</button>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

@@ -6,7 +6,7 @@ define([
     "dijit/registry",
     "dojox/mobile/Button"
 ], function (declare, lang, on, topic, registry, Button) {
-    return declare("app.widget.special.home.BtnTellOther", [Button], {
+    return declare("app.widget.special.home.BtnSetResourceUrl", [Button], {
         textId: null,
         postCreate: function () {
             this.inherited(arguments);
@@ -17,7 +17,7 @@ define([
                         e.preventDefault();
                     }
 
-                    topic.publish("/resourceMonitor/tell.other", registry.byId(this.textId).get("value"));
+                    topic.publish("/resourceMonitor/set.resource.url", registry.byId(this.textId).get("value"));
                 }));
             }
         }

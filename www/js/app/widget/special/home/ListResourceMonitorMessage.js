@@ -11,6 +11,7 @@ define([
         resourceUrl: null,
         who: null,
         socket: null,
+        setResourceUrlSubscriber: null,
         iAmSubscriber: null,
         tellOtherSubscriber: null,
         whoAreThereSubscriber: null,
@@ -21,19 +22,17 @@ define([
             var itemCount = this.data.length;
             var itemId = this.id + "_" + (itemCount + 1);
 
-            if (typeof message != "undefined" && (typeof message == "string" || message.constructor == String)) {
+            if (typeof message != "undefined" && (typeof message == "string" || (message != null && message.constructor == String))) {
                 this.store.put({
                     "id": itemId,
-                    "label": label,
-                    "rightText": message.replace(/\n/g, "<br />"),
+                    "label": "<span style='color: blue;'>" + label + "</span><br />" + message.replace(/\n/g, "<br />"),
                     "variableHeight": true
                 });
             }
             else {
                 this.store.put({
                     "id": itemId,
-                    "label": label,
-                    "rightText": message,
+                    "label": "<span style='color: blue;'>" + label + "</span><br />" + message,
                     "variableHeight": true
                 });
             }
@@ -64,6 +63,7 @@ define([
 
                 socket.on("you.are", lang.hitch(this, function (data) {
                     this.appendMessage("you.are", data.who);
+                    this.whoAreThere();
                 }));
 
                 socket.on("he.is", lang.hitch(this, function (data) {
@@ -126,34 +126,50 @@ define([
                 this.appendMessage("System", (e ? e.type : "unknown error"));
             }));
         },
+        setResourceUrl: function (resourceUrl) {
+            this.resourceUrl = resourceUrl;
+            this.socket = io.connect(this.resourceUrl, { "force new connection": false });
+
+            this.handleMessage();
+        },
         iAm: function (who) {
             if (typeof who != "undefined" && who != null && who != "") {
-                this.socket.emit("i.am", {
-                    who: who,
-                    when: new Date().getTime()
-                }, lang.hitch(this, this.logMessage));
+                if (this.socket != null) {
+                    this.socket.emit("i.am", {
+                        who: who,
+                        when: new Date().getTime()
+                    }, lang.hitch(this, this.logMessage));
+                }
 
                 this.who = who;
             }
             else {
-                this.socket.emit("i.am", {
-                    who: this.who,
-                    when: new Date().getTime()
-                }, lang.hitch(this, this.logMessage));
+                if (this.socket != null) {
+                    this.socket.emit("i.am", {
+                        who: this.who,
+                        when: new Date().getTime()
+                    }, lang.hitch(this, this.logMessage));
+                }
             }
         },
         tellOther: function (what) {
-            this.socket.emit("tell.other", {
-                who: this.who,
-                what: what,
-                when: new Date().getTime()
-            }, lang.hitch(this, this.logMessage));
+            if (this.socket != null) {
+                this.socket.emit("tell.other", {
+                    who: this.who,
+                    what: what,
+                    when: new Date().getTime()
+                }, lang.hitch(this, this.logMessage));
+
+                topic.publish("/messageList/someone.said", { who: this.who, what: what });
+            }
         },
         whoAreThere: function () {
-            this.socket.emit("who.are.there", null, lang.hitch(this, this.logMessage));
+            if (this.socket != null) {
+                this.socket.emit("who.are.there", null, lang.hitch(this, this.logMessage));
+            }
         },
         whatAreSaid: function () {
-            alert("whatAreSaid")
+            alert("whatAreSaid");
         },
         clearMessage: function () {
             array.forEach(this.store.query({}), lang.hitch(this, function (item, index) {
@@ -181,10 +197,11 @@ define([
                 this.storeLabel = "Resource Monitor Message";
                 this.setStore(this.store);
 
-                this.socket = io.connect(this.resourceUrl, { "force new connection": false });
+                //this.socket = io.connect(this.resourceUrl, { "force new connection": false });
 
-                this.handleMessage();
+                //this.handleMessage();
 
+                this.setResourceUrlSubscriber = topic.subscribe("/resourceMonitor/set.resource.url", lang.hitch(this, this.setResourceUrl));
                 this.iAmSubscriber = topic.subscribe("/resourceMonitor/i.am", lang.hitch(this, this.iAm));
                 this.tellOtherSubscriber = topic.subscribe("/resourceMonitor/tell.other", lang.hitch(this, this.tellOther));
                 this.whoAreThereSubscriber = topic.subscribe("/resourceMonitor/who.are.there", lang.hitch(this, this.whoAreThere));
@@ -195,6 +212,11 @@ define([
         },
         destroy: function () {
             this.inherited(arguments);
+
+            if (this.setResourceUrlSubscriber != null) {
+                this.setResourceUrlSubscriber.remove();
+                this.setResourceUrlSubscriber = null;
+            }
 
             if (this.iAmSubscriber != null) {
                 this.iAmSubscriber.remove();

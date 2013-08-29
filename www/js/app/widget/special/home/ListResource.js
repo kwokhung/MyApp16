@@ -34,7 +34,7 @@ define([
             this.store.put({
                 "id": itemId,
                 "who": data.who,
-                "label": data.who + "<br />" + "<span style='color: blue;'>" + when + "</span>",
+                "label": "<span style='color: blue;'>" + data.who + "</span><br />" + when,
                 "variableHeight": true
             });
 
