@@ -8,11 +8,11 @@ define([
 ], function (declare, lang, on, topic, registry, Button) {
     return declare("app.widget.special.home.BtnTellSomeone", [Button], {
         whomId: null,
-        textId: null,
+        whatId: null,
         postCreate: function () {
             this.inherited(arguments);
 
-            if (this.whomId != null && this.textId != null) {
+            if (this.whomId != null && this.whatId != null) {
                 on(this, "click", lang.hitch(this, function (e) {
                     if (e != null) {
                         e.preventDefault();
@@ -20,7 +20,7 @@ define([
 
                     topic.publish("/resourceMonitor/tell.someone", {
                         whom: registry.byId(this.whomId).get("value"),
-                        what: registry.byId(this.textId).get("value")
+                        what: registry.byId(this.whatId).get("value")
                     });
                 }));
             }
