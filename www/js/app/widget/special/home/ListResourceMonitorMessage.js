@@ -137,16 +137,16 @@ define([
 
             this.handleMessage();
         },
-        iAm: function (who) {
-            if (typeof who != "undefined" && who != null && who != "") {
+        iAm: function (data) {
+            if (typeof data != "undefined" && typeof data.who != "undefined" && data.who != null && data.who != "") {
                 if (this.socket != null) {
                     this.socket.emit("i.am", {
-                        who: who,
+                        who: data.who,
                         when: new Date().getTime()
                     }, lang.hitch(this, this.logMessage));
                 }
 
-                this.who = who;
+                this.who = data.who;
             }
             else {
                 if (this.socket != null) {
@@ -157,15 +157,15 @@ define([
                 }
             }
         },
-        tellOther: function (what) {
+        tellOther: function (data) {
             if (this.socket != null) {
                 this.socket.emit("tell.other", {
                     who: this.who,
-                    what: what,
+                    what: data.what,
                     when: new Date().getTime()
                 }, lang.hitch(this, this.logMessage));
 
-                topic.publish("/messageList/someone.said", { who: this.who, what: what });
+                topic.publish("/messageList/someone.said", { who: this.who, what: data.what });
             }
         },
         tellSomeone: function (data) {

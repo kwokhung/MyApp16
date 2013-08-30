@@ -17,7 +17,9 @@ define([
                         e.preventDefault();
                     }
 
-                    topic.publish("/resourceMonitor/tell.other", registry.byId(this.whatId).get("value"));
+                    topic.publish("/resourceMonitor/tell.other", {
+                        what: registry.byId(this.whatId).get("value")
+                    });
                 }));
             }
         }

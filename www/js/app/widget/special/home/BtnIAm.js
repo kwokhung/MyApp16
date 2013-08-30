@@ -17,7 +17,9 @@ define([
                         e.preventDefault();
                     }
 
-                    topic.publish("/resourceMonitor/i.am", registry.byId(this.whoId).get("value"));
+                    topic.publish("/resourceMonitor/i.am", {
+                        who: registry.byId(this.whoId).get("value")
+                    });
                     topic.publish("/resourceMonitor/who.are.there");
                 }));
             }
