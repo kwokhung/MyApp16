@@ -67,7 +67,7 @@ define([
             array.forEach(this.store.query({
                 who: data.who
             }), lang.hitch(this, function (item, index) {
-                item.label = data.who + "<br />" + "<span style='color: blue;'>" + when + "</span>";
+                item.label = "<span style='color: blue;'>" + data.who + "</span><br />" + when;
                 this.store.put(item);
             }));
         },
