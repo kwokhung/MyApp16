@@ -14,6 +14,7 @@ define([
         setResourceUrlSubscriber: null,
         iAmSubscriber: null,
         tellOtherSubscriber: null,
+        tellSomeoneSubscriber: null,
         whoAreThereSubscriber: null,
         clearMessageSubscriber: null,
         gotoTopSubscriber: null,
@@ -167,6 +168,18 @@ define([
                 topic.publish("/messageList/someone.said", { who: this.who, what: what });
             }
         },
+        tellSomeone: function (data) {
+            if (this.socket != null) {
+                this.socket.emit("tell.someone", {
+                    who: this.who,
+                    whom: data.whom,
+                    what: data.what,
+                    when: new Date().getTime()
+                }, lang.hitch(this, this.logMessage));
+
+                topic.publish("/messageList/someone.said", { who: this.who, what: data.what });
+            }
+        },
         whoAreThere: function () {
             if (this.socket != null) {
                 this.socket.emit("who.are.there", null, lang.hitch(this, this.logMessage));
@@ -208,6 +221,7 @@ define([
                 this.setResourceUrlSubscriber = topic.subscribe("/resourceMonitor/set.resource.url", lang.hitch(this, this.setResourceUrl));
                 this.iAmSubscriber = topic.subscribe("/resourceMonitor/i.am", lang.hitch(this, this.iAm));
                 this.tellOtherSubscriber = topic.subscribe("/resourceMonitor/tell.other", lang.hitch(this, this.tellOther));
+                this.tellSomeoneSubscriber = topic.subscribe("/resourceMonitor/tell.someone", lang.hitch(this, this.tellSomeone));
                 this.whoAreThereSubscriber = topic.subscribe("/resourceMonitor/who.are.there", lang.hitch(this, this.whoAreThere));
                 this.clearMessageSubscriber = topic.subscribe("/resourceMonitor/clear.message", lang.hitch(this, this.clearMessage));
                 this.gotoTopSubscriber = topic.subscribe("/resourceMonitor/goto.top", lang.hitch(this, this.gotoTop));
@@ -230,6 +244,11 @@ define([
             if (this.tellOtherSubscriber != null) {
                 this.tellOtherSubscriber.remove();
                 this.tellOtherSubscriber = null;
+            }
+
+            if (this.tellSomeoneSubscriber != null) {
+                this.tellSomeoneSubscriber.remove();
+                this.tellSomeoneSubscriber = null;
             }
 
             if (this.whoAreThereSubscriber != null) {
