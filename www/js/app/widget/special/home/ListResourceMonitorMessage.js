@@ -83,6 +83,10 @@ define([
                     this.appendMessage("someone.said", data.what + " by " + data.who);
 
                     topic.publish("/messageList/someone.said", { who: data.who, what: data.what });
+
+                    if (typeof data.what.toDo != "undefined" && data.what.toDo == "draw") {
+                        topic.publish("/canvas/draw", { who: data.who, what: data.what });
+                    }
                 }));
 
                 socket.on("someone.joined", lang.hitch(this, function (data) {

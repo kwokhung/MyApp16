@@ -2,11 +2,12 @@ define([
     "dojo/_base/declare",
     "dojo/_base/lang",
     "dojo/_base/array",
+    "dojo/json",
     "dojo/topic",
     "dijit/registry",
     "dojox/mobile/RoundRectStoreList",
     "app/util/StoredData"
-], function (declare, lang, array, topic, registry, RoundRectStoreList, StoredData) {
+], function (declare, lang, array, json, topic, registry, RoundRectStoreList, StoredData) {
     return declare("app.widget.special.home.ListMessage", [RoundRectStoreList, StoredData], {
         messageSubscriber: null,
         clearMessageSubscriber: null,
@@ -16,20 +17,23 @@ define([
             var itemCount = this.data.length;
             var itemId = this.id + "_" + (itemCount + 1);
 
-            if (typeof what != "undefined" && (typeof what == "string" || what.constructor == String)) {
-                this.store.put({
-                    "id": itemId,
-                    "label": "<span style='color: blue;'>" + who + "</span><br />" + what.replace(/\n/g, "<br />"),
-                    "variableHeight": true
-                });
+            var label = null;
+
+            if (typeof what != "undefined" && (typeof what == "string" || (what != null && what.constructor == String))) {
+                label = "<span style='color: blue;'>" + who + "</span><br />" + what.replace(/\n/g, "<br />");
+            }
+            else if (typeof what != "undefined" && (typeof what == "object" || (what != null && what.constructor == Object))) {
+                label = "<span style='color: blue;'>" + who + "</span><br />" + json.stringify(what);
             }
             else {
-                this.store.put({
-                    "id": itemId,
-                    "label": "<span style='color: blue;'>" + who + "</span><br />" + what,
-                    "variableHeight": true
-                });
+                label = "<span style='color: blue;'>" + who + "</span><br />" + what;
             }
+
+            this.store.put({
+                "id": itemId,
+                "label": label,
+                "variableHeight": true
+            });
 
             this.getParent().scrollIntoView(registry.byId(itemId).domNode);
         },
