@@ -83,10 +83,35 @@ define([
                 socket.on("someone.said", lang.hitch(this, function (data) {
                     this.appendMessage("someone.said", data.what + " by " + data.who);
 
-                    topic.publish("/messageList/someone.said", { who: data.who, what: data.what });
+                    topic.publish("/messageList/someone.said", data);
 
-                    if (typeof data.what.toDo != "undefined" && data.what.toDo == "draw") {
-                        topic.publish("/canvas/draw", { who: data.who, what: data.what });
+                    if (typeof data.what.toDo != "undefined" && data.what.toDo != null) {
+                        switch (data.what.toDo) {
+                            case "draw":
+                                topic.publish("/canvas/draw", data);
+
+                                break;
+
+                            case "updateYourDetails":
+                                var enhancedData = {
+                                    whom: data.who,
+                                    what: {
+                                        toDo: "updateHisDetails",
+                                        name: this.who
+                                    }
+                                };
+
+                                this.tellSomeone(enhancedData);
+
+                                break;
+
+                            case "updateHisDetails":
+                                registry.byId("txtResourceName").set("value", data.what.name);
+                                registry.byId("txtResourcePlatform").set("value", data.what.platform);
+                                registry.byId("txtResourceArch").set("value", data.what.arch);
+
+                                break;
+                        }
                     }
                 }));
 
@@ -97,7 +122,7 @@ define([
                 socket.on("someone.beat", lang.hitch(this, function (data) {
                     this.appendMessage("someone.beat", data.when + " by " + data.who);
 
-                    topic.publish("/resourceList/someone.beat", { who: data.who, when: data.when });
+                    topic.publish("/resourceList/someone.beat", data);
                 }));
 
                 this.iAm();

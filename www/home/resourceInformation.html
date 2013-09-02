@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Resource Information</title>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+</head>
+<body>
+    <h1 data-dojo-type="dojox/mobile/Heading" data-dojo-props="back: 'Back', moveTo: '#viewResourceList'">Resource Information</h1>
+    <div style="height: 100%;" data-dojo-type="dojox/mobile/ScrollableView" data-dojo-mixins="app/widget/_Resizable">
+        <form>
+            <div data-dojo-type="dojox/mobile/RoundRect">
+                <div data-dojo-type="dojox/mobile/FormLayout">
+                    <fieldset>
+                        <legend>Resource</legend>
+                        <div>
+                            <label>Name</label>
+                            <input id="txtResourceName" data-dojo-type="dojox/mobile/TextBox" value="undefined" disabled />
+                        </div>
+                        <div>
+                            <label>Platform</label>
+                            <input id="txtResourcePlatform" data-dojo-type="dojox/mobile/TextBox" value="undefined" disabled />
+                        </div>
+                        <div>
+                            <label>Architecture</label>
+                            <input id="txtResourceArch" data-dojo-type="dojox/mobile/TextBox" value="undefined" disabled />
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

@@ -10,7 +10,7 @@ define([
         postCreate: function () {
             this.inherited(arguments);
 
-            on(this, "afterTransitionIn", lang.hitch(this, function () {
+            on(this, "afterTransitionIn", lang.hitch(this, function (e) {
                 if (app.device != null) {
                     registry.byId("txtPlatform").set("value", app.device.platform);
                     registry.byId("txtVersion").set("value", app.device.version);
