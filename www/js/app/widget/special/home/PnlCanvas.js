@@ -37,7 +37,7 @@ define([
             var data = { what: { toDo: "draw", type: e.type, x: e.clientX - domGeom.position(this.domNode).x, y: e.clientY - domGeom.position(this.domNode).y } };
 
             this.draw(data);
-            topic.publish("/resourceMonitor/tell.other", data.what);
+            topic.publish("/resourceMonitor/tell.other", data);
         },
         postCreate: function () {
             this.inherited(arguments);
