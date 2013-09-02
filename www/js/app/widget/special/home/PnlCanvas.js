@@ -16,18 +16,21 @@ define([
         draw: function (data) {
             switch (data.what.type) {
                 case "mousedown":
+                case "touchstart":
                     this.ctx.beginPath();
                     this.ctx.moveTo(data.what.x, data.what.y);
 
                     break;
 
                 case "mousemove":
+                case "touchmove":
                     this.ctx.lineTo(data.what.x, data.what.y);
                     this.ctx.stroke();
 
                     break;
 
                 case "mouseup":
+                case "touchend":
                     this.ctx.closePath();
 
                     break;
@@ -56,19 +59,21 @@ define([
 
                 var isDragging = false;
 
-                on(this, "mousedown, mousemove, mouseup", lang.hitch(this, function (e) {
+                on(this, "mousedown, mousemove, mouseup, touchstart, touchmove, touchend", lang.hitch(this, function (e) {
                     if (e != null) {
                         e.preventDefault();
                     }
 
                     switch (e.type) {
                         case "mousedown":
+                        case "touchstart":
                             isDragging = true;
                             this.dragToDraw(e);
 
                             break;
 
                         case "mousemove":
+                        case "touchmove":
                             if (isDragging) {
                                 this.dragToDraw(e);
                             }
@@ -76,6 +81,7 @@ define([
                             break;
 
                         case "mouseup":
+                        case "touchend":
                             isDragging = false;
                             this.dragToDraw(e);
 
