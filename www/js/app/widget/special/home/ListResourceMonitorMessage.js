@@ -159,25 +159,29 @@ define([
         },
         tellOther: function (data) {
             if (this.socket != null) {
-                this.socket.emit("tell.other", {
+                var enhancedData = {
                     who: this.who,
                     what: data.what,
                     when: new Date().getTime()
-                }, lang.hitch(this, this.logMessage));
+                };
 
-                topic.publish("/messageList/someone.said", { who: this.who, what: data.what });
+                this.socket.emit("tell.other", enhancedData, lang.hitch(this, this.logMessage));
+
+                topic.publish("/messageList/someone.said", enhancedData);
             }
         },
         tellSomeone: function (data) {
             if (this.socket != null) {
-                this.socket.emit("tell.someone", {
+                var enhancedData = {
                     who: this.who,
                     whom: data.whom,
                     what: data.what,
                     when: new Date().getTime()
-                }, lang.hitch(this, this.logMessage));
+                };
 
-                topic.publish("/messageList/someone.said", { who: this.who, what: data.what });
+                this.socket.emit("tell.someone", enhancedData, lang.hitch(this, this.logMessage));
+
+                topic.publish("/messageList/someone.said", enhancedData);
             }
         },
         whoAreThere: function () {

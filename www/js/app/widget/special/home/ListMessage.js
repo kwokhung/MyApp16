@@ -13,20 +13,35 @@ define([
         clearMessageSubscriber: null,
         gotoTopSubscriber: null,
         gotoBottomSubscriber: null,
-        appendMessage: function (who, what) {
+        appendMessage: function (data) {
             var itemCount = this.data.length;
             var itemId = this.id + "_" + (itemCount + 1);
 
+            var date = new Date(data.when);
+            var year = date.getFullYear();
+            var month = date.getMonth() + 1;
+            var day = date.getDate();
+            var hh = date.getHours();
+            var mm = date.getMinutes();
+            var ss = date.getSeconds();
+
+            var when = "" + year + "-" +
+            (month < 10 ? "0" + month : month) + "-" +
+            (day < 10 ? "0" + day : day) + " " +
+            (hh < 10 ? "0" + hh : hh) + ":" +
+            (mm < 10 ? "0" + mm : mm) + ":" +
+            (ss < 10 ? "0" + ss : ss);
+
             var label = null;
 
-            if (typeof what != "undefined" && (typeof what == "string" || (what != null && what.constructor == String))) {
-                label = "<span style='color: blue;'>" + who + "</span><br />" + what.replace(/\n/g, "<br />");
+            if (typeof data.what != "undefined" && (typeof data.what == "string" || (data.what != null && data.what.constructor == String))) {
+                label = "<span style='color: blue;'>" + data.who + "</span><span style='font-size: 50%; color: green; float: right;'>" + when + "</span><br />" + data.what.replace(/\n/g, "<br />");
             }
-            else if (typeof what != "undefined" && (typeof what == "object" || (what != null && what.constructor == Object))) {
-                label = "<span style='color: blue;'>" + who + "</span><br />" + json.stringify(what);
+            else if (typeof data.what != "undefined" && (typeof data.what == "object" || (data.what != null && data.what.constructor == Object))) {
+                label = "<span style='color: blue;'>" + data.who + "</span><span style='font-size: 50%; color: green; float: right;'>" + when + "</span><br />" + json.stringify(data.what);
             }
             else {
-                label = "<span style='color: blue;'>" + who + "</span><br />" + what;
+                label = "<span style='color: blue;'>" + data.who + "</span><span style='font-size: 50%; color: green; float: right;'>" + when + "</span><br />" + data.what;
             }
 
             this.store.put({
@@ -38,7 +53,7 @@ define([
             this.getParent().scrollIntoView(registry.byId(itemId).domNode);
         },
         someoneSaid: function (data) {
-            this.appendMessage(data.who, data.what);
+            this.appendMessage(data);
         },
         clearMessage: function () {
             array.forEach(this.store.query({}), lang.hitch(this, function (item, index) {
