@@ -9,7 +9,7 @@ define([
 ], function (declare, lang, array, topic, registry, RoundRectStoreList, StoredData) {
     return declare("app.widget.special.home.ListResourceMonitorMessage", [RoundRectStoreList, StoredData], {
         resourceUrl: null,
-        who: null,
+        who: "anonymous",
         socket: null,
         setResourceUrlSubscriber: null,
         iAmSubscriber: null,
@@ -205,8 +205,6 @@ define([
                         when: new Date().getTime()
                     }, lang.hitch(this, this.logMessage));
                 }
-
-                this.who = data.who;
             }
             else {
                 if (this.socket != null) {
@@ -216,6 +214,8 @@ define([
                     }, lang.hitch(this, this.logMessage));
                 }
             }
+
+            this.who = "anonymous";
         },
         tellOther: function (data) {
             if (this.socket != null) {
