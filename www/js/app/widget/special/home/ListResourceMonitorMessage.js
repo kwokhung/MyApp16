@@ -13,6 +13,7 @@ define([
         socket: null,
         setResourceUrlSubscriber: null,
         iAmSubscriber: null,
+        iAmNoMoreSubscriber: null,
         tellOtherSubscriber: null,
         tellSomeoneSubscriber: null,
         whoAreThereSubscriber: null,
@@ -67,8 +68,18 @@ define([
                     this.whoAreThere();
                 }));
 
+                socket.on("you.are.no.more", lang.hitch(this, function (data) {
+                    this.appendMessage("you.are.no.more", data.who);
+                    this.whoAreThere();
+                }));
+
                 socket.on("he.is", lang.hitch(this, function (data) {
                     this.appendMessage("he.is", data.who);
+                    this.whoAreThere();
+                }));
+
+                socket.on("he.is.no.more", lang.hitch(this, function (data) {
+                    this.appendMessage("he.is.no.more", data.who);
                     this.whoAreThere();
                 }));
 
@@ -117,6 +128,10 @@ define([
 
                 socket.on("someone.joined", lang.hitch(this, function (data) {
                     this.appendMessage("someone.joined", data.who);
+                }));
+
+                socket.on("someone.left", lang.hitch(this, function (data) {
+                    this.appendMessage("someone.left", data.who);
                 }));
 
                 socket.on("someone.beat", lang.hitch(this, function (data) {
@@ -176,6 +191,26 @@ define([
             else {
                 if (this.socket != null) {
                     this.socket.emit("i.am", {
+                        who: this.who,
+                        when: new Date().getTime()
+                    }, lang.hitch(this, this.logMessage));
+                }
+            }
+        },
+        iAmNoMore: function (data) {
+            if (typeof data != "undefined" && typeof data.who != "undefined" && data.who != null && data.who != "") {
+                if (this.socket != null) {
+                    this.socket.emit("i.am.no.more", {
+                        who: data.who,
+                        when: new Date().getTime()
+                    }, lang.hitch(this, this.logMessage));
+                }
+
+                this.who = data.who;
+            }
+            else {
+                if (this.socket != null) {
+                    this.socket.emit("i.am.no.more", {
                         who: this.who,
                         when: new Date().getTime()
                     }, lang.hitch(this, this.logMessage));
@@ -249,6 +284,7 @@ define([
 
                 this.setResourceUrlSubscriber = topic.subscribe("/resourceMonitor/set.resource.url", lang.hitch(this, this.setResourceUrl));
                 this.iAmSubscriber = topic.subscribe("/resourceMonitor/i.am", lang.hitch(this, this.iAm));
+                this.iAmNoMoreSubscriber = topic.subscribe("/resourceMonitor/i.am.no.more", lang.hitch(this, this.iAmNoMore));
                 this.tellOtherSubscriber = topic.subscribe("/resourceMonitor/tell.other", lang.hitch(this, this.tellOther));
                 this.tellSomeoneSubscriber = topic.subscribe("/resourceMonitor/tell.someone", lang.hitch(this, this.tellSomeone));
                 this.whoAreThereSubscriber = topic.subscribe("/resourceMonitor/who.are.there", lang.hitch(this, this.whoAreThere));
@@ -268,6 +304,11 @@ define([
             if (this.iAmSubscriber != null) {
                 this.iAmSubscriber.remove();
                 this.iAmSubscriber = null;
+            }
+
+            if (this.iAmNoMoreSubscriber != null) {
+                this.iAmNoMoreSubscriber.remove();
+                this.iAmNoMoreSubscriber = null;
             }
 
             if (this.tellOtherSubscriber != null) {
