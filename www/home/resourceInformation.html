@@ -28,16 +28,22 @@
                 </div>
             </div>
         </form>
-        <div data-dojo-type="dojox/mobile/RoundRect" data-dojo-props="shadow: true">
-            <div data-dojo-type="dojox/mobile/ScrollablePane" data-dojo-mixins="app/widget/_Resizable" data-dojo-props="height: '500px'">
-                <ul data-dojo-type="app/widget/special/home/ListResourceDisk">
-                </ul>
+        <div data-dojo-type="dojox/mobile/Accordion">
+            <div data-dojo-type="dojox/mobile/Container" data-dojo-props="label: 'Disk'">
+                <div data-dojo-type="dojox/mobile/RoundRect" data-dojo-props="shadow: true">
+                    <div data-dojo-type="dojox/mobile/ScrollablePane" data-dojo-mixins="app/widget/_Resizable" data-dojo-props="height: '500px'">
+                        <ul data-dojo-type="app/widget/special/home/ListResourceDisk">
+                        </ul>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div data-dojo-type="dojox/mobile/RoundRect" data-dojo-props="shadow: true">
-            <div data-dojo-type="dojox/mobile/ScrollablePane" data-dojo-mixins="app/widget/_Resizable" data-dojo-props="height: '500px'">
-                <ul data-dojo-type="app/widget/special/home/ListResourceProcess">
-                </ul>
+            <div data-dojo-type="dojox/mobile/Container" data-dojo-props="label: 'Process'">
+                <div data-dojo-type="dojox/mobile/RoundRect" data-dojo-props="shadow: true">
+                    <div data-dojo-type="dojox/mobile/ScrollablePane" data-dojo-mixins="app/widget/_Resizable" data-dojo-props="height: '500px'">
+                        <ul data-dojo-type="app/widget/special/home/ListResourceProcess">
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
