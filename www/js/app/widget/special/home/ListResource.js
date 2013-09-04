@@ -45,10 +45,6 @@ define([
                     e.preventDefault();
                 }
 
-                registry.byId("txtResourceName").set("value", "undefined");
-                registry.byId("txtResourcePlatform").set("value", "undefined");
-                registry.byId("txtResourceArch").set("value", "undefined");
-
                 topic.publish("/resourceInformation/show.details", data);
             }));
 

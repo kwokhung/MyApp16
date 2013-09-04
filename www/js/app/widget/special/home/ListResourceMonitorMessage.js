@@ -97,32 +97,7 @@ define([
                     topic.publish("/messageList/someone.said", data);
 
                     if (typeof data.what.toDo != "undefined" && data.what.toDo != null) {
-                        switch (data.what.toDo) {
-                            case "draw":
-                                topic.publish("/canvas/draw", data);
-
-                                break;
-
-                            case "updateYourDetails":
-                                var enhancedData = {
-                                    whom: data.who,
-                                    what: {
-                                        toDo: "updateHisDetails",
-                                        name: this.who
-                                    }
-                                };
-
-                                this.tellSomeone(enhancedData);
-
-                                break;
-
-                            case "updateHisDetails":
-                                registry.byId("txtResourceName").set("value", data.what.name);
-                                registry.byId("txtResourcePlatform").set("value", data.what.platform);
-                                registry.byId("txtResourceArch").set("value", data.what.arch);
-
-                                break;
-                        }
+                        this.whatToDo(data);
                     }
                 }));
 
@@ -249,8 +224,31 @@ define([
                 this.socket.emit("who.are.there", null, lang.hitch(this, this.logMessage));
             }
         },
-        whatAreSaid: function () {
-            alert("whatAreSaid");
+        whatToDo: function (data) {
+            switch (data.what.toDo) {
+                case "draw":
+                    topic.publish("/canvas/draw", data);
+
+                    break;
+
+                case "updateYourDetails":
+                    this.tellSomeone({
+                        whom: data.who,
+                        what: {
+                            toDo: "updateHisDetails",
+                            details: {
+                                who: this.who
+                            }
+                        }
+                    });
+
+                    break;
+
+                case "updateHisDetails":
+                    topic.publish("/resourceInformation/render.details", data);
+
+                    break;
+            }
         },
         clearMessage: function () {
             array.forEach(this.store.query({}), lang.hitch(this, function (item, index) {
