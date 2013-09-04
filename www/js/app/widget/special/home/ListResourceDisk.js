@@ -18,7 +18,7 @@ define([
 
             this.store.put({
                 "id": itemId,
-                "label": "<span style='color: blue;'>" + data.name + "</span><br />" + data.size + " / " + data.freeSpace,
+                "label": "<span style='color: blue;'>" + data.name + "</span><br />" + data.freeSpace + " / " + data.size,
                 "variableHeight": true
             });
 
