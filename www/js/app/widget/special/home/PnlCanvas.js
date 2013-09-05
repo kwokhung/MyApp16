@@ -6,14 +6,14 @@ define([
     "dojo/dom-construct",
     "dojo/on",
     "dojo/topic",
-    "dojox/mobile/Pane"
-], function (declare, lang, array, domGeom, domConstruct, on, topic, Pane) {
-    return declare("app.widget.special.home.PnlCanvas", [Pane], {
+    "dojox/mobile/Pane",
+    "app/widget/_Subscriber"
+], function (declare, lang, array, domGeom, domConstruct, on, topic, Pane, _Subscriber) {
+    return declare("app.widget.special.home.PnlCanvas", [Pane, _Subscriber], {
         width: null,
         height: null,
         backgroundColor: "transparent",
         ctx: null,
-        subscribers: [],
         draw: function (data) {
             switch (data.what.type) {
                 case "mousedown":
@@ -97,16 +97,6 @@ define([
             }));
 
             this.subscribers.push(topic.subscribe("/canvas/draw", lang.hitch(this, this.draw)));
-        },
-        destroy: function () {
-            this.inherited(arguments);
-
-            array.forEach(this.subscribers, lang.hitch(this, function (item, index) {
-                if (item != null) {
-                    item.remove();
-                    item = null;
-                }
-            }));
         }
     });
 });

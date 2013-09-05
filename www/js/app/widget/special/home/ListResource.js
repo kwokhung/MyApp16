@@ -6,10 +6,10 @@ define([
     "dojo/topic",
     "dijit/registry",
     "dojox/mobile/RoundRectStoreList",
-    "app/util/StoredData"
-], function (declare, lang, array, on, topic, registry, RoundRectStoreList, StoredData) {
-    return declare("app.widget.special.home.ListResource", [RoundRectStoreList, StoredData], {
-        subscribers: [],
+    "app/util/StoredData",
+    "app/widget/_Subscriber"
+], function (declare, lang, array, on, topic, registry, RoundRectStoreList, StoredData, _Subscriber) {
+    return declare("app.widget.special.home.ListResource", [RoundRectStoreList, StoredData, _Subscriber], {
         appendMessage: function (data) {
             var itemCount = this.data.length;
             var itemId = this.id + "_" + (itemCount + 1);
@@ -104,16 +104,6 @@ define([
             this.subscribers.push(topic.subscribe("/resourceList/goto.bottom", lang.hitch(this, this.gotoBottom)));
 
             topic.publish("/resourceMonitor/who.are.there");
-        },
-        destroy: function () {
-            this.inherited(arguments);
-
-            array.forEach(this.subscribers, lang.hitch(this, function (item, index) {
-                if (item != null) {
-                    item.remove();
-                    item = null;
-                }
-            }));
         }
     });
 });

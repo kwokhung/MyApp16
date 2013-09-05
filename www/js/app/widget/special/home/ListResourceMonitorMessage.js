@@ -5,13 +5,13 @@ define([
     "dojo/topic",
     "dijit/registry",
     "dojox/mobile/RoundRectStoreList",
-    "app/util/StoredData"
-], function (declare, lang, array, topic, registry, RoundRectStoreList, StoredData) {
-    return declare("app.widget.special.home.ListResourceMonitorMessage", [RoundRectStoreList, StoredData], {
+    "app/util/StoredData",
+    "app/widget/_Subscriber"
+], function (declare, lang, array, topic, registry, RoundRectStoreList, StoredData, _Subscriber) {
+    return declare("app.widget.special.home.ListResourceMonitorMessage", [RoundRectStoreList, StoredData, _Subscriber], {
         resourceUrl: null,
         who: "anonymous",
         socket: null,
-        subscribers: [],
         appendMessage: function (label, message) {
             var itemCount = this.data.length;
             var itemId = this.id + "_" + (itemCount + 1);
@@ -282,16 +282,6 @@ define([
                 this.subscribers.push(topic.subscribe("/resourceMonitor/goto.top", lang.hitch(this, this.gotoTop)));
                 this.subscribers.push(topic.subscribe("/resourceMonitor/goto.bottom", lang.hitch(this, this.gotoBottom)));
             }
-        },
-        destroy: function () {
-            this.inherited(arguments);
-
-            array.forEach(this.subscribers, lang.hitch(this, function (item, index) {
-                if (item != null) {
-                    item.remove();
-                    item = null;
-                }
-            }));
         }
     });
 });

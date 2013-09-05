@@ -1,13 +1,12 @@
 define([
     "dojo/_base/declare",
     "dojo/_base/lang",
-    "dojo/_base/array",
-    "dojo/topic"
-], function (declare, lang, array, topic) {
-    return declare("app.widget._ShowHideSubscriber", null, {
+    "dojo/topic",
+    "app/widget/_Subscriber"
+], function (declare, lang, topic, _Subscriber) {
+    return declare("app.widget._ShowHideSubscriber", [_Subscriber], {
         showTopicId: null,
         hideTopicId: null,
-        subscribers: [],
         postCreate: function () {
             this.inherited(arguments);
 
@@ -18,16 +17,6 @@ define([
             if (this.hideTopicId != null) {
                 this.subscribers.push(topic.subscribe(this.hideTopicId, lang.hitch(this, this.hide)));
             }
-        },
-        destroy: function () {
-            this.inherited(arguments);
-
-            array.forEach(this.subscribers, lang.hitch(this, function (item, index) {
-                if (item != null) {
-                    item.remove();
-                    item = null;
-                }
-            }));
         }
     });
 });

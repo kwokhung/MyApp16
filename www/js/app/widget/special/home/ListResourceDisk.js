@@ -2,14 +2,13 @@ define([
     "dojo/_base/declare",
     "dojo/_base/lang",
     "dojo/_base/array",
-    "dojo/on",
     "dojo/topic",
     "dijit/registry",
     "dojox/mobile/RoundRectStoreList",
-    "app/util/StoredData"
-], function (declare, lang, array, on, topic, registry, RoundRectStoreList, StoredData) {
-    return declare("app.widget.special.home.ListResourceDisk", [RoundRectStoreList, StoredData], {
-        subscribers: [],
+    "app/util/StoredData",
+    "app/widget/_Subscriber"
+], function (declare, lang, array, topic, registry, RoundRectStoreList, StoredData, _Subscriber) {
+    return declare("app.widget.special.home.ListResourceDisk", [RoundRectStoreList, StoredData, _Subscriber], {
         appendMessage: function (data) {
             var itemCount = this.data.length;
             var itemId = this.id + "_" + (itemCount + 1);
@@ -28,6 +27,11 @@ define([
             }));
             array.forEach(who, lang.hitch(this, function (item, index) {
                 this.appendMessage(item);
+            }));
+        },
+        clearMessage: function () {
+            array.forEach(this.store.query({}), lang.hitch(this, function (item, index) {
+                this.store.remove(item.id);
             }));
         },
         gotoTop: function () {
@@ -51,18 +55,9 @@ define([
             this.setStore(this.store);
 
             this.subscribers.push(topic.subscribe("/resourceDiskList/there.are", lang.hitch(this, this.thereAre)));
+            this.subscribers.push(topic.subscribe("/resourceDiskList/clear.message", lang.hitch(this, this.clearMessage)));
             this.subscribers.push(topic.subscribe("/resourceDiskList/goto.top", lang.hitch(this, this.gotoTop)));
             this.subscribers.push(topic.subscribe("/resourceDiskList/goto.bottom", lang.hitch(this, this.gotoBottom)));
-        },
-        destroy: function () {
-            this.inherited(arguments);
-
-            array.forEach(this.subscribers, lang.hitch(this, function (item, index) {
-                if (item != null) {
-                    item.remove();
-                    item = null;
-                }
-            }));
         }
     });
 });
