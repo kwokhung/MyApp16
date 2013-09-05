@@ -23,7 +23,6 @@ define([
             });
         },
         renderDetails: function (data) {
-            console.debug(data.what.details);
             registry.byId("txtResourceName").set("value", data.what.details.who);
             registry.byId("txtResourcePlatform").set("value", data.what.platform);
             registry.byId("txtResourceArch").set("value", data.what.arch);
