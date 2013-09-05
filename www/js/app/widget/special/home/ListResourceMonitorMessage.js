@@ -12,21 +12,21 @@ define([
         resourceUrl: null,
         who: "anonymous",
         socket: null,
-        appendMessage: function (label, message) {
+        appendMessage: function (data) {
             var itemCount = this.data.length;
             var itemId = this.id + "_" + (itemCount + 1);
 
-            if (typeof message != "undefined" && (typeof message == "string" || (message != null && message.constructor == String))) {
+            if (typeof data.what != "undefined" && (typeof data.what == "string" || (data.what != null && data.what.constructor == String))) {
                 this.store.put({
                     "id": itemId,
-                    "label": "<span style='color: blue;'>" + label + "</span><br />" + message.replace(/\n/g, "<br />"),
+                    "label": "<span style='color: blue;'>" + data.who + "</span><br />" + data.what.replace(/\n/g, "<br />"),
                     "variableHeight": true
                 });
             }
             else {
                 this.store.put({
                     "id": itemId,
-                    "label": "<span style='color: blue;'>" + label + "</span><br />" + message,
+                    "label": "<span style='color: blue;'>" + data.who + "</span><br />" + data.what,
                     "variableHeight": true
                 });
             }
@@ -34,20 +34,20 @@ define([
             this.getParent().scrollIntoView(registry.byId(itemId).domNode, false);
         },
         logMessage: function (data) {
-            this.appendMessage("System", data.message);
+            this.appendMessage({ who: "System", what: data.message });
         },
         handleMessage: function () {
             var socket = this.socket;
 
             socket.on("connecting", lang.hitch(this, function () {
-                this.appendMessage("System", "connecting");
+                this.appendMessage({ who: "System", what: "connecting" });
             }));
 
             socket.on("connect", lang.hitch(this, function () {
-                this.appendMessage("System", "connect");
+                this.appendMessage({ who: "System", what: "connect" });
 
                 socket.on("heartbeat", lang.hitch(this, function (data) {
-                    this.appendMessage("heartbeat", data.when);
+                    this.appendMessage({ who: "heartbeat", what: data.when });
 
                     socket.emit("heartbeat", {
                         who: this.who,
@@ -56,35 +56,35 @@ define([
                 }));
 
                 socket.on("you.are", lang.hitch(this, function (data) {
-                    this.appendMessage("you.are", data.who);
+                    this.appendMessage({ who: "you.are", what: data.who });
                     this.whoAreThere();
                 }));
 
                 socket.on("you.are.no.more", lang.hitch(this, function (data) {
-                    this.appendMessage("you.are.no.more", data.who);
+                    this.appendMessage({ who: "you.are.no.more", what: data.who });
                     this.whoAreThere();
                 }));
 
                 socket.on("he.is", lang.hitch(this, function (data) {
-                    this.appendMessage("he.is", data.who);
+                    this.appendMessage({ who: "he.is", what: data.who });
                     this.whoAreThere();
                 }));
 
                 socket.on("he.is.no.more", lang.hitch(this, function (data) {
-                    this.appendMessage("he.is.no.more", data.who);
+                    this.appendMessage({ who: "he.is.no.more", what: data.who });
                     this.whoAreThere();
                 }));
 
                 socket.on("there.are", lang.hitch(this, function (data) {
                     array.forEach(data.who, lang.hitch(this, function (item, index) {
-                        this.appendMessage("there.are", item.who);
+                        this.appendMessage({ who: "there.are", what: item.who });
                     }));
 
                     topic.publish("/resourceList/there.are", data.who);
                 }));
 
                 socket.on("someone.said", lang.hitch(this, function (data) {
-                    this.appendMessage("someone.said", data.what + " by " + data.who);
+                    this.appendMessage({ who: "someone.said", what: data.what + " by " + data.who });
 
                     topic.publish("/messageList/someone.said", data);
 
@@ -94,15 +94,15 @@ define([
                 }));
 
                 socket.on("someone.joined", lang.hitch(this, function (data) {
-                    this.appendMessage("someone.joined", data.who);
+                    this.appendMessage({ who: "someone.joined", what: data.who });
                 }));
 
                 socket.on("someone.left", lang.hitch(this, function (data) {
-                    this.appendMessage("someone.left", data.who);
+                    this.appendMessage({ who: "someone.left", what: data.who });
                 }));
 
                 socket.on("someone.beat", lang.hitch(this, function (data) {
-                    this.appendMessage("someone.beat", data.when + " by " + data.who);
+                    this.appendMessage({ who: "someone.beat", what: data.when + " by " + data.who });
 
                     topic.publish("/resourceList/someone.beat", data);
                 }));
@@ -111,31 +111,31 @@ define([
             }));
 
             socket.on("connect_failed", lang.hitch(this, function (e) {
-                this.appendMessage("System", (e ? e.type : "connect_failed"));
+                this.appendMessage({ who: "System", what: (e ? e.type : "connect_failed") });
             }));
 
             socket.on("message", lang.hitch(this, function (message, callback) {
-                this.appendMessage("System", message);
+                this.appendMessage({ who: "System", what: message });
             }));
 
             socket.on("disconnect", lang.hitch(this, function () {
-                this.appendMessage("disconnect", "disconnect");
+                this.appendMessage({ who: "disconnect", what: "disconnect" });
             }));
 
             socket.on("reconnecting", lang.hitch(this, function () {
-                this.appendMessage("System", "reconnecting");
+                this.appendMessage({ who: "System", what: "reconnecting" });
             }));
 
             socket.on("reconnect", lang.hitch(this, function () {
-                this.appendMessage("System", "reconnect");
+                this.appendMessage({ who: "System", what: "reconnect" });
             }));
 
             socket.on("reconnect_failed", lang.hitch(this, function () {
-                this.appendMessage("System", (e ? e.type : "reconnect_failed"));
+                this.appendMessage({ who: "System", what: (e ? e.type : "reconnect_failed") });
             }));
 
             socket.on("error", lang.hitch(this, function (e) {
-                this.appendMessage("System", (e ? e.type : "unknown error"));
+                this.appendMessage({ who: "System", what: (e ? e.type : "unknown error") });
             }));
         },
         setResourceUrl: function (resourceUrl) {
