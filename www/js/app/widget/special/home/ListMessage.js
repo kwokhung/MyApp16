@@ -9,10 +9,7 @@ define([
     "app/util/StoredData"
 ], function (declare, lang, array, json, topic, registry, RoundRectStoreList, StoredData) {
     return declare("app.widget.special.home.ListMessage", [RoundRectStoreList, StoredData], {
-        messageSubscriber: null,
-        clearMessageSubscriber: null,
-        gotoTopSubscriber: null,
-        gotoBottomSubscriber: null,
+        subscribers: [],
         appendMessage: function (data) {
             var itemCount = this.data.length;
             var itemId = this.id + "_" + (itemCount + 1);
@@ -80,33 +77,20 @@ define([
             this.storeLabel = "Message";
             this.setStore(this.store);
 
-            this.messageSubscriber = topic.subscribe("/messageList/someone.said", lang.hitch(this, this.someoneSaid));
-            this.clearMessageSubscriber = topic.subscribe("/messageList/clear.message", lang.hitch(this, this.clearMessage));
-            this.gotoTopSubscriber = topic.subscribe("/messageList/goto.top", lang.hitch(this, this.gotoTop));
-            this.gotoBottomSubscriber = topic.subscribe("/messageList/goto.bottom", lang.hitch(this, this.gotoBottom));
+            this.subscribers.push(topic.subscribe("/messageList/someone.said", lang.hitch(this, this.someoneSaid)));
+            this.subscribers.push(topic.subscribe("/messageList/clear.message", lang.hitch(this, this.clearMessage)));
+            this.subscribers.push(topic.subscribe("/messageList/goto.top", lang.hitch(this, this.gotoTop)));
+            this.subscribers.push(topic.subscribe("/messageList/goto.bottom", lang.hitch(this, this.gotoBottom)));
         },
         destroy: function () {
             this.inherited(arguments);
 
-            if (this.messageSubscriber != null) {
-                this.messageSubscriber.remove();
-                this.messageSubscriber = null;
-            }
-
-            if (this.clearMessageSubscriber != null) {
-                this.clearMessageSubscriber.remove();
-                this.clearMessageSubscriber = null;
-            }
-
-            if (this.gotoTopSubscriber != null) {
-                this.gotoTopSubscriber.remove();
-                this.gotoTopSubscriber = null;
-            }
-
-            if (this.gotoBottomSubscriber != null) {
-                this.gotoBottomSubscriber.remove();
-                this.gotoBottomSubscriber = null;
-            }
+            array.forEach(this.subscribers, lang.hitch(this, function (item, index) {
+                if (item != null) {
+                    item.remove();
+                    item = null;
+                }
+            }));
         }
     });
 });

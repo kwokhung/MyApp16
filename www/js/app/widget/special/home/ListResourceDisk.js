@@ -9,9 +9,7 @@ define([
     "app/util/StoredData"
 ], function (declare, lang, array, on, topic, registry, RoundRectStoreList, StoredData) {
     return declare("app.widget.special.home.ListResourceDisk", [RoundRectStoreList, StoredData], {
-        resourceSubscriber: null,
-        gotoTopSubscriber: null,
-        gotoBottomSubscriber: null,
+        subscribers: [],
         appendMessage: function (data) {
             var itemCount = this.data.length;
             var itemId = this.id + "_" + (itemCount + 1);
@@ -52,27 +50,19 @@ define([
             this.storeLabel = "Resource Disk";
             this.setStore(this.store);
 
-            this.resourceSubscriber = topic.subscribe("/resourceDiskList/there.are", lang.hitch(this, this.thereAre));
-            this.gotoTopSubscriber = topic.subscribe("/resourceDiskList/goto.top", lang.hitch(this, this.gotoTop));
-            this.gotoBottomSubscriber = topic.subscribe("/resourceDiskList/goto.bottom", lang.hitch(this, this.gotoBottom));
+            this.subscribers.push(topic.subscribe("/resourceDiskList/there.are", lang.hitch(this, this.thereAre)));
+            this.subscribers.push(topic.subscribe("/resourceDiskList/goto.top", lang.hitch(this, this.gotoTop)));
+            this.subscribers.push(topic.subscribe("/resourceDiskList/goto.bottom", lang.hitch(this, this.gotoBottom)));
         },
         destroy: function () {
             this.inherited(arguments);
 
-            if (this.resourceSubscriber != null) {
-                this.resourceSubscriber.remove();
-                this.resourceSubscriber = null;
-            }
-
-            if (this.gotoTopSubscriber != null) {
-                this.gotoTopSubscriber.remove();
-                this.gotoTopSubscriber = null;
-            }
-
-            if (this.gotoBottomSubscriber != null) {
-                this.gotoBottomSubscriber.remove();
-                this.gotoBottomSubscriber = null;
-            }
+            array.forEach(this.subscribers, lang.hitch(this, function (item, index) {
+                if (item != null) {
+                    item.remove();
+                    item = null;
+                }
+            }));
         }
     });
 });

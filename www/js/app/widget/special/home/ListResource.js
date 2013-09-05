@@ -9,10 +9,7 @@ define([
     "app/util/StoredData"
 ], function (declare, lang, array, on, topic, registry, RoundRectStoreList, StoredData) {
     return declare("app.widget.special.home.ListResource", [RoundRectStoreList, StoredData], {
-        resourceSubscriber: null,
-        resourceBeatSubscriber: null,
-        gotoTopSubscriber: null,
-        gotoBottomSubscriber: null,
+        subscribers: [],
         appendMessage: function (data) {
             var itemCount = this.data.length;
             var itemId = this.id + "_" + (itemCount + 1);
@@ -101,35 +98,22 @@ define([
             this.storeLabel = "Resource";
             this.setStore(this.store);
 
-            this.resourceSubscriber = topic.subscribe("/resourceList/there.are", lang.hitch(this, this.thereAre));
-            this.resourceBeatSubscriber = topic.subscribe("/resourceList/someone.beat", lang.hitch(this, this.someoneBeat));
-            this.gotoTopSubscriber = topic.subscribe("/resourceList/goto.top", lang.hitch(this, this.gotoTop));
-            this.gotoBottomSubscriber = topic.subscribe("/resourceList/goto.bottom", lang.hitch(this, this.gotoBottom));
+            this.subscribers.push(topic.subscribe("/resourceList/there.are", lang.hitch(this, this.thereAre)));
+            this.subscribers.push(topic.subscribe("/resourceList/someone.beat", lang.hitch(this, this.someoneBeat)));
+            this.subscribers.push(topic.subscribe("/resourceList/goto.top", lang.hitch(this, this.gotoTop)));
+            this.subscribers.push(topic.subscribe("/resourceList/goto.bottom", lang.hitch(this, this.gotoBottom)));
 
             topic.publish("/resourceMonitor/who.are.there");
         },
         destroy: function () {
             this.inherited(arguments);
 
-            if (this.resourceSubscriber != null) {
-                this.resourceSubscriber.remove();
-                this.resourceSubscriber = null;
-            }
-
-            if (this.resourceBeatSubscriber != null) {
-                this.resourceBeatSubscriber.remove();
-                this.resourceBeatSubscriber = null;
-            }
-
-            if (this.gotoTopSubscriber != null) {
-                this.gotoTopSubscriber.remove();
-                this.gotoTopSubscriber = null;
-            }
-
-            if (this.gotoBottomSubscriber != null) {
-                this.gotoBottomSubscriber.remove();
-                this.gotoBottomSubscriber = null;
-            }
+            array.forEach(this.subscribers, lang.hitch(this, function (item, index) {
+                if (item != null) {
+                    item.remove();
+                    item = null;
+                }
+            }));
         }
     });
 });

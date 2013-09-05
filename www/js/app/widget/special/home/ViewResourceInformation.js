@@ -1,13 +1,13 @@
 define([
     "dojo/_base/declare",
     "dojo/_base/lang",
+    "dojo/_base/array",
     "dojo/topic",
     "dijit/registry",
     "dojox/mobile/View"
-], function (declare, lang, topic, registry, View) {
+], function (declare, lang, array, topic, registry, View) {
     return declare("app.widget.special.home.ViewResourceInformation", [View], {
-        resourceSubscriber: null,
-        resourceInformationSubscriber: null,
+        subscribers: [],
         showDetails: function (data) {
             registry.byId("txtResourceName").set("value", "undefined");
             registry.byId("txtResourcePlatform").set("value", "undefined");
@@ -31,21 +31,18 @@ define([
         postCreate: function () {
             this.inherited(arguments);
 
-            this.resourceSubscriber = topic.subscribe("/resourceInformation/show.details", lang.hitch(this, this.showDetails));
-            this.resourceInformationSubscriber = topic.subscribe("/resourceInformation/render.details", lang.hitch(this, this.renderDetails));
+            this.subscribers.push(topic.subscribe("/resourceInformation/show.details", lang.hitch(this, this.showDetails)));
+            this.subscribers.push(topic.subscribe("/resourceInformation/render.details", lang.hitch(this, this.renderDetails)));
         },
         destroy: function () {
             this.inherited(arguments);
 
-            if (this.resourceSubscriber != null) {
-                this.resourceSubscriber.remove();
-                this.resourceSubscriber = null;
-            }
-
-            if (this.resourceInformationSubscriber != null) {
-                this.resourceInformationSubscriber.remove();
-                this.resourceInformationSubscriber = null;
-            }
+            array.forEach(this.subscribers, lang.hitch(this, function (item, index) {
+                if (item != null) {
+                    item.remove();
+                    item = null;
+                }
+            }));
         }
     });
 });

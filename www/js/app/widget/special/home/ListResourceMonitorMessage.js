@@ -11,15 +11,7 @@ define([
         resourceUrl: null,
         who: "anonymous",
         socket: null,
-        setResourceUrlSubscriber: null,
-        iAmSubscriber: null,
-        iAmNoMoreSubscriber: null,
-        tellOtherSubscriber: null,
-        tellSomeoneSubscriber: null,
-        whoAreThereSubscriber: null,
-        clearMessageSubscriber: null,
-        gotoTopSubscriber: null,
-        gotoBottomSubscriber: null,
+        subscribers: [],
         appendMessage: function (label, message) {
             var itemCount = this.data.length;
             var itemId = this.id + "_" + (itemCount + 1);
@@ -280,64 +272,26 @@ define([
 
                 //this.handleMessage();
 
-                this.setResourceUrlSubscriber = topic.subscribe("/resourceMonitor/set.resource.url", lang.hitch(this, this.setResourceUrl));
-                this.iAmSubscriber = topic.subscribe("/resourceMonitor/i.am", lang.hitch(this, this.iAm));
-                this.iAmNoMoreSubscriber = topic.subscribe("/resourceMonitor/i.am.no.more", lang.hitch(this, this.iAmNoMore));
-                this.tellOtherSubscriber = topic.subscribe("/resourceMonitor/tell.other", lang.hitch(this, this.tellOther));
-                this.tellSomeoneSubscriber = topic.subscribe("/resourceMonitor/tell.someone", lang.hitch(this, this.tellSomeone));
-                this.whoAreThereSubscriber = topic.subscribe("/resourceMonitor/who.are.there", lang.hitch(this, this.whoAreThere));
-                this.clearMessageSubscriber = topic.subscribe("/resourceMonitor/clear.message", lang.hitch(this, this.clearMessage));
-                this.gotoTopSubscriber = topic.subscribe("/resourceMonitor/goto.top", lang.hitch(this, this.gotoTop));
-                this.gotoBottomSubscriber = topic.subscribe("/resourceMonitor/goto.bottom", lang.hitch(this, this.gotoBottom));
+                this.subscribers.push(topic.subscribe("/resourceMonitor/set.resource.url", lang.hitch(this, this.setResourceUrl)));
+                this.subscribers.push(topic.subscribe("/resourceMonitor/i.am", lang.hitch(this, this.iAm)));
+                this.subscribers.push(topic.subscribe("/resourceMonitor/i.am.no.more", lang.hitch(this, this.iAmNoMore)));
+                this.subscribers.push(topic.subscribe("/resourceMonitor/tell.other", lang.hitch(this, this.tellOther)));
+                this.subscribers.push(topic.subscribe("/resourceMonitor/tell.someone", lang.hitch(this, this.tellSomeone)));
+                this.subscribers.push(topic.subscribe("/resourceMonitor/who.are.there", lang.hitch(this, this.whoAreThere)));
+                this.subscribers.push(topic.subscribe("/resourceMonitor/clear.message", lang.hitch(this, this.clearMessage)));
+                this.subscribers.push(topic.subscribe("/resourceMonitor/goto.top", lang.hitch(this, this.gotoTop)));
+                this.subscribers.push(topic.subscribe("/resourceMonitor/goto.bottom", lang.hitch(this, this.gotoBottom)));
             }
         },
         destroy: function () {
             this.inherited(arguments);
 
-            if (this.setResourceUrlSubscriber != null) {
-                this.setResourceUrlSubscriber.remove();
-                this.setResourceUrlSubscriber = null;
-            }
-
-            if (this.iAmSubscriber != null) {
-                this.iAmSubscriber.remove();
-                this.iAmSubscriber = null;
-            }
-
-            if (this.iAmNoMoreSubscriber != null) {
-                this.iAmNoMoreSubscriber.remove();
-                this.iAmNoMoreSubscriber = null;
-            }
-
-            if (this.tellOtherSubscriber != null) {
-                this.tellOtherSubscriber.remove();
-                this.tellOtherSubscriber = null;
-            }
-
-            if (this.tellSomeoneSubscriber != null) {
-                this.tellSomeoneSubscriber.remove();
-                this.tellSomeoneSubscriber = null;
-            }
-
-            if (this.whoAreThereSubscriber != null) {
-                this.whoAreThereSubscriber.remove();
-                this.whoAreThereSubscriber = null;
-            }
-
-            if (this.clearMessageSubscriber != null) {
-                this.clearMessageSubscriber.remove();
-                this.clearMessageSubscriber = null;
-            }
-
-            if (this.gotoTopSubscriber != null) {
-                this.gotoTopSubscriber.remove();
-                this.gotoTopSubscriber = null;
-            }
-
-            if (this.gotoBottomSubscriber != null) {
-                this.gotoBottomSubscriber.remove();
-                this.gotoBottomSubscriber = null;
-            }
+            array.forEach(this.subscribers, lang.hitch(this, function (item, index) {
+                if (item != null) {
+                    item.remove();
+                    item = null;
+                }
+            }));
         }
     });
 });
