@@ -6,40 +6,84 @@
 </head>
 <body>
     <h1 data-dojo-type="dojox/mobile/Heading" data-dojo-props="back: 'Back', moveTo: '#viewResourceList'">Resource Information</h1>
-    <div style="height: 100%;" data-dojo-type="dojox/mobile/ScrollableView" data-dojo-mixins="app/widget/_Resizable">
-        <form>
-            <div data-dojo-type="dojox/mobile/RoundRect" data-dojo-props="shadow: true">
-                <div data-dojo-type="dojox/mobile/FormLayout">
-                    <fieldset>
-                        <legend>Resource</legend>
-                        <div>
-                            <label>Name</label>
-                            <input id="txtResourceName" data-dojo-type="dojox/mobile/TextBox" value="undefined" disabled />
+    <div style="height: 100%;" data-dojo-type="dojox/mobile/View" data-dojo-mixins="app/widget/_Resizable">
+        <div style="height: 600px;" data-dojo-type="dojox/mobile/Accordion" data-dojo-props="fixedHeight: true, singleOpen: true">
+            <div data-dojo-type="dojox/mobile/Container" data-dojo-props="label: 'Summary', selected: true">
+                <form>
+                    <div data-dojo-type="dojox/mobile/RoundRect" data-dojo-props="shadow: true">
+                        <div data-dojo-type="dojox/mobile/FormLayout">
+                            <fieldset>
+                                <legend>Resource</legend>
+                                <div>
+                                    <label>Name</label>
+                                    <input id="txtResourceName" data-dojo-type="dojox/mobile/TextBox" value="undefined" disabled />
+                                </div>
+                                <div>
+                                    <label>Platform</label>
+                                    <input id="txtResourcePlatform" data-dojo-type="dojox/mobile/TextBox" value="undefined" disabled />
+                                </div>
+                                <div>
+                                    <label>Architecture</label>
+                                    <input id="txtResourceArch" data-dojo-type="dojox/mobile/TextBox" value="undefined" disabled />
+                                </div>
+                            </fieldset>
                         </div>
-                        <div>
-                            <label>Platform</label>
-                            <input id="txtResourcePlatform" data-dojo-type="dojox/mobile/TextBox" value="undefined" disabled />
-                        </div>
-                        <div>
-                            <label>Architecture</label>
-                            <input id="txtResourceArch" data-dojo-type="dojox/mobile/TextBox" value="undefined" disabled />
-                        </div>
-                    </fieldset>
-                </div>
+                    </div>
+                </form>
             </div>
-        </form>
-        <div data-dojo-type="dojox/mobile/Accordion">
             <div data-dojo-type="dojox/mobile/Container" data-dojo-props="label: 'Disk'">
+                <h1 data-dojo-type="dojox/mobile/Heading">
+                    <table style="width: 100%; border: none; border-collapse: collapse; padding: 0;">
+                        <tbody>
+                            <tr>
+                                <td style="width: 25%;">
+                                    <span style="float: left;" data-dojo-type="dojox/mobile/ToolBarButton" data-dojo-mixins="app/widget/_Publishable" data-dojo-props="label: 'Top', arrow: 'left', topicId: '/resourceDiskList/goto.top'"></span>
+                                </td>
+                                <td style="width: 50%;">
+                                    <div style="height: 42px;" data-dojo-type="dojox/mobile/GridLayout" data-dojo-props="cols: 1">
+                                        <div data-dojo-type="dojox/mobile/Pane">
+                                            <button class="mblBlueButton full" data-dojo-type="dojox/mobile/Button" data-dojo-mixins="app/widget/_Publishable" data-dojo-props="topicId: '/resourceDiskList/clear.message'">Clear</button>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td style="width: 25%;">
+                                    <span style="float: right;" data-dojo-type="dojox/mobile/ToolBarButton" data-dojo-mixins="app/widget/_Publishable" data-dojo-props="label: 'Bottom', arrow: 'right', topicId: '/resourceDiskList/goto.bottom'"></span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </h1>
                 <div data-dojo-type="dojox/mobile/RoundRect" data-dojo-props="shadow: true">
-                    <div data-dojo-type="dojox/mobile/ScrollablePane" data-dojo-mixins="app/widget/_Resizable" data-dojo-props="height: '500px'">
+                    <div data-dojo-type="dojox/mobile/ScrollablePane" data-dojo-mixins="app/widget/_Resizable" data-dojo-props="height: '400px'">
                         <ul data-dojo-type="app/widget/special/home/ListResourceDisk">
                         </ul>
                     </div>
                 </div>
             </div>
             <div data-dojo-type="dojox/mobile/Container" data-dojo-props="label: 'Process'">
+                <h1 data-dojo-type="dojox/mobile/Heading">
+                    <table style="width: 100%; border: none; border-collapse: collapse; padding: 0;">
+                        <tbody>
+                            <tr>
+                                <td style="width: 25%;">
+                                    <span style="float: left;" data-dojo-type="dojox/mobile/ToolBarButton" data-dojo-mixins="app/widget/_Publishable" data-dojo-props="label: 'Top', arrow: 'left', topicId: '/resourceProcessList/goto.top'"></span>
+                                </td>
+                                <td style="width: 50%;">
+                                    <div style="height: 42px;" data-dojo-type="dojox/mobile/GridLayout" data-dojo-props="cols: 1">
+                                        <div data-dojo-type="dojox/mobile/Pane">
+                                            <button class="mblBlueButton full" data-dojo-type="dojox/mobile/Button" data-dojo-mixins="app/widget/_Publishable" data-dojo-props="topicId: '/resourceProcessList/clear.message'">Clear</button>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td style="width: 25%;">
+                                    <span style="float: right;" data-dojo-type="dojox/mobile/ToolBarButton" data-dojo-mixins="app/widget/_Publishable" data-dojo-props="label: 'Bottom', arrow: 'right', topicId: '/resourceProcessList/goto.bottom'"></span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </h1>
                 <div data-dojo-type="dojox/mobile/RoundRect" data-dojo-props="shadow: true">
-                    <div data-dojo-type="dojox/mobile/ScrollablePane" data-dojo-mixins="app/widget/_Resizable" data-dojo-props="height: '500px'">
+                    <div data-dojo-type="dojox/mobile/ScrollablePane" data-dojo-mixins="app/widget/_Resizable" data-dojo-props="height: '400px'">
                         <ul data-dojo-type="app/widget/special/home/ListResourceProcess">
                         </ul>
                     </div>
