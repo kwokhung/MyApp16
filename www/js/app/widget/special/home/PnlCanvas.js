@@ -40,7 +40,7 @@ define([
         dragToDraw: function (e) {
             var data = {
                 what: {
-                    toDo: "draw",
+                    toDo: "drawCanvas",
                     type: e.type,
                     x: e.clientX - domGeom.position(this.domNode).x,
                     y: e.clientY - domGeom.position(this.domNode).y

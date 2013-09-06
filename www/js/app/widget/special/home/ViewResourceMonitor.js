@@ -198,11 +198,6 @@ define([
         },
         whatToDo: function (data) {
             switch (data.what.toDo) {
-                case "draw":
-                    topic.publish("/canvas/draw", data);
-
-                    break;
-
                 case "updateYourDetails":
                     this.tellSomeone({
                         whom: data.who,
@@ -218,6 +213,16 @@ define([
 
                 case "updateHisDetails":
                     topic.publish("/resourceInformation/render.details", data);
+
+                    break;
+
+                case "drawCanvas":
+                    topic.publish("/canvas/draw", data);
+
+                    break;
+
+                case "displayPhoto":
+                    topic.publish("/photo/display", data);
 
                     break;
             }

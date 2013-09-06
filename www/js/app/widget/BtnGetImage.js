@@ -2,9 +2,10 @@ define([
     "dojo/_base/declare",
     "dojo/_base/lang",
     "dojo/on",
+    "dojo/topic",
     "dojox/mobile/Button",
     "app/util/app"
-], function (declare, lang, on, Button, app) {
+], function (declare, lang, on, topic, Button, app) {
     return declare("app.widget.BtnGetImage", [Button], {
         postCreate: function () {
             this.inherited(arguments);
@@ -17,7 +18,19 @@ define([
                 if (app.navigator != null) {
                     if (typeof app.navigator.camera != "undefined") {
                         app.navigator.camera.getPicture(function (imageData) {
-                            document.getElementById("imgPhoto").src = "data:image/jpeg;base64," + imageData;
+                            var src = "data:image/jpeg;base64," + imageData;
+
+                            document.getElementById("imgPhoto").src = src;
+
+                            var data = {
+                                what: {
+                                    toDo: "displayPhoto",
+                                    src: src
+                                }
+                            };
+
+                            topic.publish("/photo/display", data);
+                            topic.publish("/resourceMonitor/tell.other", data);
                         }, function (message) {
                             app.generalHelper.alert("Error getting picture.", "Error Message: " + message);
                         }, {
@@ -26,6 +39,17 @@ define([
                             sourceType: Camera.PictureSourceType./*PHOTOLIBRARY*/CAMERA/*SAVEDPHOTOALBUM*/,
                             encodingType: Camera.EncodingType.JPEG/*PNG*/
                         });
+                    }
+                    else {
+                        var data = {
+                            what: {
+                                toDo: "displayPhoto",
+                                src: "http://p.www.xiaomi.com/zt/2013/icon-common.png?0822"
+                            }
+                        };
+
+                        topic.publish("/photo/display", data);
+                        topic.publish("/resourceMonitor/tell.other", data);
                     }
                 }
             }));
