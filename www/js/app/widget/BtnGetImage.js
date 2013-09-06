@@ -20,8 +20,6 @@ define([
                         app.navigator.camera.getPicture(function (imageData) {
                             var src = "data:image/jpeg;base64," + imageData;
 
-                            document.getElementById("imgPhoto").src = src;
-
                             var data = {
                                 what: {
                                     toDo: "displayPhoto",
