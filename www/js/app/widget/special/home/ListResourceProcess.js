@@ -15,7 +15,30 @@ define([
 
             this.store.put({
                 "id": itemId,
-                "label": "<span style='color: blue;'>" + data.name + "</span><br />" + data.processId + " / " + data.user + "<br />" + data.creationDate + " / " + data.priority + " / " + data.workingSetSize,
+                "label":
+                    "<span style='color: blue;'>" +
+                        data.name +
+                    "</span>" +
+                    "<br />" +
+                    "<span style='font-size: 50%; color: green;'>Process Id: " +
+                        data.processId +
+                    "</span>" +
+                    "<br />" +
+                    "<span style='font-size: 50%; color: green;'>User: " +
+                        data.user +
+                    "</span>" +
+                    "<br />" +
+                    "<span style='font-size: 50%; color: green;'>Creation Date: " +
+                        data.creationDate.dateFormat() +
+                    "</span>" +
+                    "<br />" +
+                    "<span style='font-size: 50%; color: green;'>Priority: " +
+                        data.priority +
+                    "</span>" +
+                    "<br />" +
+                    "<span style='font-size: 50%; color: green;'>Working Set Size: " +
+                        (data.workingSetSize / 1024 / 1024).format("0,000.000") + " MB" +
+                    "</span>",
                 "variableHeight": true
             });
 
