@@ -29,6 +29,7 @@ define([
 
             topic.publish("/resourceDiskList/clear.message");
             topic.publish("/resourceProcessList/clear.message");
+            topic.publish("/resourceServiceList/clear.message");
 
             topic.publish("/resourceMonitor/tell.someone", {
                 whom: data.who,
