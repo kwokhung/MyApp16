@@ -16,7 +16,6 @@ define([
 
             this.store.put({
                 "id": itemId,
-                "label": "<span style='color: blue;'>" + data.name + "</span><br />" + (data.freeSpace / 1024 / 1024 / 1024).format("0,000.000") + " GB" + " / " + (data.size / 1024 / 1024 / 1024).format("0,000.000") + " GB",
                 "label":
                     "<span style='color: blue;'>" +
                         data.name +

@@ -15,17 +15,27 @@ define([
             var itemCount = this.data.length;
             var itemId = this.id + "_" + (itemCount + 1);
 
-            var label = null;
+            var label =
+                "<span style='color: blue;'>" +
+                    data.who +
+                "</span>" +
+                "<br />" +
+                "<span style='font-size: 50%; color: green;'>" +
+                    data.when.dateFormat() + ": ";
+
 
             if (typeof data.what != "undefined" && (typeof data.what == "string" || (data.what != null && data.what.constructor == String))) {
-                label = "<span style='color: blue;'>" + data.who + "</span><span style='font-size: 50%; color: green; float: right;'>" + data.when.dateFormat() + "</span><br />" + data.what.replace(/\n/g, "<br />");
+                label = label + data.what.replace(/\n/g, "<br />");
             }
             else if (typeof data.what != "undefined" && (typeof data.what == "object" || (data.what != null && data.what.constructor == Object))) {
-                label = "<span style='color: blue;'>" + data.who + "</span><span style='font-size: 50%; color: green; float: right;'>" + data.when.dateFormat() + "</span><br />" + json.stringify(data.what);
+                label = label + json.stringify(data.what);
             }
             else {
-                label = "<span style='color: blue;'>" + data.who + "</span><span style='font-size: 50%; color: green; float: right;'>" + data.when.dateFormat() + "</span><br />" + data.what;
+                label = label + data.what;
             }
+
+            label = label +
+                "</span>";
 
             this.store.put({
                 "id": itemId,

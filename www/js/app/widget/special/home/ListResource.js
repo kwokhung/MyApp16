@@ -18,7 +18,14 @@ define([
             this.store.put({
                 "id": itemId,
                 "who": data.who,
-                "label": "<span style='color: blue;'>" + data.who + "</span><br />" + data.when.dateFormat(),
+                "label":
+                    "<span style='color: blue;'>" +
+                        data.who +
+                    "</span>" +
+                    "<br />" +
+                    "<span style='font-size: 50%; color: green;'>" +
+                        "Last Beat: " + data.when.dateFormat() +
+                    "</span>",
                 "moveTo": "#viewResourceInformation",
                 "variableHeight": true
             });
@@ -45,8 +52,15 @@ define([
             array.forEach(this.store.query({
                 who: data.who
             }), lang.hitch(this, function (item, index) {
-                item.label = "<span style='color: blue;'>" + data.who + "</span><br />" + data.when.dateFormat();
-                this.store.put(item);
+                item.label =
+                    "<span style='color: blue;'>" +
+                        data.who +
+                    "</span>" +
+                    "<br />" +
+                    "<span style='font-size: 50%; color: green;'>" +
+                        "Last Beat: " + data.when.dateFormat() +
+                    "</span>";
+            this.store.put(item);
             }));
         },
         postCreate: function () {
