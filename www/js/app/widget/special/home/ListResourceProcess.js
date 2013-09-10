@@ -20,24 +20,24 @@ define([
                         data.name +
                     "</span>" +
                     "<br />" +
-                    "<span style='font-size: 50%; color: green;'>Process Id: " +
-                        data.processId +
+                    "<span style='font-size: 50%; color: green;'>" +
+                        "Process Id: " + data.processId +
                     "</span>" +
                     "<br />" +
-                    "<span style='font-size: 50%; color: green;'>User: " +
-                        data.user +
+                    "<span style='font-size: 50%; color: green;'>" +
+                        "User: " + data.user +
                     "</span>" +
                     "<br />" +
-                    "<span style='font-size: 50%; color: green;'>Creation Date: " +
-                        data.creationDate.dateFormat() +
+                    "<span style='font-size: 50%; color: green;'>" +
+                        "Creation Date: " + data.creationDate.dateFormat() +
                     "</span>" +
                     "<br />" +
-                    "<span style='font-size: 50%; color: green;'>Priority: " +
-                        data.priority +
+                    "<span style='font-size: 50%; color: green;'>" +
+                        "Priority: " + data.priority +
                     "</span>" +
                     "<br />" +
-                    "<span style='font-size: 50%; color: green;'>Working Set Size: " +
-                        (data.workingSetSize / 1024 / 1024).format("0,000.000") + " MB" +
+                    "<span style='font-size: 50%; color: green;'>" +
+                        "Working Set Size: " + (data.workingSetSize / 1024 / 1024).format("0,000.000") + " MB" +
                     "</span>",
                 "variableHeight": true
             });

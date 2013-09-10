@@ -11,84 +11,86 @@
             <div data-dojo-type="dojox/mobile/Container" data-dojo-props="label: 'Summary', selected: true">
                 <form>
                     <div data-dojo-type="dojox/mobile/RoundRect" data-dojo-props="shadow: true">
-                        <div data-dojo-type="dojox/mobile/FormLayout">
-                            <fieldset>
-                                <legend>Resource</legend>
-                                <div>
-                                    <label>Name</label>
-                                    <input id="txtResourceName" style="width: 250px;" data-dojo-type="dojox/mobile/TextBox" value="undefined" disabled />
-                                </div>
-                            </fieldset>
-                            <fieldset>
-                                <legend>Computer System</legend>
-                                <div>
-                                    <label>Name</label>
-                                    <input id="txtResourceComputerSystemName" style="width: 250px;" data-dojo-type="dojox/mobile/TextBox" value="undefined" disabled />
-                                </div>
-                                <div>
-                                    <label>Description</label>
-                                    <input id="txtResourceComputerSystemDescription" style="width: 250px;" data-dojo-type="dojox/mobile/TextBox" value="undefined" disabled />
-                                </div>
-                                <div>
-                                    <label>Domain</label>
-                                    <input id="txtResourceComputerSystemDomain" style="width: 250px;" data-dojo-type="dojox/mobile/TextBox" value="undefined" disabled />
-                                </div>
-                                <div>
-                                    <label>Manufacturer</label>
-                                    <input id="txtResourceComputerSystemManufacturer" style="width: 250px;" data-dojo-type="dojox/mobile/TextBox" value="undefined" disabled />
-                                </div>
-                                <div>
-                                    <label>System Type</label>
-                                    <input id="txtResourceComputerSystemSystemType" style="width: 250px;" data-dojo-type="dojox/mobile/TextBox" value="undefined" disabled />
-                                </div>
-                                <div>
-                                    <label>Total Physical Memory</label>
-                                    <input id="txtResourceComputerSystemTotalPhysicalMemory" style="width: 250px;" data-dojo-type="dojox/mobile/TextBox" value="undefined" disabled />
-                                </div>
-                                <div>
-                                    <label>Status</label>
-                                    <input id="txtResourceComputerSystemStatus" style="width: 250px;" data-dojo-type="dojox/mobile/TextBox" value="undefined" disabled />
-                                </div>
-                            </fieldset>
-                            <fieldset>
-                                <legend>Operating System</legend>
-                                <div>
-                                    <label>Caption</label>
-                                    <input id="txtResourceOperatingSystemCaption" style="width: 250px;" data-dojo-type="dojox/mobile/TextBox" value="undefined" disabled />
-                                </div>
-                                <div>
-                                    <label>Version</label>
-                                    <input id="txtResourceOperatingSystemVersion" style="width: 250px;" data-dojo-type="dojox/mobile/TextBox" value="undefined" disabled />
-                                </div>
-                                <div>
-                                    <label>CSD Version</label>
-                                    <input id="txtResourceOperatingSystemCSDVersion" style="width: 250px;" data-dojo-type="dojox/mobile/TextBox" value="undefined" disabled />
-                                </div>
-                                <div>
-                                    <label>O/S Architecture</label>
-                                    <input id="txtResourceOperatingSystemOSArchitecture" style="width: 250px;" data-dojo-type="dojox/mobile/TextBox" value="undefined" disabled />
-                                </div>
-                                <div>
-                                    <label>Manufacturer</label>
-                                    <input id="txtResourceOperatingSystemManufacturer" style="width: 250px;" data-dojo-type="dojox/mobile/TextBox" value="undefined" disabled />
-                                </div>
-                                <div>
-                                    <label>Free Physical Memory</label>
-                                    <input id="txtResourceOperatingSystemFreePhysicalMemory" style="width: 250px;" data-dojo-type="dojox/mobile/TextBox" value="undefined" disabled />
-                                </div>
-                                <div>
-                                    <label>Free Virtual memory</label>
-                                    <input id="txtResourceOperatingSystemFreeVirtualMemory" style="width: 250px;" data-dojo-type="dojox/mobile/TextBox" value="undefined" disabled />
-                                </div>
-                                <div>
-                                    <label>Local Date Time</label>
-                                    <input id="txtResourceOperatingSystemLocalDateTime" style="width: 250px;" data-dojo-type="dojox/mobile/TextBox" value="undefined" disabled />
-                                </div>
-                                <div>
-                                    <label>Status</label>
-                                    <input id="txtResourceOperatingSystemStatus" style="width: 250px;" data-dojo-type="dojox/mobile/TextBox" value="undefined" disabled />
-                                </div>
-                            </fieldset>
+                        <div data-dojo-type="dojox/mobile/ScrollablePane" data-dojo-mixins="app/widget/_Resizable" data-dojo-props="height: '400px'">
+                            <div data-dojo-type="dojox/mobile/FormLayout">
+                                <fieldset>
+                                    <legend>Resource</legend>
+                                    <div>
+                                        <label>Name</label>
+                                        <input id="txtResourceName" style="width: 250px;" data-dojo-type="dojox/mobile/TextBox" value="undefined" disabled />
+                                    </div>
+                                </fieldset>
+                                <fieldset>
+                                    <legend>Computer System</legend>
+                                    <div>
+                                        <label>Name</label>
+                                        <input id="txtResourceComputerSystemName" style="width: 250px;" data-dojo-type="dojox/mobile/TextBox" value="undefined" disabled />
+                                    </div>
+                                    <div>
+                                        <label>Description</label>
+                                        <input id="txtResourceComputerSystemDescription" style="width: 250px;" data-dojo-type="dojox/mobile/TextBox" value="undefined" disabled />
+                                    </div>
+                                    <div>
+                                        <label>Domain</label>
+                                        <input id="txtResourceComputerSystemDomain" style="width: 250px;" data-dojo-type="dojox/mobile/TextBox" value="undefined" disabled />
+                                    </div>
+                                    <div>
+                                        <label>Manufacturer</label>
+                                        <input id="txtResourceComputerSystemManufacturer" style="width: 250px;" data-dojo-type="dojox/mobile/TextBox" value="undefined" disabled />
+                                    </div>
+                                    <div>
+                                        <label>System Type</label>
+                                        <input id="txtResourceComputerSystemSystemType" style="width: 250px;" data-dojo-type="dojox/mobile/TextBox" value="undefined" disabled />
+                                    </div>
+                                    <div>
+                                        <label>Total Physical Memory</label>
+                                        <input id="txtResourceComputerSystemTotalPhysicalMemory" style="width: 250px;" data-dojo-type="dojox/mobile/TextBox" value="undefined" disabled />
+                                    </div>
+                                    <div>
+                                        <label>Status</label>
+                                        <input id="txtResourceComputerSystemStatus" style="width: 250px;" data-dojo-type="dojox/mobile/TextBox" value="undefined" disabled />
+                                    </div>
+                                </fieldset>
+                                <fieldset>
+                                    <legend>Operating System</legend>
+                                    <div>
+                                        <label>Caption</label>
+                                        <input id="txtResourceOperatingSystemCaption" style="width: 250px;" data-dojo-type="dojox/mobile/TextBox" value="undefined" disabled />
+                                    </div>
+                                    <div>
+                                        <label>Version</label>
+                                        <input id="txtResourceOperatingSystemVersion" style="width: 250px;" data-dojo-type="dojox/mobile/TextBox" value="undefined" disabled />
+                                    </div>
+                                    <div>
+                                        <label>CSD Version</label>
+                                        <input id="txtResourceOperatingSystemCSDVersion" style="width: 250px;" data-dojo-type="dojox/mobile/TextBox" value="undefined" disabled />
+                                    </div>
+                                    <div>
+                                        <label>O/S Architecture</label>
+                                        <input id="txtResourceOperatingSystemOSArchitecture" style="width: 250px;" data-dojo-type="dojox/mobile/TextBox" value="undefined" disabled />
+                                    </div>
+                                    <div>
+                                        <label>Manufacturer</label>
+                                        <input id="txtResourceOperatingSystemManufacturer" style="width: 250px;" data-dojo-type="dojox/mobile/TextBox" value="undefined" disabled />
+                                    </div>
+                                    <div>
+                                        <label>Free Physical Memory</label>
+                                        <input id="txtResourceOperatingSystemFreePhysicalMemory" style="width: 250px;" data-dojo-type="dojox/mobile/TextBox" value="undefined" disabled />
+                                    </div>
+                                    <div>
+                                        <label>Free Virtual memory</label>
+                                        <input id="txtResourceOperatingSystemFreeVirtualMemory" style="width: 250px;" data-dojo-type="dojox/mobile/TextBox" value="undefined" disabled />
+                                    </div>
+                                    <div>
+                                        <label>Local Date Time</label>
+                                        <input id="txtResourceOperatingSystemLocalDateTime" style="width: 250px;" data-dojo-type="dojox/mobile/TextBox" value="undefined" disabled />
+                                    </div>
+                                    <div>
+                                        <label>Status</label>
+                                        <input id="txtResourceOperatingSystemStatus" style="width: 250px;" data-dojo-type="dojox/mobile/TextBox" value="undefined" disabled />
+                                    </div>
+                                </fieldset>
+                            </div>
                         </div>
                     </div>
                 </form>

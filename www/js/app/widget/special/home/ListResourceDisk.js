@@ -16,6 +16,14 @@ define([
             this.store.put({
                 "id": itemId,
                 "label": "<span style='color: blue;'>" + data.name + "</span><br />" + (data.freeSpace / 1024 / 1024 / 1024).format("0,000.000") + " GB" + " / " + (data.size / 1024 / 1024 / 1024).format("0,000.000") + " GB",
+                "label":
+                    "<span style='color: blue;'>" +
+                        data.name +
+                    "</span>" +
+                    "<br />" +
+                    "<span style='font-size: 50%; color: green;'>" +
+                        "Free Disk Size: " + (data.freeSpace / 1024 / 1024 / 1024).format("0,000.000") + " GB" + " of " + (data.size / 1024 / 1024 / 1024).format("0,000.000") + " GB" +
+                    "</span>",
                 "variableHeight": true
             });
 
