@@ -17,6 +17,23 @@ String.prototype.dateFormat = function () {
     (ss < 10 ? "0" + ss : ss);
 };
 
+Number.prototype.dateFormat = function () {
+    var date = new Date(this);
+    var year = date.getFullYear();
+    var month = date.getMonth() + 1;
+    var day = date.getDate();
+    var hh = date.getHours();
+    var mm = date.getMinutes();
+    var ss = date.getSeconds();
+
+    return "" + year + "-" +
+    (month < 10 ? "0" + month : month) + "-" +
+    (day < 10 ? "0" + day : day) + " " +
+    (hh < 10 ? "0" + hh : hh) + ":" +
+    (mm < 10 ? "0" + mm : mm) + ":" +
+    (ss < 10 ? "0" + ss : ss);
+};
+
 Number.prototype.format = function (format) {
     if (typeof format != "string") {
         return "";

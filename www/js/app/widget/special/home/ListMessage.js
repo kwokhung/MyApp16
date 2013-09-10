@@ -15,31 +15,16 @@ define([
             var itemCount = this.data.length;
             var itemId = this.id + "_" + (itemCount + 1);
 
-            var date = new Date(data.when);
-            var year = date.getFullYear();
-            var month = date.getMonth() + 1;
-            var day = date.getDate();
-            var hh = date.getHours();
-            var mm = date.getMinutes();
-            var ss = date.getSeconds();
-
-            var when = "" + year + "-" +
-            (month < 10 ? "0" + month : month) + "-" +
-            (day < 10 ? "0" + day : day) + " " +
-            (hh < 10 ? "0" + hh : hh) + ":" +
-            (mm < 10 ? "0" + mm : mm) + ":" +
-            (ss < 10 ? "0" + ss : ss);
-
             var label = null;
 
             if (typeof data.what != "undefined" && (typeof data.what == "string" || (data.what != null && data.what.constructor == String))) {
-                label = "<span style='color: blue;'>" + data.who + "</span><span style='font-size: 50%; color: green; float: right;'>" + when + "</span><br />" + data.what.replace(/\n/g, "<br />");
+                label = "<span style='color: blue;'>" + data.who + "</span><span style='font-size: 50%; color: green; float: right;'>" + data.when.dateFormat() + "</span><br />" + data.what.replace(/\n/g, "<br />");
             }
             else if (typeof data.what != "undefined" && (typeof data.what == "object" || (data.what != null && data.what.constructor == Object))) {
-                label = "<span style='color: blue;'>" + data.who + "</span><span style='font-size: 50%; color: green; float: right;'>" + when + "</span><br />" + json.stringify(data.what);
+                label = "<span style='color: blue;'>" + data.who + "</span><span style='font-size: 50%; color: green; float: right;'>" + data.when.dateFormat() + "</span><br />" + json.stringify(data.what);
             }
             else {
-                label = "<span style='color: blue;'>" + data.who + "</span><span style='font-size: 50%; color: green; float: right;'>" + when + "</span><br />" + data.what;
+                label = "<span style='color: blue;'>" + data.who + "</span><span style='font-size: 50%; color: green; float: right;'>" + data.when.dateFormat() + "</span><br />" + data.what;
             }
 
             this.store.put({
