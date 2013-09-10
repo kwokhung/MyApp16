@@ -153,6 +153,35 @@
                     </div>
                 </div>
             </div>
+            <div data-dojo-type="dojox/mobile/Container" data-dojo-props="label: 'Service'">
+                <h1 data-dojo-type="dojox/mobile/Heading">
+                    <table style="width: 100%; border: none; border-collapse: collapse; padding: 0;">
+                        <tbody>
+                            <tr>
+                                <td style="width: 25%;">
+                                    <span style="float: left;" data-dojo-type="dojox/mobile/ToolBarButton" data-dojo-mixins="app/widget/_Publishable" data-dojo-props="label: 'Top', arrow: 'left', topicId: '/resourceServiceList/goto.top'"></span>
+                                </td>
+                                <td style="width: 50%;">
+                                    <div style="height: 42px;" data-dojo-type="dojox/mobile/GridLayout" data-dojo-props="cols: 1">
+                                        <div data-dojo-type="dojox/mobile/Pane">
+                                            <button class="mblBlueButton full" data-dojo-type="dojox/mobile/Button" data-dojo-mixins="app/widget/_Publishable" data-dojo-props="topicId: '/resourceServiceList/clear.message'">Clear</button>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td style="width: 25%;">
+                                    <span style="float: right;" data-dojo-type="dojox/mobile/ToolBarButton" data-dojo-mixins="app/widget/_Publishable" data-dojo-props="label: 'Bottom', arrow: 'right', topicId: '/resourceServiceList/goto.bottom'"></span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </h1>
+                <div data-dojo-type="dojox/mobile/RoundRect" data-dojo-props="shadow: true">
+                    <div data-dojo-type="dojox/mobile/ScrollablePane" data-dojo-mixins="app/widget/_Resizable" data-dojo-props="height: '400px'">
+                        <ul data-dojo-type="app/widget/special/home/ListResourceService">
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </body>

@@ -61,6 +61,7 @@ define([
 
             topic.publish("/resourceDiskList/there.are", data.what.details.disks);
             topic.publish("/resourceProcessList/there.are", data.what.details.processes);
+            topic.publish("/resourceServiceList/there.are", data.what.details.services);
         },
         postCreate: function () {
             this.inherited(arguments);

@@ -6,9 +6,10 @@ define([
     "dijit/registry",
     "dojox/mobile/RoundRectStoreList",
     "app/util/StoredData",
+    "app/widget/_ScrollableStoreList",
     "app/widget/_Subscriber"
-], function (declare, lang, array, topic, registry, RoundRectStoreList, StoredData, _Subscriber) {
-    return declare("app.widget.special.home.ListResourceDisk", [RoundRectStoreList, StoredData, _Subscriber], {
+], function (declare, lang, array, topic, registry, RoundRectStoreList, StoredData, _ScrollableStoreList, _Subscriber) {
+    return declare("app.widget.special.home.ListResourceDisk", [RoundRectStoreList, StoredData, _ScrollableStoreList, _Subscriber], {
         appendMessage: function (data) {
             var itemCount = this.data.length;
             var itemId = this.id + "_" + (itemCount + 1);
@@ -36,25 +37,6 @@ define([
             array.forEach(who, lang.hitch(this, function (item, index) {
                 this.appendMessage(item);
             }));
-        },
-        clearMessage: function () {
-            array.forEach(this.store.query({}), lang.hitch(this, function (item, index) {
-                this.store.remove(item.id);
-            }));
-        },
-        gotoTop: function () {
-            var topItem = registry.byId(this.id + "_" + (1));
-
-            if (typeof topItem != "undefined" && topItem != null) {
-                this.getParent().scrollIntoView(topItem.domNode, true);
-            }
-        },
-        gotoBottom: function () {
-            var bottomItem = registry.byId(this.id + "_" + (this.data.length));
-
-            if (typeof bottomItem != "undefined" && bottomItem != null) {
-                this.getParent().scrollIntoView(bottomItem.domNode, false);
-            }
         },
         postCreate: function () {
             this.inherited(arguments);
