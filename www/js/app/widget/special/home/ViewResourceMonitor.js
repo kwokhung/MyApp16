@@ -26,66 +26,7 @@ define([
             socket.on("connect", lang.hitch(this, function () {
                 this.appendMessage({ who: "System", what: "connect" });
 
-                socket.on("heartbeat", lang.hitch(this, function (data) {
-                    this.appendMessage({ who: "heartbeat", what: data.when });
-
-                    socket.emit("heartbeat", {
-                        who: this.who,
-                        when: new Date().getTime()
-                    }, lang.hitch(this, this.logMessage));
-                }));
-
-                socket.on("you.are", lang.hitch(this, function (data) {
-                    this.appendMessage({ who: "you.are", what: data.who });
-                    this.whoAreThere();
-                }));
-
-                socket.on("you.are.no.more", lang.hitch(this, function (data) {
-                    this.appendMessage({ who: "you.are.no.more", what: data.who });
-                    this.whoAreThere();
-                }));
-
-                socket.on("he.is", lang.hitch(this, function (data) {
-                    this.appendMessage({ who: "he.is", what: data.who });
-                    this.whoAreThere();
-                }));
-
-                socket.on("he.is.no.more", lang.hitch(this, function (data) {
-                    this.appendMessage({ who: "he.is.no.more", what: data.who });
-                    this.whoAreThere();
-                }));
-
-                socket.on("there.are", lang.hitch(this, function (data) {
-                    array.forEach(data.who, lang.hitch(this, function (item, index) {
-                        this.appendMessage({ who: "there.are", what: item.who });
-                    }));
-
-                    topic.publish("/resourceList/there.are", data.who);
-                }));
-
-                socket.on("someone.said", lang.hitch(this, function (data) {
-                    this.appendMessage({ who: "someone.said", what: data.what + " by " + data.who });
-
-                    topic.publish("/messageList/someone.said", data);
-
-                    if (typeof data.what.toDo != "undefined" && data.what.toDo != null) {
-                        this.whatToDo(data);
-                    }
-                }));
-
-                socket.on("someone.joined", lang.hitch(this, function (data) {
-                    this.appendMessage({ who: "someone.joined", what: data.who });
-                }));
-
-                socket.on("someone.left", lang.hitch(this, function (data) {
-                    this.appendMessage({ who: "someone.left", what: data.who });
-                }));
-
-                socket.on("someone.beat", lang.hitch(this, function (data) {
-                    this.appendMessage({ who: "someone.beat", what: data.when + " by " + data.who });
-
-                    topic.publish("/resourceList/someone.beat", data);
-                }));
+                this.handleConnectMessage();
 
                 this.iAm();
             }));
@@ -118,6 +59,70 @@ define([
                 this.appendMessage({ who: "System", what: (e ? e.type : "unknown error") });
             }));
         },
+        handleConnectMessage: function () {
+            var socket = this.socket;
+
+            socket.on("heartbeat", lang.hitch(this, function (data) {
+                this.appendMessage({ who: "heartbeat", what: data.when });
+
+                socket.emit("heartbeat", {
+                    who: this.who,
+                    when: new Date().yyyyMMddHHmmss()
+                }, lang.hitch(this, this.logMessage));
+            }));
+
+            socket.on("you.are", lang.hitch(this, function (data) {
+                this.appendMessage({ who: "you.are", what: data.who });
+                this.whoAreThere();
+            }));
+
+            socket.on("you.are.no.more", lang.hitch(this, function (data) {
+                this.appendMessage({ who: "you.are.no.more", what: data.who });
+                this.whoAreThere();
+            }));
+
+            socket.on("he.is", lang.hitch(this, function (data) {
+                this.appendMessage({ who: "he.is", what: data.who });
+                this.whoAreThere();
+            }));
+
+            socket.on("he.is.no.more", lang.hitch(this, function (data) {
+                this.appendMessage({ who: "he.is.no.more", what: data.who });
+                this.whoAreThere();
+            }));
+
+            socket.on("there.are", lang.hitch(this, function (data) {
+                array.forEach(data.who, lang.hitch(this, function (item, index) {
+                    this.appendMessage({ who: "there.are", what: item.who });
+                }));
+
+                topic.publish("/resourceList/there.are", data.who);
+            }));
+
+            socket.on("someone.said", lang.hitch(this, function (data) {
+                this.appendMessage({ who: "someone.said", what: data.what + " by " + data.who });
+
+                topic.publish("/messageList/someone.said", data);
+
+                if (typeof data.what.toDo != "undefined" && data.what.toDo != null) {
+                    this.whatToDo(data);
+                }
+            }));
+
+            socket.on("someone.joined", lang.hitch(this, function (data) {
+                this.appendMessage({ who: "someone.joined", what: data.who });
+            }));
+
+            socket.on("someone.left", lang.hitch(this, function (data) {
+                this.appendMessage({ who: "someone.left", what: data.who });
+            }));
+
+            socket.on("someone.beat", lang.hitch(this, function (data) {
+                this.appendMessage({ who: "someone.beat", what: data.when + " by " + data.who });
+
+                topic.publish("/resourceList/someone.beat", data);
+            }));
+        },
         setResourceUrl: function (resourceUrl) {
             this.resourceUrl = resourceUrl;
             this.socket = io.connect(this.resourceUrl, { "force new connection": false });
@@ -129,7 +134,7 @@ define([
                 if (this.socket != null) {
                     this.socket.emit("i.am", {
                         who: data.who,
-                        when: new Date().getTime()
+                        when: new Date().yyyyMMddHHmmss()
                     }, lang.hitch(this, this.logMessage));
                 }
 
@@ -139,7 +144,7 @@ define([
                 if (this.socket != null) {
                     this.socket.emit("i.am", {
                         who: this.who,
-                        when: new Date().getTime()
+                        when: new Date().yyyyMMddHHmmss()
                     }, lang.hitch(this, this.logMessage));
                 }
             }
@@ -149,7 +154,7 @@ define([
                 if (this.socket != null) {
                     this.socket.emit("i.am.no.more", {
                         who: data.who,
-                        when: new Date().getTime()
+                        when: new Date().yyyyMMddHHmmss()
                     }, lang.hitch(this, this.logMessage));
                 }
             }
@@ -157,7 +162,7 @@ define([
                 if (this.socket != null) {
                     this.socket.emit("i.am.no.more", {
                         who: this.who,
-                        when: new Date().getTime()
+                        when: new Date().yyyyMMddHHmmss()
                     }, lang.hitch(this, this.logMessage));
                 }
             }
@@ -169,7 +174,7 @@ define([
                 var enhancedData = {
                     who: this.who,
                     what: data.what,
-                    when: new Date().getTime()
+                    when: new Date().yyyyMMddHHmmss()
                 };
 
                 this.socket.emit("tell.other", enhancedData, lang.hitch(this, this.logMessage));
@@ -183,7 +188,7 @@ define([
                     who: this.who,
                     whom: data.whom,
                     what: data.what,
-                    when: new Date().getTime()
+                    when: new Date().yyyyMMddHHmmss()
                 };
 
                 this.socket.emit("tell.someone", enhancedData, lang.hitch(this, this.logMessage));
