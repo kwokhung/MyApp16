@@ -4,17 +4,25 @@ define([
     "dojo/_base/array",
     "dojo/topic",
     "dojox/mobile/View",
+    "app/util/special/mobile/SimpleDialog",
+    "app/util/app",
     "app/widget/_Subscriber"
-], function (declare, lang, array, topic, View, _Subscriber) {
+], function (declare, lang, array, topic, View, Dialog, app, _Subscriber) {
     return declare("app.widget.special.home.ViewResourceMonitor", [View, _Subscriber], {
         resourceUrl: null,
-        who: "Resource Monitor",
+        who: "anonymous",
         socket: null,
         appendMessage: function (data) {
             topic.publish("/resourceMonitorMessageList/resourceMonitor.said", data);
         },
         logMessage: function (data) {
-            this.appendMessage({ who: "System", what: data.message });
+            if (data.status) {
+                this.appendMessage({ who: "System (Succeeded)", what: data.message });
+            }
+            else {
+                this.appendMessage({ who: "System (Failed)", what: data.message });
+                this._handleException(data.message);
+            }
         },
         handleMessage: function () {
             var socket = this.socket;
@@ -28,7 +36,9 @@ define([
 
                 this.handleConnectMessage();
 
-                this.iAm();
+                this.iAm({
+                    whoAmI: "Resource Monitor"
+                });
             }));
 
             socket.on("connect_failed", lang.hitch(this, function (e) {
@@ -130,44 +140,71 @@ define([
             this.handleMessage();
         },
         iAm: function (data) {
-            if (typeof data != "undefined" && typeof data.who != "undefined" && data.who != null && data.who != "") {
+            if (typeof data != "undefined" && typeof data.whoAmI != "undefined" && data.whoAmI != null && data.whoAmI != "") {
                 if (this.socket != null) {
                     this.socket.emit("i.am", {
-                        who: data.who,
+                        who: this.who,
+                        whoAmI: data.whoAmI,
                         when: new Date().yyyyMMddHHmmss()
-                    }, lang.hitch(this, this.logMessage));
-                }
+                    }, lang.hitch(this, function (result) {
+                        if (result.status) {
+                            this.logMessage(result);
 
-                this.who = data.who;
+                            this.who = data.whoAmI;
+                        }
+                        else {
+                            this.logMessage(result);
+                        }
+                    }));
+                }
             }
             else {
                 if (this.socket != null) {
                     this.socket.emit("i.am", {
                         who: this.who,
+                        whoAmI: this.who,
                         when: new Date().yyyyMMddHHmmss()
                     }, lang.hitch(this, this.logMessage));
                 }
             }
         },
         iAmNoMore: function (data) {
-            if (typeof data != "undefined" && typeof data.who != "undefined" && data.who != null && data.who != "") {
+            if (typeof data != "undefined" && typeof data.whoAmI != "undefined" && data.whoAmI != null && data.whoAmI != "") {
                 if (this.socket != null) {
                     this.socket.emit("i.am.no.more", {
-                        who: data.who,
+                        who: this.who,
+                        whoAmI: data.whoAmI,
                         when: new Date().yyyyMMddHHmmss()
-                    }, lang.hitch(this, this.logMessage));
+                    }, lang.hitch(this, function (result) {
+                        if (result.status) {
+                            this.logMessage(result);
+
+                            this.who = "anonymous";
+                        }
+                        else {
+                            this.logMessage(result);
+                        }
+                    }));
                 }
             }
             else {
                 if (this.socket != null) {
                     this.socket.emit("i.am.no.more", {
                         who: this.who,
+                        whoAmI: this.who,
                         when: new Date().yyyyMMddHHmmss()
-                    }, lang.hitch(this, this.logMessage));
+                    }, lang.hitch(this, function (result) {
+                        if (result.status) {
+                            this.logMessage(result);
+
+                            this.who = "anonymous";
+                        }
+                        else {
+                            this.logMessage(result);
+                        }
+                    }));
                 }
             }
-
-            this.who = "anonymous";
         },
         tellOther: function (data) {
             if (this.socket != null) {
@@ -231,6 +268,15 @@ define([
 
                     break;
             }
+        },
+        _handleException: function (ex) {
+            var exceptionErrorDialog = new Dialog({
+                title: app.bundle.MsgSystemError,
+                content: ex.toString(),
+                progressable: false
+            });
+
+            exceptionErrorDialog.show();
         },
         postCreate: function () {
             this.inherited(arguments);

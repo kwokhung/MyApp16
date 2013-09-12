@@ -209,7 +209,8 @@ define([
         _handleError: function (response) {
             var systemErrorDialog = new Dialog({
                 title: app.bundle.MsgSystemError,
-                content: string.substitute(app.bundle.MsgInvalidRequest, response)
+                content: string.substitute(app.bundle.MsgInvalidRequest, response),
+                progressable: false
             });
 
             if (response.errCode == "-1" || response.errCode == "-2") {
@@ -222,7 +223,8 @@ define([
         _handleException: function (ex) {
             var exceptionErrorDialog = new Dialog({
                 title: app.bundle.MsgSystemError,
-                content: ex.toString()
+                content: ex.toString(),
+                progressable: false
             });
 
             exceptionErrorDialog.show();

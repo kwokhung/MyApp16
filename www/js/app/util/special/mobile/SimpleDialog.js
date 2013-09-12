@@ -13,11 +13,14 @@ define([
     var app = Global.getInstance().app;
 
     return declare("app.util.special.mobile.SimpleDialog", [SimpleDialog], {
+        progressable: true,
         progressIndicator: new ProgressIndicator({ center: false }),
         show: function () {
             this.inherited(arguments);
 
-            this.progressIndicator.start();
+            if (this.progressable) {
+                this.progressIndicator.start();
+            }
 
             this._deferred = new Deferred(lang.hitch(this, function () {
                 delete this._deferred;
@@ -33,7 +36,9 @@ define([
         hide: function () {
             this.inherited(arguments);
 
-            this.progressIndicator.stop();
+            if (this.progressable) {
+                this.progressIndicator.stop();
+            }
         },
         postCreate: function () {
             this.inherited(arguments);
@@ -50,18 +55,20 @@ define([
                 innerHTML: this.content
             }, this.domNode);
 
-            domConstruct.place(this.progressIndicator.domNode, query("td", domConstruct.create("div", {
-                "class": "mblSimpleDialogText",
-                innerHTML:
-                    "<table style='width: 100%;' cellspacing='0'>" +
-                        "<tbody valign='top'>" +
-                            "<tr align='center'>" +
-                                "<td>" +
-                                "</td>" +
-                            "</tr>" +
-                        "</tbody>" +
-                    "</table>"
-            }, this.domNode))[0], "last");
+            if (this.progressable) {
+                domConstruct.place(this.progressIndicator.domNode, query("td", domConstruct.create("div", {
+                    "class": "mblSimpleDialogText",
+                    innerHTML:
+                        "<table style='width: 100%;' cellspacing='0'>" +
+                            "<tbody valign='top'>" +
+                                "<tr align='center'>" +
+                                    "<td>" +
+                                    "</td>" +
+                                "</tr>" +
+                            "</tbody>" +
+                        "</table>"
+                }, this.domNode))[0], "last");
+            }
 
             var btnCancel = new Button({
                 class: "mblSimpleDialogButton mblRedButton",

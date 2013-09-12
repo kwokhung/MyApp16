@@ -18,7 +18,7 @@ define([
                     }
 
                     topic.publish("/resourceMonitor/i.am", {
-                        who: registry.byId(this.whoId).get("value")
+                        whoAmI: registry.byId(this.whoId).get("value")
                     });
                     topic.publish("/resourceMonitor/who.are.there");
                 }));
