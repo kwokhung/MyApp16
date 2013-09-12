@@ -15,13 +15,13 @@ define([
         appendMessage: function (data) {
             topic.publish("/resourceMonitorMessageList/resourceMonitor.said", data);
         },
-        logMessage: function (data) {
-            if (data.status) {
-                this.appendMessage({ who: "System (Succeeded)", what: data.message });
+        logMessage: function (result) {
+            if (result.status) {
+                this.appendMessage({ who: "System (Succeeded)", what: result.message });
             }
             else {
-                this.appendMessage({ who: "System (Failed)", what: data.message });
-                this._handleException(data.message);
+                this.appendMessage({ who: "System (Failed)", what: result.message });
+                this._handleException(result.message);
             }
         },
         handleMessage: function () {
@@ -235,7 +235,10 @@ define([
         },
         whoAreThere: function () {
             if (this.socket != null) {
-                this.socket.emit("who.are.there", null, lang.hitch(this, this.logMessage));
+                this.socket.emit("who.are.there", {
+                    who: this.who,
+                    when: new Date().yyyyMMddHHmmss()
+                }, lang.hitch(this, this.logMessage));
             }
         },
         whatToDo: function (data) {
