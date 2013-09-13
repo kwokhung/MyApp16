@@ -1,0 +1,8 @@
+{
+"version":3,
+"file":"dojo_ar.js",
+"lineCount":8,
+"mappings":"A;;;;;;SAAAA,MAAA,qBACA,sBADA,yBACiD,6CADjD,mEACoK,iDADpK,aACkO,qBADlO,2CACoQ,6CADpQ,iCACiV,gDADjV;AACwb,8CADxb,6DACoiB,oBADpiB,mGAC4nB,8CAD5nB;",
+"sources":["dojo_ar.js.uncompressed.js"],
+"names":["define"]
+}

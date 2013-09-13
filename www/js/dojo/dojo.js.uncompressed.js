@@ -1,3 +1,16 @@
+/*
+	Copyright (c) 2004-2011, The Dojo Foundation All Rights Reserved.
+	Available via Academic Free License >= 2.1 OR the modified BSD license.
+	see: http://dojotoolkit.org/license for details
+*/
+
+/*
+	This is an optimized version of Dojo, built for deployment and not for
+	development. To get sources and documentation, please visit:
+
+		http://dojotoolkit.org
+*/
+
 (function(
 	userConfig,
 	defaultConfig
@@ -203,7 +216,7 @@
 		checkDojoRequirePlugin = noop,
 		transformToAmd = noop,
 		getXhr;
-	if( 0 ){
+	if( 1 ){
 		req.isXdUrl = noop;
 
 		req.initSyncLoader = function(dojoRequirePlugin_, checkDojoRequirePlugin_, transformToAmd_){
@@ -541,7 +554,7 @@
 					if(p=="baseUrl" || p=="combo"){
 						req[p] = config[p];
 					}
-					if( 0  && p=="async"){
+					if( 1  && p=="async"){
 						// falsy or "sync" => legacy sync loader
 						// "xd" => sync but loading xdomain tree and therefore loading asynchronously (not configurable, set automatically by the loader)
 						// "legacyAsync" => permanently in "xd" by choice
@@ -830,7 +843,7 @@
 						req.undef(mid, module);
 					};
 				}
-				if( 0 ){
+				if( 1 ){
 					result.syncLoadNls = function(mid){
 						var nlsModuleInfo = getModuleInfo(mid, module),
 							nlsModule = modules[nlsModuleInfo.mid];
@@ -878,7 +891,7 @@
 			}
 			if(isEmpty(waiting)){
 				clearTimer();
-				 0  && legacyMode==xd && (legacyMode = sync);
+				 1  && legacyMode==xd && (legacyMode = sync);
 			}
 		},
 
@@ -917,7 +930,7 @@
 		},
 
 		makeModuleInfo = function(pid, mid, pack, url){
-			if( 0 ){
+			if( 1 ){
 				var xd= req.isXdUrl(url);
 				return {pid:pid, mid:mid, pack:pack, url:url, executed:0, def:0, isXd:xd, isAmd:!!(xd || (packs[pid] && packs[pid].isAmd))};
 			}else{
@@ -1022,7 +1035,7 @@
 				// name was <plugin-module>!<plugin-resource-id>
 				plugin = getModule(match[1], referenceModule, immediate);
 
-				if( 0  && legacyMode == sync && !plugin.executed){
+				if( 1  && legacyMode == sync && !plugin.executed){
 					injectModule(plugin);
 					if(plugin.injected===arrived && !plugin.executed){
 						guardCheckComplete(function(){
@@ -1093,7 +1106,7 @@
 			req.trace("loader-run-factory", [module.mid]);
 			var factory = module.def,
 				result;
-			 0  && syncExecStack.unshift(module);
+			 1  && syncExecStack.unshift(module);
 			if(has("config-dojo-loader-catches")){
 				try{
 					result= isFunction(factory) ? factory.apply(null, args) : factory;
@@ -1104,7 +1117,7 @@
 				result= isFunction(factory) ? factory.apply(null, args) : factory;
 			}
 			module.result = result===undefined && module.cjs ? module.cjs.exports : result;
-			 0  && syncExecStack.shift(module);
+			 1  && syncExecStack.shift(module);
 		},
 
 		abortExec = {},
@@ -1163,7 +1176,7 @@
 			req.trace("loader-finish-exec", [module.mid]);
 			module.executed = executed;
 			module.defOrder = defOrder++;
-			 0  && forEach(module.provides, function(cb){ cb(); });
+			 1  && forEach(module.provides, function(cb){ cb(); });
 			if(module.loadQ){
 				// the module was a plugin
 				promoteModuleToPlugin(module);
@@ -1419,7 +1432,7 @@
 						req.trace("loader-define-nonmodule", [module.url]);
 					}
 
-					if( 0  && legacyMode){
+					if( 1  && legacyMode){
 						// must call checkComplete even in for sync loader because we may be in xdomainLoading mode;
 						// but, if xd loading, then don't call checkComplete until out of the current sync traversal
 						// in order to preserve order of execution of the dojo.required modules
@@ -1435,7 +1448,7 @@
 					onLoadCallback();
 					return;
 				}
-				if( 0  && legacyMode){
+				if( 1  && legacyMode){
 					if(module.isXd){
 						// switch to async mode temporarily; if current legacyMode!=sync, then is must be one of {legacyAsync, xd, false}
 						legacyMode==sync && (legacyMode = xd);
@@ -1556,7 +1569,7 @@
 					deps[i] = getModule(deps[i], module);
 				}
 
-				if( 0  && legacyMode && !waiting[mid]){
+				if( 1  && legacyMode && !waiting[mid]){
 					// the module showed up without being asked for; it was probably in a <script> element
 					injectDependencies(module);
 					execQ.push(module);
@@ -1693,7 +1706,7 @@
 		}
 	}
 
-	if( 0 ){
+	if( 1 ){
 		req.log = function(){
 			try{
 				for(var i = 0; i < arguments.length; i++){
@@ -1894,7 +1907,7 @@
 	// the loader can be defined exactly once; look for global define which is the symbol AMD loaders are
 	// *required* to define (as opposed to require, which is optional)
 	if(global.define){
-		if( 0 ){
+		if( 1 ){
 			signal(error, makeError("defineAlreadyDefined", 0));
 		}
 		return;
@@ -1928,7 +1941,7 @@
 (this.dojoConfig || this.djConfig || this.require || {}, {
 		async:0,
 		hasCache:{
-				'config-selectorEngine':"lite",
+				'config-selectorEngine':"acme",
 				'config-tlmSiblingOfDojo':1,
 				'dojo-built':1,
 				'dojo-loader':1,
@@ -1941,12 +1954,12 @@
 					 name:"dijit"
 				},
 				{
-					 location:".",
-					 name:"dojo"
-				},
-				{
 					 location:"../dojox",
 					 name:"dojox"
+				},
+				{
+					 location:".",
+					 name:"dojo"
 				}
 		]
 });require({cache:{
@@ -2472,7 +2485,7 @@ define(["./has"], function(has){
 		has.add("air", dua.indexOf("AdobeAIR") >= 0);
 		has.add("msapp", parseFloat(dua.split("MSAppHost/")[1]) || undefined);
 		has.add("khtml", dav.indexOf("Konqueror") >= 0 ? tv : undefined);
-		 true || has.add("webkit", parseFloat(dua.split("WebKit/")[1]) || undefined);
+		has.add("webkit", parseFloat(dua.split("WebKit/")[1]) || undefined);
 		has.add("chrome", parseFloat(dua.split("Chrome/")[1]) || undefined);
 		has.add("safari", dav.indexOf("Safari")>=0 && !has("chrome") ? parseFloat(dav.split("Version/")[1]) : undefined);
 		has.add("mac", dav.indexOf("Macintosh") >= 0);
@@ -2489,7 +2502,7 @@ define(["./has"], function(has){
 
 		has.add("svg", typeof SVGAngle !== "undefined");
 
-		if(! true ){
+		if(!has("webkit")){
 			// Opera
 			if(dua.indexOf("Opera") >= 0){
 				// see http://dev.opera.com/articles/view/opera-ua-string-changes and http://www.useragentstring.com/pages/Opera/
@@ -2498,7 +2511,7 @@ define(["./has"], function(has){
 			}
 
 			// Mozilla and firefox
-			if(dua.indexOf("Gecko") >= 0 && !has("khtml") && ! true ){
+			if(dua.indexOf("Gecko") >= 0 && !has("khtml") && !has("webkit")){
 				has.add("mozilla", tv);
 			}
 			if(has("mozilla")){
@@ -2915,7 +2928,7 @@ define(["./sniff", "./_base/window","./dom", "./dom-style"],
 		// Controlling box-model is harder, in a pinch you might set dojo/dom-geometry.boxModel.
 			pb = usesBorderBox(node) ? nilExtents : geom.getPadBorderExtents(node, s),
 			mb = geom.getMarginExtents(node, s);
-		if( true ){
+		if(has("webkit")){
 			// on Safari (3.1.2), button nodes with no explicit size have a default margin
 			// setting an explicit size eliminates the margin.
 			// We have to swizzle the width to get correct margin reading.
@@ -3430,7 +3443,7 @@ define([
 			var tw = x + w + r;
 			var th = y + h + b;
 			
-			if( true ){			// use -webkit-mask-image
+			if(has("webkit")){			// use -webkit-mask-image
 				var id = ("DojoMobileMask" + x + y + w + h + rx + ry).replace(/\./g, "_");
 				if (!cache[id]) {
 					cache[id] = 1;
@@ -3641,7 +3654,7 @@ define([
 			//		A root node to create a DOM button. If omitted, refNode is used.
 
 			if(!this._domButtons){
-				if( true ){
+				if(has("webkit")){
 					var findDomButtons = function(sheet, dic){
 						// summary:
 						//		Searches the style sheets for DOM buttons.
@@ -6488,7 +6501,7 @@ define(["./_base/kernel", "require", "./has", "./_base/array", "./_base/config",
 			},
 
 			isXd = function(mid, contextRequire){
-				return ( 0  &&  1 ) ?
+				return ( 1  &&  1 ) ?
 					contextRequire.isXdUrl(require.toUrl(mid + ".js")) :
 					true;
 			},
@@ -6931,6 +6944,57 @@ define([
 				color: "#CECECE",
 				width: 1
 			});
+		}
+	});
+});
+
+},
+'dojox/mobile/_ListTouchMixin':function(){
+define([
+	"dojo/_base/declare",
+	"dojo/touch",
+	"./sniff",
+	"dijit/form/_ListBase"
+], function(declare, touch, has, ListBase){
+
+	return declare( "dojox.mobile._ListTouchMixin", ListBase, {
+		// summary:
+		//		Focus-less menu to handle touch events consistently.
+		// description:
+		//		Focus-less menu to handle touch events consistently. Abstract
+		//		method that must be defined externally:
+		//
+		//		- onClick: item was chosen (mousedown somewhere on the menu and mouseup somewhere on the menu).
+
+		postCreate: function(){
+			this.inherited(arguments);
+
+			// For some reason in IE click event is fired immediately after user scrolled combobox control and released
+			// his/her finger. As a fix we replace click with tap event that is fired correctly.
+			if(!(has("ie") >= 10 && typeof(MSGesture) !== "undefined")){ 
+				this._listConnect("click", "_onClick");
+			}else{
+				this._listConnect(touch.press, "_onPress");
+
+				var self = this,
+					tapGesture = new MSGesture(),
+					target;
+
+				this._onPress = function(e){
+					tapGesture.target = self.domNode;
+					tapGesture.addPointer(e.pointerId);
+					target = e.target;
+				}
+
+				this.on("MSGestureTap", function(e){
+					self._onClick(e, target);
+				});
+			}
+		},
+
+		_onClick: function(/*Event*/ evt, /*DomNode*/ target){
+			this._setSelectedAttr(target);
+			this.onClick(target);
 		}
 	});
 });
@@ -7791,6 +7855,210 @@ define(["dojo/_base/declare", "dojox/gfx", "./ScaleBase"], function(declare, gfx
 			}
 		}
 	})
+});
+
+},
+'dijit/form/_ComboBoxMenuMixin':function(){
+define([
+	"dojo/_base/array", // array.forEach
+	"dojo/_base/declare", // declare
+	"dojo/dom-attr", // domAttr.set
+	"dojo/has",
+	"dojo/i18n", // i18n.getLocalization
+	"dojo/i18n!./nls/ComboBox"
+], function(array, declare, domAttr, has, i18n){
+
+	// module:
+	//		dijit/form/_ComboBoxMenuMixin
+
+	var ComboBoxMenuMixin = declare("dijit.form._ComboBoxMenuMixin" + (has("dojo-bidi") ? "_NoBidi" : ""), null, {
+		// summary:
+		//		Focus-less menu for internal use in `dijit/form/ComboBox`
+		// tags:
+		//		private
+
+		// _messages: Object
+		//		Holds "next" and "previous" text for paging buttons on drop down
+		_messages: null,
+
+		postMixInProperties: function(){
+			this.inherited(arguments);
+			this._messages = i18n.getLocalization("dijit.form", "ComboBox", this.lang);
+		},
+
+		buildRendering: function(){
+			this.inherited(arguments);
+
+			// fill in template with i18n messages
+			this.previousButton.innerHTML = this._messages["previousMessage"];
+			this.nextButton.innerHTML = this._messages["nextMessage"];
+		},
+
+		_setValueAttr: function(/*Object*/ value){
+			this._set("value", value);
+			this.onChange(value);
+		},
+
+		onClick: function(/*DomNode*/ node){
+			if(node == this.previousButton){
+				this._setSelectedAttr(null);
+				this.onPage(-1);
+			}else if(node == this.nextButton){
+				this._setSelectedAttr(null);
+				this.onPage(1);
+			}else{
+				this.onChange(node);
+			}
+		},
+
+		// stubs
+		onChange: function(/*Number*/ /*===== direction =====*/){
+			// summary:
+			//		Notifies ComboBox/FilteringSelect that user selected an option.
+			// tags:
+			//		callback
+		},
+
+		onPage: function(/*Number*/ /*===== direction =====*/){
+			// summary:
+			//		Notifies ComboBox/FilteringSelect that user clicked to advance to next/previous page.
+			// tags:
+			//		callback
+		},
+
+		onClose: function(){
+			// summary:
+			//		Callback from dijit.popup code to this widget, notifying it that it closed
+			// tags:
+			//		private
+			this._setSelectedAttr(null);
+		},
+
+		_createOption: function(/*Object*/ item, labelFunc){
+			// summary:
+			//		Creates an option to appear on the popup menu subclassed by
+			//		`dijit/form/FilteringSelect`.
+
+			var menuitem = this._createMenuItem();
+			var labelObject = labelFunc(item);
+			if(labelObject.html){
+				menuitem.innerHTML = labelObject.label;
+			}else{
+				menuitem.appendChild(
+					menuitem.ownerDocument.createTextNode(labelObject.label)
+				);
+			}
+			// #3250: in blank options, assign a normal height
+			if(menuitem.innerHTML == ""){
+				menuitem.innerHTML = "&#160;";	// &nbsp;
+			}
+
+			return menuitem;
+		},
+
+		createOptions: function(results, options, labelFunc){
+			// summary:
+			//		Fills in the items in the drop down list
+			// results:
+			//		Array of items
+			// options:
+			//		The options to the query function of the store
+			//
+			// labelFunc:
+			//		Function to produce a label in the drop down list from a dojo.data item
+
+			this.items = results;
+
+			// display "Previous . . ." button
+			this.previousButton.style.display = (options.start == 0) ? "none" : "";
+			domAttr.set(this.previousButton, "id", this.id + "_prev");
+			// create options using _createOption function defined by parent
+			// ComboBox (or FilteringSelect) class
+			// #2309:
+			//		iterate over cache nondestructively
+			array.forEach(results, function(item, i){
+				var menuitem = this._createOption(item, labelFunc);
+				menuitem.setAttribute("item", i);	// index to this.items; use indirection to avoid mem leak
+				domAttr.set(menuitem, "id", this.id + i);
+				this.nextButton.parentNode.insertBefore(menuitem, this.nextButton);
+			}, this);
+			// display "Next . . ." button
+			var displayMore = false;
+			// Try to determine if we should show 'more'...
+			if(results.total && !results.total.then && results.total != -1){
+				if((options.start + options.count) < results.total){
+					displayMore = true;
+				}else if((options.start + options.count) > results.total && options.count == results.length){
+					// Weird return from a data store, where a start + count > maxOptions
+					// implies maxOptions isn't really valid and we have to go into faking it.
+					// And more or less assume more if count == results.length
+					displayMore = true;
+				}
+			}else if(options.count == results.length){
+				//Don't know the size, so we do the best we can based off count alone.
+				//So, if we have an exact match to count, assume more.
+				displayMore = true;
+			}
+
+			this.nextButton.style.display = displayMore ? "" : "none";
+			domAttr.set(this.nextButton, "id", this.id + "_next");
+		},
+
+		clearResultList: function(){
+			// summary:
+			//		Clears the entries in the drop down list, but of course keeps the previous and next buttons.
+			var container = this.containerNode;
+			while(container.childNodes.length > 2){
+				container.removeChild(container.childNodes[container.childNodes.length - 2]);
+			}
+			this._setSelectedAttr(null);
+		},
+
+		highlightFirstOption: function(){
+			// summary:
+			//		Highlight the first real item in the list (not Previous Choices).
+			this.selectFirstNode();
+		},
+
+		highlightLastOption: function(){
+			// summary:
+			//		Highlight the last real item in the list (not More Choices).
+			this.selectLastNode();
+		},
+
+		selectFirstNode: function(){
+			this.inherited(arguments);
+			if(this.getHighlightedOption() == this.previousButton){
+				this.selectNextNode();
+			}
+		},
+
+		selectLastNode: function(){
+			this.inherited(arguments);
+			if(this.getHighlightedOption() == this.nextButton){
+				this.selectPreviousNode();
+			}
+		},
+
+		getHighlightedOption: function(){
+			return this.selected;
+		}
+	});
+
+	if(has("dojo-bidi")){
+		ComboBoxMenuMixin = declare("dijit.form._ComboBoxMenuMixin", ComboBoxMenuMixin, {
+			_createOption: function(){
+				var menuitem = this.inherited(arguments);
+
+				// update menuitem.dir if BidiSupport was required
+				this.applyTextDir(menuitem);
+
+				return menuitem;
+			}
+		});
+	}
+
+	return ComboBoxMenuMixin;
 });
 
 },
@@ -10646,6 +10914,603 @@ return declare("dojo.Stateful", null, {
 });
 
 },
+'dijit/form/_AutoCompleterMixin':function(){
+define([
+	"dojo/aspect",
+	"dojo/_base/declare", // declare
+	"dojo/dom-attr", // domAttr.get
+	"dojo/keys",
+	"dojo/_base/lang", // lang.clone lang.hitch
+	"dojo/query", // query
+	"dojo/regexp", // regexp.escapeString
+	"dojo/sniff", // has("ie")
+	"./DataList",
+	"./_TextBoxMixin", // defines _TextBoxMixin.selectInputText
+	"./_SearchMixin"
+], function(aspect, declare, domAttr, keys, lang, query, regexp, has, DataList, _TextBoxMixin, SearchMixin){
+
+	// module:
+	//		dijit/form/_AutoCompleterMixin
+
+	var AutoCompleterMixin = declare("dijit.form._AutoCompleterMixin", SearchMixin, {
+		// summary:
+		//		A mixin that implements the base functionality for `dijit/form/ComboBox`/`dijit/form/FilteringSelect`
+		// description:
+		//		All widgets that mix in dijit/form/_AutoCompleterMixin must extend `dijit/form/_FormValueWidget`.
+		// tags:
+		//		protected
+
+		// item: Object
+		//		This is the item returned by the dojo/store/api/Store implementation that
+		//		provides the data for this ComboBox, it's the currently selected item.
+		item: null,
+
+		// autoComplete: Boolean
+		//		If user types in a partial string, and then tab out of the `<input>` box,
+		//		automatically copy the first entry displayed in the drop down list to
+		//		the `<input>` field
+		autoComplete: true,
+
+		// highlightMatch: String
+		//		One of: "first", "all" or "none".
+		//
+		//		If the ComboBox/FilteringSelect opens with the search results and the searched
+		//		string can be found, it will be highlighted.  If set to "all"
+		//		then will probably want to change `queryExpr` parameter to '*${0}*'
+		//
+		//		Highlighting is only performed when `labelType` is "text", so as to not
+		//		interfere with any HTML markup an HTML label might contain.
+		highlightMatch: "first",
+
+		// labelAttr: String?
+		//		The entries in the drop down list come from this attribute in the
+		//		dojo.data items.
+		//		If not specified, the searchAttr attribute is used instead.
+		labelAttr: "",
+
+		// labelType: String
+		//		Specifies how to interpret the labelAttr in the data store items.
+		//		Can be "html" or "text".
+		labelType: "text",
+
+		// Flags to _HasDropDown to limit height of drop down to make it fit in viewport
+		maxHeight: -1,
+
+		// For backwards compatibility let onClick events propagate, even clicks on the down arrow button
+		_stopClickEvents: false,
+
+		_getCaretPos: function(/*DomNode*/ element){
+			// khtml 3.5.2 has selection* methods as does webkit nightlies from 2005-06-22
+			var pos = 0;
+			if(typeof(element.selectionStart) == "number"){
+				// FIXME: this is totally borked on Moz < 1.3. Any recourse?
+				pos = element.selectionStart;
+			}else if(has("ie")){
+				// in the case of a mouse click in a popup being handled,
+				// then the document.selection is not the textarea, but the popup
+				// var r = document.selection.createRange();
+				// hack to get IE 6 to play nice. What a POS browser.
+				var tr = element.ownerDocument.selection.createRange().duplicate();
+				var ntr = element.createTextRange();
+				tr.move("character", 0);
+				ntr.move("character", 0);
+				try{
+					// If control doesn't have focus, you get an exception.
+					// Seems to happen on reverse-tab, but can also happen on tab (seems to be a race condition - only happens sometimes).
+					// There appears to be no workaround for this - googled for quite a while.
+					ntr.setEndPoint("EndToEnd", tr);
+					pos = String(ntr.text).replace(/\r/g, "").length;
+				}catch(e){
+					// If focus has shifted, 0 is fine for caret pos.
+				}
+			}
+			return pos;
+		},
+
+		_setCaretPos: function(/*DomNode*/ element, /*Number*/ location){
+			location = parseInt(location);
+			_TextBoxMixin.selectInputText(element, location, location);
+		},
+
+		_setDisabledAttr: function(/*Boolean*/ value){
+			// Additional code to set disabled state of ComboBox node.
+			// Overrides _FormValueWidget._setDisabledAttr() or ValidationTextBox._setDisabledAttr().
+			this.inherited(arguments);
+			this.domNode.setAttribute("aria-disabled", value ? "true" : "false");
+		},
+
+		_onKey: function(/*Event*/ evt){
+			// summary:
+			//		Handles keyboard events
+
+			if(evt.charCode >= 32){
+				return;
+			} // alphanumeric reserved for searching
+
+			var key = evt.charCode || evt.keyCode;
+
+			// except for cutting/pasting case - ctrl + x/v
+			if(key == keys.ALT || key == keys.CTRL || key == keys.META || key == keys.SHIFT){
+				return; // throw out spurious events
+			}
+
+			var pw = this.dropDown;
+			var highlighted = null;
+			this._abortQuery();
+
+			// _HasDropDown will do some of the work:
+			//
+			//	1. when drop down is not yet shown:
+			//		- if user presses the down arrow key, call loadDropDown()
+			//	2. when drop down is already displayed:
+			//		- on ESC key, call closeDropDown()
+			//		- otherwise, call dropDown.handleKey() to process the keystroke
+			this.inherited(arguments);
+
+			if(evt.altKey || evt.ctrlKey || evt.metaKey){
+				return;
+			} // don't process keys with modifiers  - but we want shift+TAB
+
+			if(this._opened){
+				highlighted = pw.getHighlightedOption();
+			}
+			switch(key){
+				case keys.PAGE_DOWN:
+				case keys.DOWN_ARROW:
+				case keys.PAGE_UP:
+				case keys.UP_ARROW:
+					// Keystroke caused ComboBox_menu to move to a different item.
+					// Copy new item to <input> box.
+					if(this._opened){
+						this._announceOption(highlighted);
+					}
+					evt.stopPropagation();
+					evt.preventDefault();
+					break;
+
+				case keys.ENTER:
+					// prevent submitting form if user presses enter. Also
+					// prevent accepting the value if either Next or Previous
+					// are selected
+					if(highlighted){
+						// only stop event on prev/next
+						if(highlighted == pw.nextButton){
+							this._nextSearch(1);
+							// prevent submit
+							evt.stopPropagation();
+							evt.preventDefault();
+							break;
+						}else if(highlighted == pw.previousButton){
+							this._nextSearch(-1);
+							// prevent submit
+							evt.stopPropagation();
+							evt.preventDefault();
+							break;
+						}
+						// prevent submit if ENTER was to choose an item
+						evt.stopPropagation();
+						evt.preventDefault();
+					}else{
+						// Update 'value' (ex: KY) according to currently displayed text
+						this._setBlurValue(); // set value if needed
+						this._setCaretPos(this.focusNode, this.focusNode.value.length); // move cursor to end and cancel highlighting
+					}
+				// fall through
+
+				case keys.TAB:
+					var newvalue = this.get('displayedValue');
+					//	if the user had More Choices selected fall into the
+					//	_onBlur handler
+					if(pw && (newvalue == pw._messages["previousMessage"] || newvalue == pw._messages["nextMessage"])){
+						break;
+					}
+					if(highlighted){
+						this._selectOption(highlighted);
+					}
+				// fall through
+
+				case keys.ESCAPE:
+					if(this._opened){
+						this._lastQuery = null; // in case results come back later
+						this.closeDropDown();
+					}
+					break;
+			}
+		},
+
+		_autoCompleteText: function(/*String*/ text){
+			// summary:
+			//		Fill in the textbox with the first item from the drop down
+			//		list, and highlight the characters that were
+			//		auto-completed. For example, if user typed "CA" and the
+			//		drop down list appeared, the textbox would be changed to
+			//		"California" and "ifornia" would be highlighted.
+
+			var fn = this.focusNode;
+
+			// IE7: clear selection so next highlight works all the time
+			_TextBoxMixin.selectInputText(fn, fn.value.length);
+			// does text autoComplete the value in the textbox?
+			var caseFilter = this.ignoreCase ? 'toLowerCase' : 'substr';
+			if(text[caseFilter](0).indexOf(this.focusNode.value[caseFilter](0)) == 0){
+				var cpos = this.autoComplete ? this._getCaretPos(fn) : fn.value.length;
+				// only try to extend if we added the last character at the end of the input
+				if((cpos + 1) > fn.value.length){
+					// only add to input node as we would overwrite Capitalisation of chars
+					// actually, that is ok
+					fn.value = text;//.substr(cpos);
+					// visually highlight the autocompleted characters
+					_TextBoxMixin.selectInputText(fn, cpos);
+				}
+			}else{
+				// text does not autoComplete; replace the whole value and highlight
+				fn.value = text;
+				_TextBoxMixin.selectInputText(fn);
+			}
+		},
+
+		_openResultList: function(/*Object*/ results, /*Object*/ query, /*Object*/ options){
+			// summary:
+			//		Callback when a search completes.
+			// description:
+			//		1. generates drop-down list and calls _showResultList() to display it
+			//		2. if this result list is from user pressing "more choices"/"previous choices"
+			//			then tell screen reader to announce new option
+			var wasSelected = this.dropDown.getHighlightedOption();
+			this.dropDown.clearResultList();
+			if(!results.length && options.start == 0){ // if no results and not just the previous choices button
+				this.closeDropDown();
+				return;
+			}
+			this._nextSearch = this.dropDown.onPage = lang.hitch(this, function(direction){
+				results.nextPage(direction !== -1);
+				this.focus();
+			});
+
+			// Fill in the textbox with the first item from the drop down list,
+			// and highlight the characters that were auto-completed. For
+			// example, if user typed "CA" and the drop down list appeared, the
+			// textbox would be changed to "California" and "ifornia" would be
+			// highlighted.
+
+			this.dropDown.createOptions(
+				results,
+				options,
+				lang.hitch(this, "_getMenuLabelFromItem")
+			);
+
+			// show our list (only if we have content, else nothing)
+			this._showResultList();
+
+			// #4091:
+			//		tell the screen reader that the paging callback finished by
+			//		shouting the next choice
+			if("direction" in options){
+				if(options.direction){
+					this.dropDown.highlightFirstOption();
+				}else if(!options.direction){
+					this.dropDown.highlightLastOption();
+				}
+				if(wasSelected){
+					this._announceOption(this.dropDown.getHighlightedOption());
+				}
+			}else if(this.autoComplete && !this._prev_key_backspace
+				// when the user clicks the arrow button to show the full list,
+				// startSearch looks for "*".
+				// it does not make sense to autocomplete
+				// if they are just previewing the options available.
+				&& !/^[*]+$/.test(query[this.searchAttr].toString())){
+				this._announceOption(this.dropDown.containerNode.firstChild.nextSibling); // 1st real item
+			}
+		},
+
+		_showResultList: function(){
+			// summary:
+			//		Display the drop down if not already displayed, or if it is displayed, then
+			//		reposition it if necessary (reposition may be necessary if drop down's height changed).
+			this.closeDropDown(true);
+			this.openDropDown();
+			this.domNode.setAttribute("aria-expanded", "true");
+		},
+
+		loadDropDown: function(/*Function*/ /*===== callback =====*/){
+			// Overrides _HasDropDown.loadDropDown().
+			// This is called when user has pressed button icon or pressed the down arrow key
+			// to open the drop down.
+			this._startSearchAll();
+		},
+
+		isLoaded: function(){
+			// signal to _HasDropDown that it needs to call loadDropDown() to load the
+			// drop down asynchronously before displaying it
+			return false;
+		},
+
+		closeDropDown: function(){
+			// Overrides _HasDropDown.closeDropDown().  Closes the drop down (assuming that it's open).
+			// This method is the callback when the user types ESC or clicking
+			// the button icon while the drop down is open.  It's also called by other code.
+			this._abortQuery();
+			if(this._opened){
+				this.inherited(arguments);
+				this.domNode.setAttribute("aria-expanded", "false");
+			}
+		},
+
+		_setBlurValue: function(){
+			// if the user clicks away from the textbox OR tabs away, set the
+			// value to the textbox value
+			// #4617:
+			//		if value is now more choices or previous choices, revert
+			//		the value
+			var newvalue = this.get('displayedValue');
+			var pw = this.dropDown;
+			if(pw && (newvalue == pw._messages["previousMessage"] || newvalue == pw._messages["nextMessage"])){
+				this._setValueAttr(this._lastValueReported, true);
+			}else if(typeof this.item == "undefined"){
+				// Update 'value' (ex: KY) according to currently displayed text
+				this.item = null;
+				this.set('displayedValue', newvalue);
+			}else{
+				if(this.value != this._lastValueReported){
+					this._handleOnChange(this.value, true);
+				}
+				this._refreshState();
+			}
+			// Remove aria-activedescendant since it may not be removed if they select with arrows then blur with mouse
+			this.focusNode.removeAttribute("aria-activedescendant");
+		},
+
+		_setItemAttr: function(/*item*/ item, /*Boolean?*/ priorityChange, /*String?*/ displayedValue){
+			// summary:
+			//		Set the displayed valued in the input box, and the hidden value
+			//		that gets submitted, based on a dojo.data store item.
+			// description:
+			//		Users shouldn't call this function; they should be calling
+			//		set('item', value)
+			// tags:
+			//		private
+			var value = '';
+			if(item){
+				if(!displayedValue){
+					displayedValue = this.store._oldAPI ? // remove getValue() for 2.0 (old dojo.data API)
+						this.store.getValue(item, this.searchAttr) : item[this.searchAttr];
+				}
+				value = this._getValueField() != this.searchAttr ? this.store.getIdentity(item) : displayedValue;
+			}
+			this.set('value', value, priorityChange, displayedValue, item);
+		},
+
+		_announceOption: function(/*Node*/ node){
+			// summary:
+			//		a11y code that puts the highlighted option in the textbox.
+			//		This way screen readers will know what is happening in the
+			//		menu.
+
+			if(!node){
+				return;
+			}
+			// pull the text value from the item attached to the DOM node
+			var newValue;
+			if(node == this.dropDown.nextButton ||
+				node == this.dropDown.previousButton){
+				newValue = node.innerHTML;
+				this.item = undefined;
+				this.value = '';
+			}else{
+				var item = this.dropDown.items[node.getAttribute("item")];
+				newValue = (this.store._oldAPI ? // remove getValue() for 2.0 (old dojo.data API)
+					this.store.getValue(item, this.searchAttr) : item[this.searchAttr]).toString();
+				this.set('item', item, false, newValue);
+			}
+			// get the text that the user manually entered (cut off autocompleted text)
+			this.focusNode.value = this.focusNode.value.substring(0, this._lastInput.length);
+			// set up ARIA activedescendant
+			this.focusNode.setAttribute("aria-activedescendant", domAttr.get(node, "id"));
+			// autocomplete the rest of the option to announce change
+			this._autoCompleteText(newValue);
+		},
+
+		_selectOption: function(/*DomNode*/ target){
+			// summary:
+			//		Menu callback function, called when an item in the menu is selected.
+			this.closeDropDown();
+			if(target){
+				this._announceOption(target);
+			}
+			this._setCaretPos(this.focusNode, this.focusNode.value.length);
+			this._handleOnChange(this.value, true);
+			// Remove aria-activedescendant since the drop down is no loner visible
+			// after closeDropDown() but _announceOption() adds it back in
+			this.focusNode.removeAttribute("aria-activedescendant");
+		},
+
+		_startSearchAll: function(){
+			this._startSearch('');
+		},
+
+		_startSearchFromInput: function(){
+			this.item = undefined; // undefined means item needs to be set
+			this.inherited(arguments);
+		},
+
+		_startSearch: function(/*String*/ key){
+			// summary:
+			//		Starts a search for elements matching key (key=="" means to return all items),
+			//		and calls _openResultList() when the search completes, to display the results.
+			if(!this.dropDown){
+				var popupId = this.id + "_popup",
+					dropDownConstructor = lang.isString(this.dropDownClass) ?
+						lang.getObject(this.dropDownClass, false) : this.dropDownClass;
+				this.dropDown = new dropDownConstructor({
+					onChange: lang.hitch(this, this._selectOption),
+					id: popupId,
+					dir: this.dir,
+					textDir: this.textDir
+				});
+			}
+			this._lastInput = key; // Store exactly what was entered by the user.
+			this.inherited(arguments);
+		},
+
+		_getValueField: function(){
+			// summary:
+			//		Helper for postMixInProperties() to set this.value based on data inlined into the markup.
+			//		Returns the attribute name in the item (in dijit/form/_ComboBoxDataStore) to use as the value.
+			return this.searchAttr;
+		},
+
+		//////////// INITIALIZATION METHODS ///////////////////////////////////////
+
+		postMixInProperties: function(){
+			this.inherited(arguments);
+			if(!this.store){
+				var srcNodeRef = this.srcNodeRef;
+				// if user didn't specify store, then assume there are option tags
+				this.store = new DataList({}, srcNodeRef);
+
+				// if there is no value set and there is an option list, set
+				// the value to the first value to be consistent with native Select
+				// Firefox and Safari set value
+				// IE6 and Opera set selectedIndex, which is automatically set
+				// by the selected attribute of an option tag
+				// IE6 does not set value, Opera sets value = selectedIndex
+				if(!("value" in this.params)){
+					var item = (this.item = this.store.fetchSelectedItem());
+					if(item){
+						var valueField = this._getValueField();
+						// remove getValue() for 2.0 (old dojo.data API)
+						this.value = this.store._oldAPI ? this.store.getValue(item, valueField) : item[valueField];
+					}
+				}
+			}
+		},
+
+		postCreate: function(){
+			// summary:
+			//		Subclasses must call this method from their postCreate() methods
+			// tags:
+			//		protected
+
+			// find any associated label element and add to ComboBox node.
+			var label = query('label[for="' + this.id + '"]');
+			if(label.length){
+				if(!label[0].id){
+					label[0].id = this.id + "_label";
+				}
+				this.domNode.setAttribute("aria-labelledby", label[0].id);
+
+			}
+			this.inherited(arguments);
+			aspect.after(this, "onSearch", lang.hitch(this, "_openResultList"), true);
+		},
+
+		_getMenuLabelFromItem: function(/*Item*/ item){
+			var label = this.labelFunc(item, this.store),
+				labelType = this.labelType;
+			// If labelType is not "text" we don't want to screw any markup ot whatever.
+			if(this.highlightMatch != "none" && this.labelType == "text" && this._lastInput){
+				label = this.doHighlight(label, this._lastInput);
+				labelType = "html";
+			}
+			return {html: labelType == "html", label: label};
+		},
+
+		doHighlight: function(/*String*/ label, /*String*/ find){
+			// summary:
+			//		Highlights the string entered by the user in the menu.  By default this
+			//		highlights the first occurrence found. Override this method
+			//		to implement your custom highlighting.
+			// tags:
+			//		protected
+
+			var
+			// Add (g)lobal modifier when this.highlightMatch == "all" and (i)gnorecase when this.ignoreCase == true
+				modifiers = (this.ignoreCase ? "i" : "") + (this.highlightMatch == "all" ? "g" : ""),
+				i = this.queryExpr.indexOf("${0}");
+			find = regexp.escapeString(find); // escape regexp special chars
+			//If < appears in label, and user presses t, we don't want to highlight the t in the escaped "&lt;"
+			//first find out every occurences of "find", wrap each occurence in a pair of "\uFFFF" characters (which
+			//should not appear in any string). then html escape the whole string, and replace '\uFFFF" with the
+			//HTML highlight markup. 
+			return this._escapeHtml(label.replace(
+				new RegExp((i == 0 ? "^" : "") + "(" + find + ")" + (i == (this.queryExpr.length - 4) ? "$" : ""), modifiers),
+				'\uFFFF$1\uFFFF')).replace(
+				/\uFFFF([^\uFFFF]+)\uFFFF/g, '<span class="dijitComboBoxHighlightMatch">$1</span>'
+			); // returns String, (almost) valid HTML (entities encoded)
+		},
+
+		_escapeHtml: function(/*String*/ str){
+			// TODO Should become dojo.html.entities(), when exists use instead
+			// summary:
+			//		Adds escape sequences for special characters in XML: `&<>"'`
+			str = String(str).replace(/&/gm, "&amp;").replace(/</gm, "&lt;")
+				.replace(/>/gm, "&gt;").replace(/"/gm, "&quot;"); //balance"
+			return str; // string
+		},
+
+		reset: function(){
+			// Overrides the _FormWidget.reset().
+			// Additionally reset the .item (to clean up).
+			this.item = null;
+			this.inherited(arguments);
+		},
+
+		labelFunc: function(item, store){
+			// summary:
+			//		Computes the label to display based on the dojo.data store item.
+			// item: Object
+			//		The item from the store
+			// store: dojo/store/api/Store
+			//		The store.
+			// returns:
+			//		The label that the ComboBox should display
+			// tags:
+			//		private
+
+			// Use toString() because XMLStore returns an XMLItem whereas this
+			// method is expected to return a String (#9354).
+			// Remove getValue() for 2.0 (old dojo.data API)
+			return (store._oldAPI ? store.getValue(item, this.labelAttr || this.searchAttr) :
+				item[this.labelAttr || this.searchAttr]).toString(); // String
+		},
+
+		_setValueAttr: function(/*String*/ value, /*Boolean?*/ priorityChange, /*String?*/ displayedValue, /*item?*/ item){
+			// summary:
+			//		Hook so set('value', value) works.
+			// description:
+			//		Sets the value of the select.
+			this._set("item", item || null); // value not looked up in store
+			if(value == null /* or undefined */){
+				value = '';
+			} // null translates to blank
+			this.inherited(arguments);
+		}
+	});
+
+	if(has("dojo-bidi")){
+		AutoCompleterMixin.extend({
+			_setTextDirAttr: function(/*String*/ textDir){
+				// summary:
+				//		Setter for textDir, needed for the dropDown's textDir update.
+				// description:
+				//		Users shouldn't call this function; they should be calling
+				//		set('textDir', value)
+				// tags:
+				//		private
+				this.inherited(arguments);
+				// update the drop down also (_ComboBoxMenuMixin)
+				if(this.dropDown){
+					this.dropDown._set("textDir", textDir);
+				}
+			}
+		});
+	}
+
+	return AutoCompleterMixin;
+});
+
+},
 'dojox/dgauges/TextIndicator':function(){
 define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/sniff", "dojo/_base/array", "dojo/on", "dojox/gfx", "./IndicatorBase"],
 	function(lang, declare, has, array, on, gfx, IndicatorBase){
@@ -11150,7 +12015,7 @@ define([
 				}
 			}
 
-			if(this.roundCornerMask && ( true ||has("svg"))){
+			if(this.roundCornerMask && (has("webkit")||has("svg"))){
 				var node = this.containerNode;
 				var mask = this.maskNode = domConstruct.create("div", {
 					className: "mblScrollablePaneMask"
@@ -11189,7 +12054,7 @@ define([
 			// description:
 			//		Creates a rounded corner rectangle mask.
 			//		This function works only on WebKit-based browsers.
-			if( true ||has("svg")){
+			if(has("webkit")||has("svg")){
 				if(this.domNode.offsetHeight == 0){ return; } // in a hidden view
 				this.maskNode.style.height = this.domNode.offsetHeight + "px";
 				var child = this.getChildren()[0],
@@ -16186,7 +17051,7 @@ define(["./kernel", "./lang", "../sniff"], function(dojo, lang, has){
 		// isWebKit: Number|undefined
 		//		Version as a Number if client is a WebKit-derived browser (Konqueror,
 		//		Safari, Chrome, etc.). undefined otherwise.
-		isWebKit:  true ,
+		isWebKit: has("webkit"),
 
 		// isMozilla: Number|undefined
 		//		Version as a Number if client is a Mozilla-based browser (Firefox,
@@ -16415,6 +17280,100 @@ define(["require", "module"], function(require, module){
 });
 
 },
+'dojox/mobile/_ComboBoxMenu':function(){
+define([
+	"dojo/_base/kernel",
+	"dojo/_base/declare",
+	"dojo/dom-class",
+	"dojo/dom-construct",
+	"dijit/form/_ComboBoxMenuMixin",
+	"dijit/_WidgetBase",
+	"./_ListTouchMixin",
+	"./scrollable",
+	"dojo/has",
+	"dojo/has!dojo-bidi?dojox/mobile/bidi/_ComboBoxMenu"
+],
+	function(dojo, declare, domClass, domConstruct, ComboBoxMenuMixin, WidgetBase, ListTouchMixin, Scrollable, has, BidiComboBoxMenu){
+	// module:
+	//		dojox/mobile/_ComboBoxMenu
+
+	var _ComboBoxMenu = declare(has("dojo-bidi") ? "dojox.mobile._NonBidiComboBoxMenu" : "dojox.mobile._ComboBoxMenu", [WidgetBase, ListTouchMixin, ComboBoxMenuMixin], {
+		// summary:
+		//		Focus-less menu for internal use in dojox/mobile/ComboBox.
+		//		Abstract methods that must be defined externally:
+		//
+		//		- onChange: item was explicitly chosen (mousedown somewhere on the menu and mouseup somewhere on the menu);
+		//		- onPage: next(1) or previous(-1) button pressed.
+		// tags:
+		//		private
+
+		// baseClass: String
+		//		The name of the CSS class of this widget.
+		baseClass: "mblComboBoxMenu",
+		
+		// bgIframe: [private] Boolean
+		//		Flag to prevent the creation of a background iframe, when appropriate. For internal usage. 
+		bgIframe: true, // so it's not created for IE and FF
+
+		buildRendering: function(){
+			this.domNode = this.focusNode = domConstruct.create("div", { "class":"mblReset" });
+			this.containerNode = domConstruct.create("div", { style: { position:"absolute", top:0, left:0 } }, this.domNode); // needed for scrollable
+			this.previousButton = domConstruct.create("div", { "class":"mblReset mblComboBoxMenuItem mblComboBoxMenuPreviousButton", role:"option" }, this.containerNode);
+			this.nextButton = domConstruct.create("div", { "class":"mblReset mblComboBoxMenuItem mblComboBoxMenuNextButton", role:"option" }, this.containerNode);
+			this.inherited(arguments);
+		},
+
+		_createMenuItem: function(){
+			// override of the method from dijit/form/_ComboBoxMenu.
+			return domConstruct.create("div", {
+				"class": "mblReset mblComboBoxMenuItem" +(this.isLeftToRight() ? "" : " mblComboBoxMenuItemRtl"),
+				role: "option"
+			});
+		},
+
+		onSelect: function(/*DomNode*/ node){
+			// summary:
+			//		Add selected CSS.
+			domClass.add(node, "mblComboBoxMenuItemSelected");
+		},
+
+		onDeselect: function(/*DomNode*/ node){
+			// summary:
+			//		Remove selected CSS.
+			domClass.remove(node, "mblComboBoxMenuItemSelected");
+		},
+
+		onOpen: function(){
+			// summary:
+			//		Called when the menu opens.
+			this.scrollable.init({
+				domNode: this.domNode,
+				containerNode: this.containerNode
+			});
+			this.scrollable.scrollTo({x:0, y:0});
+		},
+
+		onClose: function(){
+			// summary:
+			//		Called when the menu closes.
+			this.scrollable.cleanup();
+		},
+
+		destroyRendering: function(){
+			this.bgIframe = false; // no iframe to destroy
+			this.inherited(arguments);
+		},
+
+		postCreate: function(){
+			this.inherited(arguments);
+			this.scrollable = new Scrollable();
+			this.scrollable.resize = function(){}; // resize changes the height rudely
+		}
+	});
+	return has("dojo-bidi") ? declare("dojox.mobile._ComboBoxMenu", [_ComboBoxMenu, BidiComboBoxMenu]) : _ComboBoxMenu;
+});
+
+},
 'dojox/dgauges/components/DefaultPropertiesMixin':function(){
 define(["dojo/_base/declare", "dojo/_base/Color"], function(declare, Color){
 	return declare("dojox.dgauges.components.DefaultPropertiesMixin", null, {
@@ -16605,6 +17564,216 @@ dojo.cookie.isSupported = function(){
 };
 
 return dojo.cookie;
+});
+
+},
+'dojox/mobile/Slider':function(){
+define([
+	"dojo/_base/array",
+	"dojo/_base/connect",
+	"dojo/_base/declare",
+	"dojo/_base/lang",
+	"dojo/_base/window",
+	"dojo/sniff",
+	"dojo/dom-class",
+	"dojo/dom-construct",
+	"dojo/dom-geometry",
+	"dojo/dom-style",
+	"dojo/keys",
+	"dojo/touch",
+	"dijit/_WidgetBase",
+	"dijit/form/_FormValueMixin"
+],
+	function(array, connect, declare, lang, win, has, domClass, domConstruct, domGeometry, domStyle, keys, touch, WidgetBase, FormValueMixin){
+
+	return declare("dojox.mobile.Slider", [WidgetBase, FormValueMixin], {
+		// summary:
+		//		A non-templated Slider widget similar to the HTML5 INPUT type=range.
+
+		// value: [const] Number
+		//		The current slider value.
+		value: 0,
+
+		// min: [const] Number
+		//		The first value the slider can be set to.
+		min: 0,
+
+		// max: [const] Number
+		//		The last value the slider can be set to.
+		max: 100,
+
+		// step: [const] Number
+		//		The delta from 1 value to another.
+		//		This causes the slider handle to snap/jump to the closest possible value.
+		//		A value of 0 means continuous (as much as allowed by pixel resolution).
+		step: 1,
+
+		// baseClass: String
+		//		The name of the CSS class of this widget.
+		baseClass: "mblSlider",
+
+		// flip: [const] Boolean
+		//		Specifies if the slider should change its default: ascending <--> descending.
+		flip: false,
+
+		// orientation: [const] String
+		//		The slider direction.
+		//
+		//		- "H": horizontal
+		//		- "V": vertical
+		//		- "auto": use width/height comparison at instantiation time (default is "H" if width/height are 0)
+		orientation: "auto",
+
+		// halo: Number
+		//		Size of the boundary that extends beyond the edges of the slider
+		//		to make it easier to touch.
+		halo: "8pt",
+
+		buildRendering: function(){
+			if(!this.templateString){ // true if this widget is not templated
+				this.focusNode = this.domNode = domConstruct.create("div", {});
+				this.valueNode = domConstruct.create("input", (this.srcNodeRef && this.srcNodeRef.name) ? { type: "hidden", name: this.srcNodeRef.name } : { type: "hidden" }, this.domNode, "last");
+				var relativeParent = domConstruct.create("div", { style: { position:"relative", height:"100%", width:"100%" } }, this.domNode, "last");
+				this.progressBar = domConstruct.create("div", { style:{ position:"absolute" }, "class":"mblSliderProgressBar" }, relativeParent, "last");
+				this.touchBox = domConstruct.create("div", { style:{ position:"absolute" }, "class":"mblSliderTouchBox" }, relativeParent, "last");
+				this.handle = domConstruct.create("div", { style:{ position:"absolute" }, "class":"mblSliderHandle" }, relativeParent, "last");
+			}
+			this.inherited(arguments);
+			// prevent browser scrolling on IE10 (evt.preventDefault() is not enough)
+			if(typeof this.domNode.style.msTouchAction != "undefined"){
+				this.domNode.style.msTouchAction = "none";
+			}
+		},
+
+		_setValueAttr: function(/*Number*/ value, /*Boolean?*/ priorityChange){
+			// summary:
+			//		Hook such that set('value', value) works.
+			// tags:
+			//		private
+			value = Math.max(Math.min(value, this.max), this.min);
+			var fromPercent = (this.value - this.min) * 100 / (this.max - this.min);
+			this.valueNode.value = value;
+			this.inherited(arguments);
+			if(!this._started){ return; } // don't move images until all the properties are set
+			this.focusNode.setAttribute("aria-valuenow", value);
+			var toPercent = (value - this.min) * 100 / (this.max - this.min);
+			// now perform visual slide
+			var horizontal = this.orientation != "V";
+			if(priorityChange === true){
+				domClass.add(this.handle, "mblSliderTransition");
+				domClass.add(this.progressBar, "mblSliderTransition");
+			}else{
+				domClass.remove(this.handle, "mblSliderTransition");
+				domClass.remove(this.progressBar, "mblSliderTransition");
+			}
+			domStyle.set(this.handle, this._attrs.handleLeft, (this._reversed ? (100-toPercent) : toPercent) + "%");
+			domStyle.set(this.progressBar, this._attrs.width, toPercent + "%");
+		},
+
+		postCreate: function(){
+			this.inherited(arguments);
+
+			function beginDrag(e){
+				function getEventData(e){
+					point = isMouse ? e[this._attrs.pageX] : (e.touches ? e.touches[0][this._attrs.pageX] : e[this._attrs.clientX]);
+					pixelValue = point - startPixel;
+					pixelValue = Math.min(Math.max(pixelValue, 0), maxPixels);
+					var discreteValues = this.step ? ((this.max - this.min) / this.step) : maxPixels;
+					if(discreteValues <= 1 || discreteValues == Infinity ){ discreteValues = maxPixels; }
+					var wholeIncrements = Math.round(pixelValue * discreteValues / maxPixels);
+					value = (this.max - this.min) * wholeIncrements / discreteValues;
+					value = this._reversed ? (this.max - value) : (this.min + value);
+				}
+				function continueDrag(e){
+					e.preventDefault();
+					lang.hitch(this, getEventData)(e);
+					this.set('value', value, false);
+				}
+		
+				function endDrag(e){
+					e.preventDefault();
+					array.forEach(actionHandles, lang.hitch(this, "disconnect"));
+					actionHandles = [];
+					this.set('value', this.value, true);
+				}
+
+				e.preventDefault();
+				var isMouse = e.type == "mousedown";
+				var box = domGeometry.position(node, false); // can't use true since the added docScroll and the returned x are body-zoom incompatibile
+				var bodyZoom = has("ie") ? 1 : (domStyle.get(win.body(), "zoom") || 1);
+				if(isNaN(bodyZoom)){ bodyZoom = 1; }
+				var nodeZoom = has("ie") ? 1 : (domStyle.get(node, "zoom") || 1);
+				if(isNaN(nodeZoom)){ nodeZoom = 1; }
+				var startPixel = box[this._attrs.x] * nodeZoom * bodyZoom + domGeometry.docScroll()[this._attrs.x];
+				var maxPixels = box[this._attrs.w] * nodeZoom * bodyZoom;
+				lang.hitch(this, getEventData)(e);
+				if(e.target == this.touchBox){
+					this.set('value', value, true);
+				}
+				array.forEach(actionHandles, connect.disconnect);
+				var root = win.doc.documentElement;
+				var actionHandles = [
+					this.connect(root, touch.move, continueDrag),
+					this.connect(root, touch.release, endDrag)
+				];
+			}
+
+			function keyPress(/*Event*/ e){
+				if(this.disabled || this.readOnly || e.altKey || e.ctrlKey || e.metaKey){ return; }
+				var	step = this.step,
+					multiplier = 1,
+					newValue;
+				switch(e.keyCode){
+					case keys.HOME:
+						newValue = this.min;
+						break;
+					case keys.END:
+						newValue = this.max;
+						break;
+					case keys.RIGHT_ARROW:
+						multiplier = -1;
+					case keys.LEFT_ARROW:
+						newValue = this.value + multiplier * ((flip && horizontal) ? step : -step);
+						break;
+					case keys.DOWN_ARROW:
+						multiplier = -1;
+					case keys.UP_ARROW:
+						newValue = this.value + multiplier * ((!flip || horizontal) ? step : -step);
+						break;
+					default:
+						return;
+				}
+				e.preventDefault();
+				this._setValueAttr(newValue, false);
+			}
+
+			function keyUp(/*Event*/ e){
+				if(this.disabled || this.readOnly || e.altKey || e.ctrlKey || e.metaKey){ return; }
+				this._setValueAttr(this.value, true);
+			}
+
+			var	point, pixelValue, value,
+				node = this.domNode;
+			if(this.orientation == "auto"){
+				 this.orientation = node.offsetHeight <= node.offsetWidth ? "H" : "V";
+			}
+			// add V or H suffix to baseClass for styling purposes
+			domClass.add(this.domNode, array.map(this.baseClass.split(" "), lang.hitch(this, function(c){ return c+this.orientation; })));
+			var	horizontal = this.orientation != "V",
+				ltr = horizontal ? this.isLeftToRight() : false,
+				flip = !!this.flip;
+			// _reversed is complicated since you can have flipped right-to-left and vertical is upside down by default
+			this._reversed = !((horizontal && ((ltr && !flip) || (!ltr && flip))) || (!horizontal && flip));
+			this._attrs = horizontal ? { x:'x', w:'w', l:'l', r:'r', pageX:'pageX', clientX:'clientX', handleLeft:"left", left:this._reversed ? "right" : "left", width:"width" } : { x:'y', w:'h', l:'t', r:'b', pageX:'pageY', clientX:'clientY', handleLeft:"top", left:this._reversed ? "bottom" : "top", width:"height" };
+			this.progressBar.style[this._attrs.left] = "0px";
+			this.connect(this.touchBox, touch.press, beginDrag);
+			this.connect(this.handle, touch.press, beginDrag);
+			this.connect(this.domNode, "onkeypress", keyPress); // for desktop a11y
+			this.connect(this.domNode, "onkeyup", keyUp); // fire onChange on desktop
+			this.startup();
+			this.set('value', this.value);
+		}
+	});
 });
 
 },
@@ -17878,7 +19047,7 @@ define([
 			if(this._hasMaskImage){ return; }
 			this._width = this.switchNode.offsetWidth - this.knob.offsetWidth;
 			this._hasMaskImage = true;
-			if(!( true ||has("svg"))){ return; }
+			if(!(has("webkit")||has("svg"))){ return; }
 			var rDef = domStyle.get(this.left, "borderTopLeftRadius");
 			if(rDef == "0px"){ return; }
 			var rDefs = rDef.split(" ");
@@ -19067,7 +20236,7 @@ define(["./_base/kernel", "./sniff"], function(dojo, has){
 		SHIFT: 16,
 		CTRL: 17,
 		ALT: 18,
-		META:  true  ? 91 : 224,		// the apple key on macs
+		META: has("webkit") ? 91 : 224,		// the apple key on macs
 		PAUSE: 19,
 		CAPS_LOCK: 20,
 		ESCAPE: 27,
@@ -19541,7 +20710,7 @@ define([
 	"dojo/_base/lang", // lang.hitch lang.isArray
 	"dojo/mouse", // mouse.isLeft
 	"dojo/on",
-	"dojo/sniff", //  true 
+	"dojo/sniff", // has("webkit")
 	"dojo/window", // winUtils.scrollIntoView
 	"../a11y"    // a11y.hasDefaultTabStop
 ], function(array, declare, domAttr, domStyle, lang, mouse, on, has, winUtils, a11y){
@@ -19623,7 +20792,7 @@ define([
 				array.forEach(lang.isArray(attachPointNames) ? attachPointNames : [attachPointNames], function(attachPointName){
 					var node = this[attachPointName];
 					// complex code because tabIndex=-1 on a <div> doesn't work on FF
-					if( true  || a11y.hasDefaultTabStop(node)){    // see #11064 about webkit bug
+					if(has("webkit") || a11y.hasDefaultTabStop(node)){    // see #11064 about webkit bug
 						node.setAttribute('tabIndex', "-1");
 					}else{
 						node.removeAttribute('tabIndex');
@@ -20378,6 +21547,355 @@ define([
 });
 
 },
+'dojo/date':function(){
+define(["./has", "./_base/lang"], function(has, lang){
+// module:
+//		dojo/date
+
+var date = {
+	// summary:
+	//		Date manipulation utilities
+};
+
+date.getDaysInMonth = function(/*Date*/dateObject){
+	// summary:
+	//		Returns the number of days in the month used by dateObject
+	var month = dateObject.getMonth();
+	var days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+	if(month == 1 && date.isLeapYear(dateObject)){ return 29; } // Number
+	return days[month]; // Number
+};
+
+date.isLeapYear = function(/*Date*/dateObject){
+	// summary:
+	//		Determines if the year of the dateObject is a leap year
+	// description:
+	//		Leap years are years with an additional day YYYY-02-29, where the
+	//		year number is a multiple of four with the following exception: If
+	//		a year is a multiple of 100, then it is only a leap year if it is
+	//		also a multiple of 400. For example, 1900 was not a leap year, but
+	//		2000 is one.
+
+	var year = dateObject.getFullYear();
+	return !(year%400) || (!(year%4) && !!(year%100)); // Boolean
+};
+
+// FIXME: This is not localized
+date.getTimezoneName = function(/*Date*/dateObject){
+	// summary:
+	//		Get the user's time zone as provided by the browser
+	// dateObject:
+	//		Needed because the timezone may vary with time (daylight savings)
+	// description:
+	//		Try to get time zone info from toString or toLocaleString method of
+	//		the Date object -- UTC offset is not a time zone.  See
+	//		http://www.twinsun.com/tz/tz-link.htm Note: results may be
+	//		inconsistent across browsers.
+
+	var str = dateObject.toString(); // Start looking in toString
+	var tz = ''; // The result -- return empty string if nothing found
+	var match;
+
+	// First look for something in parentheses -- fast lookup, no regex
+	var pos = str.indexOf('(');
+	if(pos > -1){
+		tz = str.substring(++pos, str.indexOf(')'));
+	}else{
+		// If at first you don't succeed ...
+		// If IE knows about the TZ, it appears before the year
+		// Capital letters or slash before a 4-digit year
+		// at the end of string
+		var pat = /([A-Z\/]+) \d{4}$/;
+		if((match = str.match(pat))){
+			tz = match[1];
+		}else{
+		// Some browsers (e.g. Safari) glue the TZ on the end
+		// of toLocaleString instead of putting it in toString
+			str = dateObject.toLocaleString();
+			// Capital letters or slash -- end of string,
+			// after space
+			pat = / ([A-Z\/]+)$/;
+			if((match = str.match(pat))){
+				tz = match[1];
+			}
+		}
+	}
+
+	// Make sure it doesn't somehow end up return AM or PM
+	return (tz == 'AM' || tz == 'PM') ? '' : tz; // String
+};
+
+// Utility methods to do arithmetic calculations with Dates
+
+date.compare = function(/*Date*/date1, /*Date?*/date2, /*String?*/portion){
+	// summary:
+	//		Compare two date objects by date, time, or both.
+	// description:
+	//		Returns 0 if equal, positive if a > b, else negative.
+	// date1:
+	//		Date object
+	// date2:
+	//		Date object.  If not specified, the current Date is used.
+	// portion:
+	//		A string indicating the "date" or "time" portion of a Date object.
+	//		Compares both "date" and "time" by default.  One of the following:
+	//		"date", "time", "datetime"
+
+	// Extra step required in copy for IE - see #3112
+	date1 = new Date(+date1);
+	date2 = new Date(+(date2 || new Date()));
+
+	if(portion == "date"){
+		// Ignore times and compare dates.
+		date1.setHours(0, 0, 0, 0);
+		date2.setHours(0, 0, 0, 0);
+	}else if(portion == "time"){
+		// Ignore dates and compare times.
+		date1.setFullYear(0, 0, 0);
+		date2.setFullYear(0, 0, 0);
+	}
+
+	if(date1 > date2){ return 1; } // int
+	if(date1 < date2){ return -1; } // int
+	return 0; // int
+};
+
+date.add = function(/*Date*/date, /*String*/interval, /*int*/amount){
+	// summary:
+	//		Add to a Date in intervals of different size, from milliseconds to years
+	// date: Date
+	//		Date object to start with
+	// interval:
+	//		A string representing the interval.  One of the following:
+	//		"year", "month", "day", "hour", "minute", "second",
+	//		"millisecond", "quarter", "week", "weekday"
+	// amount:
+	//		How much to add to the date.
+
+	var sum = new Date(+date); // convert to Number before copying to accomodate IE (#3112)
+	var fixOvershoot = false;
+	var property = "Date";
+
+	switch(interval){
+		case "day":
+			break;
+		case "weekday":
+			//i18n FIXME: assumes Saturday/Sunday weekend, but this is not always true.  see dojo/cldr/supplemental
+
+			// Divide the increment time span into weekspans plus leftover days
+			// e.g., 8 days is one 5-day weekspan / and two leftover days
+			// Can't have zero leftover days, so numbers divisible by 5 get
+			// a days value of 5, and the remaining days make up the number of weeks
+			var days, weeks;
+			var mod = amount % 5;
+			if(!mod){
+				days = (amount > 0) ? 5 : -5;
+				weeks = (amount > 0) ? ((amount-5)/5) : ((amount+5)/5);
+			}else{
+				days = mod;
+				weeks = parseInt(amount/5);
+			}
+			// Get weekday value for orig date param
+			var strt = date.getDay();
+			// Orig date is Sat / positive incrementer
+			// Jump over Sun
+			var adj = 0;
+			if(strt == 6 && amount > 0){
+				adj = 1;
+			}else if(strt == 0 && amount < 0){
+			// Orig date is Sun / negative incrementer
+			// Jump back over Sat
+				adj = -1;
+			}
+			// Get weekday val for the new date
+			var trgt = strt + days;
+			// New date is on Sat or Sun
+			if(trgt == 0 || trgt == 6){
+				adj = (amount > 0) ? 2 : -2;
+			}
+			// Increment by number of weeks plus leftover days plus
+			// weekend adjustments
+			amount = (7 * weeks) + days + adj;
+			break;
+		case "year":
+			property = "FullYear";
+			// Keep increment/decrement from 2/29 out of March
+			fixOvershoot = true;
+			break;
+		case "week":
+			amount *= 7;
+			break;
+		case "quarter":
+			// Naive quarter is just three months
+			amount *= 3;
+			// fallthrough...
+		case "month":
+			// Reset to last day of month if you overshoot
+			fixOvershoot = true;
+			property = "Month";
+			break;
+//		case "hour":
+//		case "minute":
+//		case "second":
+//		case "millisecond":
+		default:
+			property = "UTC"+interval.charAt(0).toUpperCase() + interval.substring(1) + "s";
+	}
+
+	if(property){
+		sum["set"+property](sum["get"+property]()+amount);
+	}
+
+	if(fixOvershoot && (sum.getDate() < date.getDate())){
+		sum.setDate(0);
+	}
+
+	return sum; // Date
+};
+
+date.difference = function(/*Date*/date1, /*Date?*/date2, /*String?*/interval){
+	// summary:
+	//		Get the difference in a specific unit of time (e.g., number of
+	//		months, weeks, days, etc.) between two dates, rounded to the
+	//		nearest integer.
+	// date1:
+	//		Date object
+	// date2:
+	//		Date object.  If not specified, the current Date is used.
+	// interval:
+	//		A string representing the interval.  One of the following:
+	//		"year", "month", "day", "hour", "minute", "second",
+	//		"millisecond", "quarter", "week", "weekday"
+	//
+	//		Defaults to "day".
+
+	date2 = date2 || new Date();
+	interval = interval || "day";
+	var yearDiff = date2.getFullYear() - date1.getFullYear();
+	var delta = 1; // Integer return value
+
+	switch(interval){
+		case "quarter":
+			var m1 = date1.getMonth();
+			var m2 = date2.getMonth();
+			// Figure out which quarter the months are in
+			var q1 = Math.floor(m1/3) + 1;
+			var q2 = Math.floor(m2/3) + 1;
+			// Add quarters for any year difference between the dates
+			q2 += (yearDiff * 4);
+			delta = q2 - q1;
+			break;
+		case "weekday":
+			var days = Math.round(date.difference(date1, date2, "day"));
+			var weeks = parseInt(date.difference(date1, date2, "week"));
+			var mod = days % 7;
+
+			// Even number of weeks
+			if(mod == 0){
+				days = weeks*5;
+			}else{
+				// Weeks plus spare change (< 7 days)
+				var adj = 0;
+				var aDay = date1.getDay();
+				var bDay = date2.getDay();
+
+				weeks = parseInt(days/7);
+				mod = days % 7;
+				// Mark the date advanced by the number of
+				// round weeks (may be zero)
+				var dtMark = new Date(date1);
+				dtMark.setDate(dtMark.getDate()+(weeks*7));
+				var dayMark = dtMark.getDay();
+
+				// Spare change days -- 6 or less
+				if(days > 0){
+					switch(true){
+						// Range starts on Sat
+						case aDay == 6:
+							adj = -1;
+							break;
+						// Range starts on Sun
+						case aDay == 0:
+							adj = 0;
+							break;
+						// Range ends on Sat
+						case bDay == 6:
+							adj = -1;
+							break;
+						// Range ends on Sun
+						case bDay == 0:
+							adj = -2;
+							break;
+						// Range contains weekend
+						case (dayMark + mod) > 5:
+							adj = -2;
+					}
+				}else if(days < 0){
+					switch(true){
+						// Range starts on Sat
+						case aDay == 6:
+							adj = 0;
+							break;
+						// Range starts on Sun
+						case aDay == 0:
+							adj = 1;
+							break;
+						// Range ends on Sat
+						case bDay == 6:
+							adj = 2;
+							break;
+						// Range ends on Sun
+						case bDay == 0:
+							adj = 1;
+							break;
+						// Range contains weekend
+						case (dayMark + mod) < 0:
+							adj = 2;
+					}
+				}
+				days += adj;
+				days -= (weeks*2);
+			}
+			delta = days;
+			break;
+		case "year":
+			delta = yearDiff;
+			break;
+		case "month":
+			delta = (date2.getMonth() - date1.getMonth()) + (yearDiff * 12);
+			break;
+		case "week":
+			// Truncate instead of rounding
+			// Don't use Math.floor -- value may be negative
+			delta = parseInt(date.difference(date1, date2, "day")/7);
+			break;
+		case "day":
+			delta /= 24;
+			// fallthrough
+		case "hour":
+			delta /= 60;
+			// fallthrough
+		case "minute":
+			delta /= 60;
+			// fallthrough
+		case "second":
+			delta /= 1000;
+			// fallthrough
+		case "millisecond":
+			delta *= date2.getTime() - date1.getTime();
+	}
+
+	// Round for fractional values and DST leaps
+	return Math.round(delta); // Number (integer)
+};
+
+// Don't use setObject() because it may overwrite dojo/date/stamp (if that has already been loaded)
+ 1  && lang.mixin(lang.getObject("dojo.date", true), date);
+
+return date;
+});
+
+},
 'dojox/mobile/Opener':function(){
 define([
 	"dojo/_base/declare",
@@ -20965,7 +22483,7 @@ define(["./_base/kernel", "./has", "require", "./domReady", "./_base/lang"], fun
 		}
 	}
 
-	if( 0  && dojo.config.parseOnLoad && !dojo.isAsync){
+	if( 1  && dojo.config.parseOnLoad && !dojo.isAsync){
 		ready(99, function(){
 			if(!dojo.parser){
 				dojo.deprecated("Add explicit require(['dojo/parser']);", "", "2.0");
@@ -22839,6 +24357,427 @@ define([
 });
 
 },
+'dijit/popup':function(){
+define([
+	"dojo/_base/array", // array.forEach array.some
+	"dojo/aspect",
+	"dojo/_base/declare", // declare
+	"dojo/dom", // dom.isDescendant
+	"dojo/dom-attr", // domAttr.set
+	"dojo/dom-construct", // domConstruct.create domConstruct.destroy
+	"dojo/dom-geometry", // domGeometry.isBodyLtr
+	"dojo/dom-style", // domStyle.set
+	"dojo/has", // has("config-bgIframe")
+	"dojo/keys",
+	"dojo/_base/lang", // lang.hitch
+	"dojo/on",
+	"./place",
+	"./BackgroundIframe",
+	"./Viewport",
+	"./main"    // dijit (defining dijit.popup to match API doc)
+], function(array, aspect, declare, dom, domAttr, domConstruct, domGeometry, domStyle, has, keys, lang, on,
+			place, BackgroundIframe, Viewport, dijit){
+
+	// module:
+	//		dijit/popup
+
+	/*=====
+	 var __OpenArgs = {
+		 // popup: Widget
+		 //		widget to display
+		 // parent: Widget
+		 //		the button etc. that is displaying this popup
+		 // around: DomNode
+		 //		DOM node (typically a button); place popup relative to this node.  (Specify this *or* "x" and "y" parameters.)
+		 // x: Integer
+		 //		Absolute horizontal position (in pixels) to place node at.  (Specify this *or* "around" parameter.)
+		 // y: Integer
+		 //		Absolute vertical position (in pixels) to place node at.  (Specify this *or* "around" parameter.)
+		 // orient: Object|String
+		 //		When the around parameter is specified, orient should be a list of positions to try, ex:
+		 //	|	[ "below", "above" ]
+		 //		For backwards compatibility it can also be an (ordered) hash of tuples of the form
+		 //		(around-node-corner, popup-node-corner), ex:
+		 //	|	{ "BL": "TL", "TL": "BL" }
+		 //		where BL means "bottom left" and "TL" means "top left", etc.
+		 //
+		 //		dijit/popup.open() tries to position the popup according to each specified position, in order,
+		 //		until the popup appears fully within the viewport.
+		 //
+		 //		The default value is ["below", "above"]
+		 //
+		 //		When an (x,y) position is specified rather than an around node, orient is either
+		 //		"R" or "L".  R (for right) means that it tries to put the popup to the right of the mouse,
+		 //		specifically positioning the popup's top-right corner at the mouse position, and if that doesn't
+		 //		fit in the viewport, then it tries, in order, the bottom-right corner, the top left corner,
+		 //		and the top-right corner.
+		 // onCancel: Function
+		 //		callback when user has canceled the popup by:
+		 //
+		 //		1. hitting ESC or
+		 //		2. by using the popup widget's proprietary cancel mechanism (like a cancel button in a dialog);
+		 //		   i.e. whenever popupWidget.onCancel() is called, args.onCancel is called
+		 // onClose: Function
+		 //		callback whenever this popup is closed
+		 // onExecute: Function
+		 //		callback when user "executed" on the popup/sub-popup by selecting a menu choice, etc. (top menu only)
+		 // padding: place.__Position
+		 //		adding a buffer around the opening position. This is only useful when around is not set.
+		 // maxHeight: Integer
+		 //		The max height for the popup.  Any popup taller than this will have scrollbars.
+		 //		Set to Infinity for no max height.  Default is to limit height to available space in viewport,
+		 //		above or below the aroundNode or specified x/y position.
+	 };
+	 =====*/
+
+	function destroyWrapper(){
+		// summary:
+		//		Function to destroy wrapper when popup widget is destroyed.
+		//		Left in this scope to avoid memory leak on IE8 on refresh page, see #15206.
+		if(this._popupWrapper){
+			domConstruct.destroy(this._popupWrapper);
+			delete this._popupWrapper;
+		}
+	}
+
+	var PopupManager = declare(null, {
+		// summary:
+		//		Used to show drop downs (ex: the select list of a ComboBox)
+		//		or popups (ex: right-click context menus).
+
+		// _stack: dijit/_WidgetBase[]
+		//		Stack of currently popped up widgets.
+		//		(someone opened _stack[0], and then it opened _stack[1], etc.)
+		_stack: [],
+
+		// _beginZIndex: Number
+		//		Z-index of the first popup.   (If first popup opens other
+		//		popups they get a higher z-index.)
+		_beginZIndex: 1000,
+
+		_idGen: 1,
+
+		_repositionAll: function(){
+			// summary:
+			//		If screen has been scrolled, reposition all the popups in the stack.
+			//		Then set timer to check again later.
+
+			if(this._firstAroundNode){	// guard for when clearTimeout() on IE doesn't work
+				var oldPos = this._firstAroundPosition,
+					newPos = domGeometry.position(this._firstAroundNode, true),
+					dx = newPos.x - oldPos.x,
+					dy = newPos.y - oldPos.y;
+
+				if(dx || dy){
+					this._firstAroundPosition = newPos;
+					for(var i = 0; i < this._stack.length; i++){
+						var style = this._stack[i].wrapper.style;
+						style.top = (parseInt(style.top, 10) + dy) + "px";
+						if(style.right == "auto"){
+							style.left = (parseInt(style.left, 10) + dx) + "px";
+						}else{
+							style.right = (parseInt(style.right, 10) - dx) + "px";
+						}
+					}
+				}
+
+				this._aroundMoveListener = setTimeout(lang.hitch(this, "_repositionAll"), dx || dy ? 10 : 50);
+			}
+		},
+
+		_createWrapper: function(/*Widget*/ widget){
+			// summary:
+			//		Initialization for widgets that will be used as popups.
+			//		Puts widget inside a wrapper DIV (if not already in one),
+			//		and returns pointer to that wrapper DIV.
+
+			var wrapper = widget._popupWrapper,
+				node = widget.domNode;
+
+			if(!wrapper){
+				// Create wrapper <div> for when this widget [in the future] will be used as a popup.
+				// This is done early because of IE bugs where creating/moving DOM nodes causes focus
+				// to go wonky, see tests/robot/Toolbar.html to reproduce
+				wrapper = domConstruct.create("div", {
+					"class": "dijitPopup",
+					style: { display: "none"},
+					role: "region",
+					"aria-label": widget["aria-label"] || widget.label || widget.name || widget.id
+				}, widget.ownerDocumentBody);
+				wrapper.appendChild(node);
+
+				var s = node.style;
+				s.display = "";
+				s.visibility = "";
+				s.position = "";
+				s.top = "0px";
+
+				widget._popupWrapper = wrapper;
+				aspect.after(widget, "destroy", destroyWrapper, true);
+			}
+
+			return wrapper;
+		},
+
+		moveOffScreen: function(/*Widget*/ widget){
+			// summary:
+			//		Moves the popup widget off-screen.
+			//		Do not use this method to hide popups when not in use, because
+			//		that will create an accessibility issue: the offscreen popup is
+			//		still in the tabbing order.
+
+			// Create wrapper if not already there
+			var wrapper = this._createWrapper(widget);
+
+			// Besides setting visibility:hidden, move it out of the viewport, see #5776, #10111, #13604
+			var ltr = domGeometry.isBodyLtr(widget.ownerDocument),
+				style = {
+					visibility: "hidden",
+					top: "-9999px",
+					display: ""
+				};
+			style[ltr ? "left" : "right"] = "-9999px";
+			style[ltr ? "right" : "left"] = "auto";
+			domStyle.set(wrapper, style);
+
+			return wrapper;
+		},
+
+		hide: function(/*Widget*/ widget){
+			// summary:
+			//		Hide this popup widget (until it is ready to be shown).
+			//		Initialization for widgets that will be used as popups
+			//
+			//		Also puts widget inside a wrapper DIV (if not already in one)
+			//
+			//		If popup widget needs to layout it should
+			//		do so when it is made visible, and popup._onShow() is called.
+
+			// Create wrapper if not already there
+			var wrapper = this._createWrapper(widget);
+
+			domStyle.set(wrapper, {
+				display: "none",
+				height: "auto",		// Open may have limited the height to fit in the viewport
+				overflow: "visible",
+				border: ""			// Open() may have moved border from popup to wrapper.
+			});
+
+			// Open() may have moved border from popup to wrapper.  Move it back.
+			var node = widget.domNode;
+			if("_originalStyle" in node){
+				node.style.cssText = node._originalStyle;
+			}
+		},
+
+		getTopPopup: function(){
+			// summary:
+			//		Compute the closest ancestor popup that's *not* a child of another popup.
+			//		Ex: For a TooltipDialog with a button that spawns a tree of menus, find the popup of the button.
+			var stack = this._stack;
+			for(var pi = stack.length - 1; pi > 0 && stack[pi].parent === stack[pi - 1].widget; pi--){
+				/* do nothing, just trying to get right value for pi */
+			}
+			return stack[pi];
+		},
+
+		open: function(/*__OpenArgs*/ args){
+			// summary:
+			//		Popup the widget at the specified position
+			//
+			// example:
+			//		opening at the mouse position
+			//		|		popup.open({popup: menuWidget, x: evt.pageX, y: evt.pageY});
+			//
+			// example:
+			//		opening the widget as a dropdown
+			//		|		popup.open({parent: this, popup: menuWidget, around: this.domNode, onClose: function(){...}});
+			//
+			//		Note that whatever widget called dijit/popup.open() should also listen to its own _onBlur callback
+			//		(fired from _base/focus.js) to know that focus has moved somewhere else and thus the popup should be closed.
+
+			var stack = this._stack,
+				widget = args.popup,
+				node = widget.domNode,
+				orient = args.orient || ["below", "below-alt", "above", "above-alt"],
+				ltr = args.parent ? args.parent.isLeftToRight() : domGeometry.isBodyLtr(widget.ownerDocument),
+				around = args.around,
+				id = (args.around && args.around.id) ? (args.around.id + "_dropdown") : ("popup_" + this._idGen++);
+
+			// If we are opening a new popup that isn't a child of a currently opened popup, then
+			// close currently opened popup(s).   This should happen automatically when the old popups
+			// gets the _onBlur() event, except that the _onBlur() event isn't reliable on IE, see [22198].
+			while(stack.length && (!args.parent || !dom.isDescendant(args.parent.domNode, stack[stack.length - 1].widget.domNode))){
+				this.close(stack[stack.length - 1].widget);
+			}
+
+			// Get pointer to popup wrapper, and create wrapper if it doesn't exist.  Remove display:none (but keep
+			// off screen) so we can do sizing calculations.
+			var wrapper = this.moveOffScreen(widget);
+
+			if(widget.startup && !widget._started){
+				widget.startup(); // this has to be done after being added to the DOM
+			}
+
+			// Limit height to space available in viewport either above or below aroundNode (whichever side has more
+			// room), adding scrollbar if necessary. Can't add scrollbar to widget because it may be a <table> (ex:
+			// dijit/Menu), so add to wrapper, and then move popup's border to wrapper so scroll bar inside border.
+			var maxHeight, popupSize = domGeometry.position(node);
+			if("maxHeight" in args && args.maxHeight != -1){
+				maxHeight = args.maxHeight || Infinity;	// map 0 --> infinity for back-compat of _HasDropDown.maxHeight
+			}else{
+				var viewport = Viewport.getEffectiveBox(this.ownerDocument),
+					aroundPos = around ? domGeometry.position(around, false) : {y: args.y - (args.padding||0), h: (args.padding||0) * 2};
+				maxHeight = Math.floor(Math.max(aroundPos.y, viewport.h - (aroundPos.y + aroundPos.h)));
+			}
+			if(popupSize.h > maxHeight){
+				// Get style of popup's border.  Unfortunately domStyle.get(node, "border") doesn't work on FF or IE,
+				// and domStyle.get(node, "borderColor") etc. doesn't work on FF, so need to use fully qualified names.
+				var cs = domStyle.getComputedStyle(node),
+					borderStyle = cs.borderLeftWidth + " " + cs.borderLeftStyle + " " + cs.borderLeftColor;
+				domStyle.set(wrapper, {
+					overflowY: "scroll",
+					height: maxHeight + "px",
+					border: borderStyle	// so scrollbar is inside border
+				});
+				node._originalStyle = node.style.cssText;
+				node.style.border = "none";
+			}
+
+			domAttr.set(wrapper, {
+				id: id,
+				style: {
+					zIndex: this._beginZIndex + stack.length
+				},
+				"class": "dijitPopup " + (widget.baseClass || widget["class"] || "").split(" ")[0] + "Popup",
+				dijitPopupParent: args.parent ? args.parent.id : ""
+			});
+
+			if(stack.length == 0 && around){
+				// First element on stack. Save position of aroundNode and setup listener for changes to that position.
+				this._firstAroundNode = around;
+				this._firstAroundPosition = domGeometry.position(around, true);
+				this._aroundMoveListener = setTimeout(lang.hitch(this, "_repositionAll"), 50);
+			}
+
+			if(has("config-bgIframe") && !widget.bgIframe){
+				// setting widget.bgIframe triggers cleanup in _WidgetBase.destroyRendering()
+				widget.bgIframe = new BackgroundIframe(wrapper);
+			}
+
+			// position the wrapper node and make it visible
+			var layoutFunc = widget.orient ? lang.hitch(widget, "orient") : null,
+				best = around ?
+					place.around(wrapper, around, orient, ltr, layoutFunc) :
+					place.at(wrapper, args, orient == 'R' ? ['TR', 'BR', 'TL', 'BL'] : ['TL', 'BL', 'TR', 'BR'], args.padding,
+						layoutFunc);
+
+			wrapper.style.visibility = "visible";
+			node.style.visibility = "visible";	// counteract effects from _HasDropDown
+
+			var handlers = [];
+
+			// provide default escape and tab key handling
+			// (this will work for any widget, not just menu)
+			handlers.push(on(wrapper, "keydown", lang.hitch(this, function(evt){
+				if(evt.keyCode == keys.ESCAPE && args.onCancel){
+					evt.stopPropagation();
+					evt.preventDefault();
+					args.onCancel();
+				}else if(evt.keyCode == keys.TAB){
+					evt.stopPropagation();
+					evt.preventDefault();
+					var topPopup = this.getTopPopup();
+					if(topPopup && topPopup.onCancel){
+						topPopup.onCancel();
+					}
+				}
+			})));
+
+			// watch for cancel/execute events on the popup and notify the caller
+			// (for a menu, "execute" means clicking an item)
+			if(widget.onCancel && args.onCancel){
+				handlers.push(widget.on("cancel", args.onCancel));
+			}
+
+			handlers.push(widget.on(widget.onExecute ? "execute" : "change", lang.hitch(this, function(){
+				var topPopup = this.getTopPopup();
+				if(topPopup && topPopup.onExecute){
+					topPopup.onExecute();
+				}
+			})));
+
+			stack.push({
+				widget: widget,
+				wrapper: wrapper,
+				parent: args.parent,
+				onExecute: args.onExecute,
+				onCancel: args.onCancel,
+				onClose: args.onClose,
+				handlers: handlers
+			});
+
+			if(widget.onOpen){
+				// TODO: in 2.0 standardize onShow() (used by StackContainer) and onOpen() (used here)
+				widget.onOpen(best);
+			}
+
+			return best;
+		},
+
+		close: function(/*Widget?*/ popup){
+			// summary:
+			//		Close specified popup and any popups that it parented.
+			//		If no popup is specified, closes all popups.
+
+			var stack = this._stack;
+
+			// Basically work backwards from the top of the stack closing popups
+			// until we hit the specified popup, but IIRC there was some issue where closing
+			// a popup would cause others to close too.  Thus if we are trying to close B in [A,B,C]
+			// closing C might close B indirectly and then the while() condition will run where stack==[A]...
+			// so the while condition is constructed defensively.
+			while((popup && array.some(stack, function(elem){
+				return elem.widget == popup;
+			})) ||
+				(!popup && stack.length)){
+				var top = stack.pop(),
+					widget = top.widget,
+					onClose = top.onClose;
+
+				if(widget.onClose){
+					// TODO: in 2.0 standardize onHide() (used by StackContainer) and onClose() (used here).
+					// Actually, StackContainer also calls onClose(), but to mean that the pane is being deleted
+					// (i.e. that the TabContainer's tab's [x] icon was clicked)
+					widget.onClose();
+				}
+
+				var h;
+				while(h = top.handlers.pop()){
+					h.remove();
+				}
+
+				// Hide the widget and it's wrapper unless it has already been destroyed in above onClose() etc.
+				if(widget && widget.domNode){
+					this.hide(widget);
+				}
+
+				if(onClose){
+					onClose();
+				}
+			}
+
+			if(stack.length == 0 && this._aroundMoveListener){
+				clearTimeout(this._aroundMoveListener);
+				this._firstAroundNode = this._firstAroundPosition = this._aroundMoveListener = null;
+			}
+		}
+	});
+
+	return (dijit.popup = new PopupManager());
+});
+
+},
 'dojox/dgauges/RectangularValueIndicator':function(){
 define(["dojo/_base/declare", "./ScaleIndicatorBase", "dojox/gfx", "dojo/_base/event", "dojo/dom-geometry"],
 	function(declare, ScaleIndicatorBase, gfx, eventUtil, domGeom){
@@ -23458,6 +25397,124 @@ define([
 	});
 
 	return has("dojo-bidi") ? declare("dojox.mobile.SpinWheelSlot", [SpinWheelSlot, BidiSpinWheelSlot]) : SpinWheelSlot;	
+});
+
+},
+'dijit/BackgroundIframe':function(){
+define([
+	"require",			// require.toUrl
+	"./main",	// to export dijit.BackgroundIframe
+	"dojo/_base/config",
+	"dojo/dom-construct", // domConstruct.create
+	"dojo/dom-style", // domStyle.set
+	"dojo/_base/lang", // lang.extend lang.hitch
+	"dojo/on",
+	"dojo/sniff" // has("ie"), has("mozilla"), has("quirks")
+], function(require, dijit, config, domConstruct, domStyle, lang, on, has){
+
+	// module:
+	//		dijit/BackgroundIFrame
+
+	// Flag for whether to create background iframe behind popups like Menus and Dialog.
+	// A background iframe is useful to prevent problems with popups appearing behind applets/pdf files,
+	// and is also useful on older versions of IE (IE6 and IE7) to prevent the "bleed through select" problem.
+	// TODO: For 2.0, make this false by default.  Also, possibly move definition to has.js so that this module can be
+	// conditionally required via  dojo/has!bgIfame?dijit/BackgroundIframe
+	has.add("config-bgIframe", !has("touch"));
+
+	// TODO: remove _frames, it isn't being used much, since popups never release their
+	// iframes (see [22236])
+	var _frames = new function(){
+		// summary:
+		//		cache of iframes
+
+		var queue = [];
+
+		this.pop = function(){
+			var iframe;
+			if(queue.length){
+				iframe = queue.pop();
+				iframe.style.display="";
+			}else{
+				// transparency needed for DialogUnderlay and for tooltips on IE (to see screen near connector)
+				if(has("ie") < 9){
+					var burl = config["dojoBlankHtmlUrl"] || require.toUrl("dojo/resources/blank.html") || "javascript:\"\"";
+					var html="<iframe src='" + burl + "' role='presentation'"
+						+ " style='position: absolute; left: 0px; top: 0px;"
+						+ "z-index: -1; filter:Alpha(Opacity=\"0\");'>";
+					iframe = document.createElement(html);
+				}else{
+					iframe = domConstruct.create("iframe");
+					iframe.src = 'javascript:""';
+					iframe.className = "dijitBackgroundIframe";
+					iframe.setAttribute("role", "presentation");
+					domStyle.set(iframe, "opacity", 0.1);
+				}
+				iframe.tabIndex = -1; // Magic to prevent iframe from getting focus on tab keypress - as style didn't work.
+			}
+			return iframe;
+		};
+
+		this.push = function(iframe){
+			iframe.style.display="none";
+			queue.push(iframe);
+		}
+	}();
+
+
+	dijit.BackgroundIframe = function(/*DomNode*/ node){
+		// summary:
+		//		For IE/FF z-index shenanigans. id attribute is required.
+		//
+		// description:
+		//		new dijit.BackgroundIframe(node).
+		//
+		//		Makes a background iframe as a child of node, that fills
+		//		area (and position) of node
+
+		if(!node.id){ throw new Error("no id"); }
+		if(has("config-bgIframe")){
+			var iframe = (this.iframe = _frames.pop());
+			node.appendChild(iframe);
+			if(has("ie")<7 || has("quirks")){
+				this.resize(node);
+				this._conn = on(node, 'resize', lang.hitch(this, "resize", node));
+			}else{
+				domStyle.set(iframe, {
+					width: '100%',
+					height: '100%'
+				});
+			}
+		}
+	};
+
+	lang.extend(dijit.BackgroundIframe, {
+		resize: function(node){
+			// summary:
+			//		Resize the iframe so it's the same size as node.
+			//		Needed on IE6 and IE/quirks because height:100% doesn't work right.
+			if(this.iframe){
+				domStyle.set(this.iframe, {
+					width: node.offsetWidth + 'px',
+					height: node.offsetHeight + 'px'
+				});
+			}
+		},
+		destroy: function(){
+			// summary:
+			//		destroy the iframe
+			if(this._conn){
+				this._conn.remove();
+				this._conn = null;
+			}
+			if(this.iframe){
+				_frames.push(this.iframe);
+				delete this.iframe;
+			}
+		}
+	});
+
+	return dijit.BackgroundIframe;
 });
 
 },
@@ -30316,6 +32373,79 @@ define([
 });
 
 },
+'dijit/form/DataList':function(){
+define([
+	"dojo/_base/declare", // declare
+	"dojo/dom", // dom.byId
+	"dojo/_base/lang", // lang.trim
+	"dojo/query", // query
+	"dojo/store/Memory",
+	"../registry"	// registry.add registry.remove
+], function(declare, dom, lang, query, MemoryStore, registry){
+
+	// module:
+	//		dijit/form/DataList
+
+	function toItem(/*DOMNode*/ option){
+		// summary:
+		//		Convert `<option>` node to hash
+		return {
+			id: option.value,
+			value: option.value,
+			name: lang.trim(option.innerText || option.textContent || '')
+		};
+	}
+
+	return declare("dijit.form.DataList", MemoryStore, {
+		// summary:
+		//		Inefficient but small data store specialized for inlined data via OPTION tags
+		//
+		// description:
+		//		Provides a store for inlined data like:
+		//
+		//	|	<datalist>
+		//	|		<option value="AL">Alabama</option>
+		//	|		...
+
+		constructor: function(params, srcNodeRef){
+			// summary:
+			//		Create the widget.
+			// params: Object|null
+			//		Hash of initialization parameters for widget, including scalar values (like title, duration etc.)
+			//		and functions, typically callbacks like onClick.
+			//		The hash can contain any of the widget's properties, excluding read-only properties.
+			// srcNodeRef: DOMNode|String
+			//		Attach widget to this DOM node.
+
+			// store pointer to original DOM tree
+			this.domNode = dom.byId(srcNodeRef);
+
+			lang.mixin(this, params);
+			if(this.id){
+				registry.add(this); // add to registry so it can be easily found by id
+			}
+			this.domNode.style.display = "none";
+
+			this.inherited(arguments, [{
+				data: query("option", this.domNode).map(toItem)
+			}]);
+		},
+
+		destroy: function(){
+			registry.remove(this.id);
+		},
+
+		fetchSelectedItem: function(){
+			// summary:
+			//		Get the option marked as selected, like `<option selected>`.
+			//		Not part of dojo.data API.
+			var option = query("> option[selected]", this.domNode)[0] || query("> option", this.domNode)[0];
+			return option && toItem(option);
+		}
+	});
+});
+
+},
 'dojo/promise/tracer':function(){
 define([
 	"../_base/lang",
@@ -30935,7 +33065,7 @@ define(["./sniff", "./dom"], function(has, dom){
 		// summary:
 		//		This module defines the core dojo DOM style API.
 	};
-	if( true ){
+	if(has("webkit")){
 		getComputedStyle = function(/*DomNode*/ node){
 			var s;
 			if(node.nodeType == 1){
@@ -32642,7 +34772,7 @@ define(["./_base/lang", "./sniff", "./_base/window", "./dom", "./dom-geometry", 
 					body = baseWindow.body(doc),
 					html = doc.documentElement || body.parentNode,
 					isIE = has("ie"),
-					isWK =  true ;
+					isWK = has("webkit");
 				// if an untested browser, then use the native method
 				if(node == body || node == html){ return; }
 				if(!(has("mozilla") || isIE || isWK || has("opera")) && ("scrollIntoView" in node)){
@@ -32737,6 +34867,909 @@ define(["./_base/lang", "./sniff", "./_base/window", "./dom", "./dom-geometry", 
 	 1  && lang.setObject("dojo.window", window);
 
 	return window;
+});
+
+},
+'dojo/number':function(){
+define([/*===== "./_base/declare", =====*/ "./_base/lang", "./i18n", "./i18n!./cldr/nls/number", "./string", "./regexp"],
+	function(/*===== declare, =====*/ lang, i18n, nlsNumber, dstring, dregexp){
+
+// module:
+//		dojo/number
+
+var number = {
+	// summary:
+	//		localized formatting and parsing routines for Number
+};
+lang.setObject("dojo.number", number);
+
+/*=====
+number.__FormatOptions = declare(null, {
+	// pattern: String?
+	//		override [formatting pattern](http://www.unicode.org/reports/tr35/#Number_Format_Patterns)
+	//		with this string.  Default value is based on locale.  Overriding this property will defeat
+	//		localization.  Literal characters in patterns are not supported.
+	// type: String?
+	//		choose a format type based on the locale from the following:
+	//		decimal, scientific (not yet supported), percent, currency. decimal by default.
+	// places: Number?
+	//		fixed number of decimal places to show.  This overrides any
+	//		information in the provided pattern.
+	// round: Number?
+	//		5 rounds to nearest .5; 0 rounds to nearest whole (default). -1
+	//		means do not round.
+	// locale: String?
+	//		override the locale used to determine formatting rules
+	// fractional: Boolean?
+	//		If false, show no decimal places, overriding places and pattern settings.
+});
+=====*/
+
+number.format = function(/*Number*/ value, /*number.__FormatOptions?*/ options){
+	// summary:
+	//		Format a Number as a String, using locale-specific settings
+	// description:
+	//		Create a string from a Number using a known localized pattern.
+	//		Formatting patterns appropriate to the locale are chosen from the
+	//		[Common Locale Data Repository](http://unicode.org/cldr) as well as the appropriate symbols and
+	//		delimiters.
+	//		If value is Infinity, -Infinity, or is not a valid JavaScript number, return null.
+	// value:
+	//		the number to be formatted
+
+	options = lang.mixin({}, options || {});
+	var locale = i18n.normalizeLocale(options.locale),
+		bundle = i18n.getLocalization("dojo.cldr", "number", locale);
+	options.customs = bundle;
+	var pattern = options.pattern || bundle[(options.type || "decimal") + "Format"];
+	if(isNaN(value) || Math.abs(value) == Infinity){ return null; } // null
+	return number._applyPattern(value, pattern, options); // String
+};
+
+//number._numberPatternRE = /(?:[#0]*,?)*[#0](?:\.0*#*)?/; // not precise, but good enough
+number._numberPatternRE = /[#0,]*[#0](?:\.0*#*)?/; // not precise, but good enough
+
+number._applyPattern = function(/*Number*/ value, /*String*/ pattern, /*number.__FormatOptions?*/ options){
+	// summary:
+	//		Apply pattern to format value as a string using options. Gives no
+	//		consideration to local customs.
+	// value:
+	//		the number to be formatted.
+	// pattern:
+	//		a pattern string as described by
+	//		[unicode.org TR35](http://www.unicode.org/reports/tr35/#Number_Format_Patterns)
+	// options: number.__FormatOptions?
+	//		_applyPattern is usually called via `dojo/number.format()` which
+	//		populates an extra property in the options parameter, "customs".
+	//		The customs object specifies group and decimal parameters if set.
+
+	//TODO: support escapes
+	options = options || {};
+	var group = options.customs.group,
+		decimal = options.customs.decimal,
+		patternList = pattern.split(';'),
+		positivePattern = patternList[0];
+	pattern = patternList[(value < 0) ? 1 : 0] || ("-" + positivePattern);
+
+	//TODO: only test against unescaped
+	if(pattern.indexOf('%') != -1){
+		value *= 100;
+	}else if(pattern.indexOf('\u2030') != -1){
+		value *= 1000; // per mille
+	}else if(pattern.indexOf('\u00a4') != -1){
+		group = options.customs.currencyGroup || group;//mixins instead?
+		decimal = options.customs.currencyDecimal || decimal;// Should these be mixins instead?
+		pattern = pattern.replace(/\u00a4{1,3}/, function(match){
+			var prop = ["symbol", "currency", "displayName"][match.length-1];
+			return options[prop] || options.currency || "";
+		});
+	}else if(pattern.indexOf('E') != -1){
+		throw new Error("exponential notation not supported");
+	}
+
+	//TODO: support @ sig figs?
+	var numberPatternRE = number._numberPatternRE;
+	var numberPattern = positivePattern.match(numberPatternRE);
+	if(!numberPattern){
+		throw new Error("unable to find a number expression in pattern: "+pattern);
+	}
+	if(options.fractional === false){ options.places = 0; }
+	return pattern.replace(numberPatternRE,
+		number._formatAbsolute(value, numberPattern[0], {decimal: decimal, group: group, places: options.places, round: options.round}));
+};
+
+number.round = function(/*Number*/ value, /*Number?*/ places, /*Number?*/ increment){
+	// summary:
+	//		Rounds to the nearest value with the given number of decimal places, away from zero
+	// description:
+	//		Rounds to the nearest value with the given number of decimal places, away from zero if equal.
+	//		Similar to Number.toFixed(), but compensates for browser quirks. Rounding can be done by
+	//		fractional increments also, such as the nearest quarter.
+	//		NOTE: Subject to floating point errors.  See dojox/math/round for experimental workaround.
+	// value:
+	//		The number to round
+	// places:
+	//		The number of decimal places where rounding takes place.  Defaults to 0 for whole rounding.
+	//		Must be non-negative.
+	// increment:
+	//		Rounds next place to nearest value of increment/10.  10 by default.
+	// example:
+	// |	>>> number.round(-0.5)
+	// |	-1
+	// |	>>> number.round(162.295, 2)
+	// |	162.29  // note floating point error.  Should be 162.3
+	// |	>>> number.round(10.71, 0, 2.5)
+	// |	10.75
+	var factor = 10 / (increment || 10);
+	return (factor * +value).toFixed(places) / factor; // Number
+};
+
+if((0.9).toFixed() == 0){
+	// (isIE) toFixed() bug workaround: Rounding fails on IE when most significant digit
+	// is just after the rounding place and is >=5
+	var round = number.round;
+	number.round = function(v, p, m){
+		var d = Math.pow(10, -p || 0), a = Math.abs(v);
+		if(!v || a >= d){
+			d = 0;
+		}else{
+			a /= d;
+			if(a < 0.5 || a >= 0.95){
+				d = 0;
+			}
+		}
+		return round(v, p, m) + (v > 0 ? d : -d);
+	};
+
+	// Use "doc hint" so the doc parser ignores this new definition of round(), and uses the one above.
+	/*===== number.round = round; =====*/
+}
+
+/*=====
+number.__FormatAbsoluteOptions = declare(null, {
+	// decimal: String?
+	//		the decimal separator
+	// group: String?
+	//		the group separator
+	// places: Number|String?
+	//		number of decimal places.  the range "n,m" will format to m places.
+	// round: Number?
+	//		5 rounds to nearest .5; 0 rounds to nearest whole (default). -1
+	//		means don't round.
+});
+=====*/
+
+number._formatAbsolute = function(/*Number*/ value, /*String*/ pattern, /*number.__FormatAbsoluteOptions?*/ options){
+	// summary:
+	//		Apply numeric pattern to absolute value using options. Gives no
+	//		consideration to local customs.
+	// value:
+	//		the number to be formatted, ignores sign
+	// pattern:
+	//		the number portion of a pattern (e.g. `#,##0.00`)
+	options = options || {};
+	if(options.places === true){options.places=0;}
+	if(options.places === Infinity){options.places=6;} // avoid a loop; pick a limit
+
+	var patternParts = pattern.split("."),
+		comma = typeof options.places == "string" && options.places.indexOf(","),
+		maxPlaces = options.places;
+	if(comma){
+		maxPlaces = options.places.substring(comma + 1);
+	}else if(!(maxPlaces >= 0)){
+		maxPlaces = (patternParts[1] || []).length;
+	}
+	if(!(options.round < 0)){
+		value = number.round(value, maxPlaces, options.round);
+	}
+
+	var valueParts = String(Math.abs(value)).split("."),
+		fractional = valueParts[1] || "";
+	if(patternParts[1] || options.places){
+		if(comma){
+			options.places = options.places.substring(0, comma);
+		}
+		// Pad fractional with trailing zeros
+		var pad = options.places !== undefined ? options.places : (patternParts[1] && patternParts[1].lastIndexOf("0") + 1);
+		if(pad > fractional.length){
+			valueParts[1] = dstring.pad(fractional, pad, '0', true);
+		}
+
+		// Truncate fractional
+		if(maxPlaces < fractional.length){
+			valueParts[1] = fractional.substr(0, maxPlaces);
+		}
+	}else{
+		if(valueParts[1]){ valueParts.pop(); }
+	}
+
+	// Pad whole with leading zeros
+	var patternDigits = patternParts[0].replace(',', '');
+	pad = patternDigits.indexOf("0");
+	if(pad != -1){
+		pad = patternDigits.length - pad;
+		if(pad > valueParts[0].length){
+			valueParts[0] = dstring.pad(valueParts[0], pad);
+		}
+
+		// Truncate whole
+		if(patternDigits.indexOf("#") == -1){
+			valueParts[0] = valueParts[0].substr(valueParts[0].length - pad);
+		}
+	}
+
+	// Add group separators
+	var index = patternParts[0].lastIndexOf(','),
+		groupSize, groupSize2;
+	if(index != -1){
+		groupSize = patternParts[0].length - index - 1;
+		var remainder = patternParts[0].substr(0, index);
+		index = remainder.lastIndexOf(',');
+		if(index != -1){
+			groupSize2 = remainder.length - index - 1;
+		}
+	}
+	var pieces = [];
+	for(var whole = valueParts[0]; whole;){
+		var off = whole.length - groupSize;
+		pieces.push((off > 0) ? whole.substr(off) : whole);
+		whole = (off > 0) ? whole.slice(0, off) : "";
+		if(groupSize2){
+			groupSize = groupSize2;
+			delete groupSize2;
+		}
+	}
+	valueParts[0] = pieces.reverse().join(options.group || ",");
+
+	return valueParts.join(options.decimal || ".");
+};
+
+/*=====
+number.__RegexpOptions = declare(null, {
+	// pattern: String?
+	//		override [formatting pattern](http://www.unicode.org/reports/tr35/#Number_Format_Patterns)
+	//		with this string.  Default value is based on locale.  Overriding this property will defeat
+	//		localization.
+	// type: String?
+	//		choose a format type based on the locale from the following:
+	//		decimal, scientific (not yet supported), percent, currency. decimal by default.
+	// locale: String?
+	//		override the locale used to determine formatting rules
+	// strict: Boolean?
+	//		strict parsing, false by default.  Strict parsing requires input as produced by the format() method.
+	//		Non-strict is more permissive, e.g. flexible on white space, omitting thousands separators
+	// places: Number|String?
+	//		number of decimal places to accept: Infinity, a positive number, or
+	//		a range "n,m".  Defined by pattern or Infinity if pattern not provided.
+});
+=====*/
+number.regexp = function(/*number.__RegexpOptions?*/ options){
+	// summary:
+	//		Builds the regular needed to parse a number
+	// description:
+	//		Returns regular expression with positive and negative match, group
+	//		and decimal separators
+	return number._parseInfo(options).regexp; // String
+};
+
+number._parseInfo = function(/*Object?*/ options){
+	options = options || {};
+	var locale = i18n.normalizeLocale(options.locale),
+		bundle = i18n.getLocalization("dojo.cldr", "number", locale),
+		pattern = options.pattern || bundle[(options.type || "decimal") + "Format"],
+//TODO: memoize?
+		group = bundle.group,
+		decimal = bundle.decimal,
+		factor = 1;
+
+	if(pattern.indexOf('%') != -1){
+		factor /= 100;
+	}else if(pattern.indexOf('\u2030') != -1){
+		factor /= 1000; // per mille
+	}else{
+		var isCurrency = pattern.indexOf('\u00a4') != -1;
+		if(isCurrency){
+			group = bundle.currencyGroup || group;
+			decimal = bundle.currencyDecimal || decimal;
+		}
+	}
+
+	//TODO: handle quoted escapes
+	var patternList = pattern.split(';');
+	if(patternList.length == 1){
+		patternList.push("-" + patternList[0]);
+	}
+
+	var re = dregexp.buildGroupRE(patternList, function(pattern){
+		pattern = "(?:"+dregexp.escapeString(pattern, '.')+")";
+		return pattern.replace(number._numberPatternRE, function(format){
+			var flags = {
+				signed: false,
+				separator: options.strict ? group : [group,""],
+				fractional: options.fractional,
+				decimal: decimal,
+				exponent: false
+				},
+
+				parts = format.split('.'),
+				places = options.places;
+
+			// special condition for percent (factor != 1)
+			// allow decimal places even if not specified in pattern
+			if(parts.length == 1 && factor != 1){
+			    parts[1] = "###";
+			}
+			if(parts.length == 1 || places === 0){
+				flags.fractional = false;
+			}else{
+				if(places === undefined){ places = options.pattern ? parts[1].lastIndexOf('0') + 1 : Infinity; }
+				if(places && options.fractional == undefined){flags.fractional = true;} // required fractional, unless otherwise specified
+				if(!options.places && (places < parts[1].length)){ places += "," + parts[1].length; }
+				flags.places = places;
+			}
+			var groups = parts[0].split(',');
+			if(groups.length > 1){
+				flags.groupSize = groups.pop().length;
+				if(groups.length > 1){
+					flags.groupSize2 = groups.pop().length;
+				}
+			}
+			return "("+number._realNumberRegexp(flags)+")";
+		});
+	}, true);
+
+	if(isCurrency){
+		// substitute the currency symbol for the placeholder in the pattern
+		re = re.replace(/([\s\xa0]*)(\u00a4{1,3})([\s\xa0]*)/g, function(match, before, target, after){
+			var prop = ["symbol", "currency", "displayName"][target.length-1],
+				symbol = dregexp.escapeString(options[prop] || options.currency || "");
+			before = before ? "[\\s\\xa0]" : "";
+			after = after ? "[\\s\\xa0]" : "";
+			if(!options.strict){
+				if(before){before += "*";}
+				if(after){after += "*";}
+				return "(?:"+before+symbol+after+")?";
+			}
+			return before+symbol+after;
+		});
+	}
+
+//TODO: substitute localized sign/percent/permille/etc.?
+
+	// normalize whitespace and return
+	return {regexp: re.replace(/[\xa0 ]/g, "[\\s\\xa0]"), group: group, decimal: decimal, factor: factor}; // Object
+};
+
+/*=====
+number.__ParseOptions = declare(null, {
+	// pattern: String?
+	//		override [formatting pattern](http://www.unicode.org/reports/tr35/#Number_Format_Patterns)
+	//		with this string.  Default value is based on locale.  Overriding this property will defeat
+	//		localization.  Literal characters in patterns are not supported.
+	// type: String?
+	//		choose a format type based on the locale from the following:
+	//		decimal, scientific (not yet supported), percent, currency. decimal by default.
+	// locale: String?
+	//		override the locale used to determine formatting rules
+	// strict: Boolean?
+	//		strict parsing, false by default.  Strict parsing requires input as produced by the format() method.
+	//		Non-strict is more permissive, e.g. flexible on white space, omitting thousands separators
+	// fractional: Boolean|Array?
+	//		Whether to include the fractional portion, where the number of decimal places are implied by pattern
+	//		or explicit 'places' parameter.  The value [true,false] makes the fractional portion optional.
+});
+=====*/
+number.parse = function(/*String*/ expression, /*number.__ParseOptions?*/ options){
+	// summary:
+	//		Convert a properly formatted string to a primitive Number, using
+	//		locale-specific settings.
+	// description:
+	//		Create a Number from a string using a known localized pattern.
+	//		Formatting patterns are chosen appropriate to the locale
+	//		and follow the syntax described by
+	//		[unicode.org TR35](http://www.unicode.org/reports/tr35/#Number_Format_Patterns)
+    	//		Note that literal characters in patterns are not supported.
+	// expression:
+	//		A string representation of a Number
+	var info = number._parseInfo(options),
+		results = (new RegExp("^"+info.regexp+"$")).exec(expression);
+	if(!results){
+		return NaN; //NaN
+	}
+	var absoluteMatch = results[1]; // match for the positive expression
+	if(!results[1]){
+		if(!results[2]){
+			return NaN; //NaN
+		}
+		// matched the negative pattern
+		absoluteMatch =results[2];
+		info.factor *= -1;
+	}
+
+	// Transform it to something Javascript can parse as a number.  Normalize
+	// decimal point and strip out group separators or alternate forms of whitespace
+	absoluteMatch = absoluteMatch.
+		replace(new RegExp("["+info.group + "\\s\\xa0"+"]", "g"), "").
+		replace(info.decimal, ".");
+	// Adjust for negative sign, percent, etc. as necessary
+	return absoluteMatch * info.factor; //Number
+};
+
+/*=====
+number.__RealNumberRegexpFlags = declare(null, {
+	// places: Number?
+	//		The integer number of decimal places or a range given as "n,m".  If
+	//		not given, the decimal part is optional and the number of places is
+	//		unlimited.
+	// decimal: String?
+	//		A string for the character used as the decimal point.  Default
+	//		is ".".
+	// fractional: Boolean|Array?
+	//		Whether decimal places are used.  Can be true, false, or [true,
+	//		false].  Default is [true, false] which means optional.
+	// exponent: Boolean|Array?
+	//		Express in exponential notation.  Can be true, false, or [true,
+	//		false]. Default is [true, false], (i.e. will match if the
+	//		exponential part is present are not).
+	// eSigned: Boolean|Array?
+	//		The leading plus-or-minus sign on the exponent.  Can be true,
+	//		false, or [true, false].  Default is [true, false], (i.e. will
+	//		match if it is signed or unsigned).  flags in regexp.integer can be
+	//		applied.
+});
+=====*/
+
+number._realNumberRegexp = function(/*__RealNumberRegexpFlags?*/ flags){
+	// summary:
+	//		Builds a regular expression to match a real number in exponential
+	//		notation
+
+	// assign default values to missing parameters
+	flags = flags || {};
+	//TODO: use mixin instead?
+	if(!("places" in flags)){ flags.places = Infinity; }
+	if(typeof flags.decimal != "string"){ flags.decimal = "."; }
+	if(!("fractional" in flags) || /^0/.test(flags.places)){ flags.fractional = [true, false]; }
+	if(!("exponent" in flags)){ flags.exponent = [true, false]; }
+	if(!("eSigned" in flags)){ flags.eSigned = [true, false]; }
+
+	var integerRE = number._integerRegexp(flags),
+		decimalRE = dregexp.buildGroupRE(flags.fractional,
+		function(q){
+			var re = "";
+			if(q && (flags.places!==0)){
+				re = "\\" + flags.decimal;
+				if(flags.places == Infinity){
+					re = "(?:" + re + "\\d+)?";
+				}else{
+					re += "\\d{" + flags.places + "}";
+				}
+			}
+			return re;
+		},
+		true
+	);
+
+	var exponentRE = dregexp.buildGroupRE(flags.exponent,
+		function(q){
+			if(q){ return "([eE]" + number._integerRegexp({ signed: flags.eSigned}) + ")"; }
+			return "";
+		}
+	);
+
+	var realRE = integerRE + decimalRE;
+	// allow for decimals without integers, e.g. .25
+	if(decimalRE){realRE = "(?:(?:"+ realRE + ")|(?:" + decimalRE + "))";}
+	return realRE + exponentRE; // String
+};
+
+/*=====
+number.__IntegerRegexpFlags = declare(null, {
+	// signed: Boolean?
+	//		The leading plus-or-minus sign. Can be true, false, or `[true,false]`.
+	//		Default is `[true, false]`, (i.e. will match if it is signed
+	//		or unsigned).
+	// separator: String?
+	//		The character used as the thousands separator. Default is no
+	//		separator. For more than one symbol use an array, e.g. `[",", ""]`,
+	//		makes ',' optional.
+	// groupSize: Number?
+	//		group size between separators
+	// groupSize2: Number?
+	//		second grouping, where separators 2..n have a different interval than the first separator (for India)
+});
+=====*/
+
+number._integerRegexp = function(/*number.__IntegerRegexpFlags?*/ flags){
+	// summary:
+	//		Builds a regular expression that matches an integer
+
+	// assign default values to missing parameters
+	flags = flags || {};
+	if(!("signed" in flags)){ flags.signed = [true, false]; }
+	if(!("separator" in flags)){
+		flags.separator = "";
+	}else if(!("groupSize" in flags)){
+		flags.groupSize = 3;
+	}
+
+	var signRE = dregexp.buildGroupRE(flags.signed,
+		function(q){ return q ? "[-+]" : ""; },
+		true
+	);
+
+	var numberRE = dregexp.buildGroupRE(flags.separator,
+		function(sep){
+			if(!sep){
+				return "(?:\\d+)";
+			}
+
+			sep = dregexp.escapeString(sep);
+			if(sep == " "){ sep = "\\s"; }
+			else if(sep == "\xa0"){ sep = "\\s\\xa0"; }
+
+			var grp = flags.groupSize, grp2 = flags.groupSize2;
+			//TODO: should we continue to enforce that numbers with separators begin with 1-9?  See #6933
+			if(grp2){
+				var grp2RE = "(?:0|[1-9]\\d{0," + (grp2-1) + "}(?:[" + sep + "]\\d{" + grp2 + "})*[" + sep + "]\\d{" + grp + "})";
+				return ((grp-grp2) > 0) ? "(?:" + grp2RE + "|(?:0|[1-9]\\d{0," + (grp-1) + "}))" : grp2RE;
+			}
+			return "(?:0|[1-9]\\d{0," + (grp-1) + "}(?:[" + sep + "]\\d{" + grp + "})*)";
+		},
+		true
+	);
+
+	return signRE + numberRE; // String
+};
+
+return number;
+});
+
+},
+'dojox/mobile/EdgeToEdgeCategory':function(){
+define([
+	"dojo/_base/declare",
+	"./RoundRectCategory"
+], function(declare, RoundRectCategory){
+
+	// module:
+	//		dojox/mobile/EdgeToEdgeCategory
+
+	return declare("dojox.mobile.EdgeToEdgeCategory", RoundRectCategory, {
+		// summary:
+		//		A category header for an edge-to-edge list.
+		buildRendering: function(){
+			this.inherited(arguments);
+			this.domNode.className = "mblEdgeToEdgeCategory";
+
+			if(this.type && this.type == "long"){
+				this.domNode.className += " mblEdgeToEdgeCategoryLong";
+			}
+		}
+	});
+});
+
+},
+'dojo/Deferred':function(){
+define([
+	"./has",
+	"./_base/lang",
+	"./errors/CancelError",
+	"./promise/Promise",
+	"./promise/instrumentation"
+], function(has, lang, CancelError, Promise, instrumentation){
+	"use strict";
+
+	// module:
+	//		dojo/Deferred
+
+	var PROGRESS = 0,
+			RESOLVED = 1,
+			REJECTED = 2;
+	var FULFILLED_ERROR_MESSAGE = "This deferred has already been fulfilled.";
+
+	var freezeObject = Object.freeze || function(){};
+
+	var signalWaiting = function(waiting, type, result, rejection, deferred){
+		if( 1 ){
+			if(type === REJECTED && Deferred.instrumentRejected && waiting.length === 0){
+				Deferred.instrumentRejected(result, false, rejection, deferred);
+			}
+		}
+
+		for(var i = 0; i < waiting.length; i++){
+			signalListener(waiting[i], type, result, rejection);
+		}
+	};
+
+	var signalListener = function(listener, type, result, rejection){
+		var func = listener[type];
+		var deferred = listener.deferred;
+		if(func){
+			try{
+				var newResult = func(result);
+				if(type === PROGRESS){
+					if(typeof newResult !== "undefined"){
+						signalDeferred(deferred, type, newResult);
+					}
+				}else{
+					if(newResult && typeof newResult.then === "function"){
+						listener.cancel = newResult.cancel;
+						newResult.then(
+								// Only make resolvers if they're actually going to be used
+								makeDeferredSignaler(deferred, RESOLVED),
+								makeDeferredSignaler(deferred, REJECTED),
+								makeDeferredSignaler(deferred, PROGRESS));
+						return;
+					}
+					signalDeferred(deferred, RESOLVED, newResult);
+				}
+			}catch(error){
+				signalDeferred(deferred, REJECTED, error);
+			}
+		}else{
+			signalDeferred(deferred, type, result);
+		}
+
+		if( 1 ){
+			if(type === REJECTED && Deferred.instrumentRejected){
+				Deferred.instrumentRejected(result, !!func, rejection, deferred.promise);
+			}
+		}
+	};
+
+	var makeDeferredSignaler = function(deferred, type){
+		return function(value){
+			signalDeferred(deferred, type, value);
+		};
+	};
+
+	var signalDeferred = function(deferred, type, result){
+		if(!deferred.isCanceled()){
+			switch(type){
+				case PROGRESS:
+					deferred.progress(result);
+					break;
+				case RESOLVED:
+					deferred.resolve(result);
+					break;
+				case REJECTED:
+					deferred.reject(result);
+					break;
+			}
+		}
+	};
+
+	var Deferred = function(canceler){
+		// summary:
+		//		Creates a new deferred. This API is preferred over
+		//		`dojo/_base/Deferred`.
+		// description:
+		//		Creates a new deferred, as an abstraction over (primarily)
+		//		asynchronous operations. The deferred is the private interface
+		//		that should not be returned to calling code. That's what the
+		//		`promise` is for. See `dojo/promise/Promise`.
+		// canceler: Function?
+		//		Will be invoked if the deferred is canceled. The canceler
+		//		receives the reason the deferred was canceled as its argument.
+		//		The deferred is rejected with its return value, or a new
+		//		`dojo/errors/CancelError` instance.
+
+		// promise: dojo/promise/Promise
+		//		The public promise object that clients can add callbacks to. 
+		var promise = this.promise = new Promise();
+
+		var deferred = this;
+		var fulfilled, result, rejection;
+		var canceled = false;
+		var waiting = [];
+
+		if( 1  && Error.captureStackTrace){
+			Error.captureStackTrace(deferred, Deferred);
+			Error.captureStackTrace(promise, Deferred);
+		}
+
+		this.isResolved = promise.isResolved = function(){
+			// summary:
+			//		Checks whether the deferred has been resolved.
+			// returns: Boolean
+
+			return fulfilled === RESOLVED;
+		};
+
+		this.isRejected = promise.isRejected = function(){
+			// summary:
+			//		Checks whether the deferred has been rejected.
+			// returns: Boolean
+
+			return fulfilled === REJECTED;
+		};
+
+		this.isFulfilled = promise.isFulfilled = function(){
+			// summary:
+			//		Checks whether the deferred has been resolved or rejected.
+			// returns: Boolean
+
+			return !!fulfilled;
+		};
+
+		this.isCanceled = promise.isCanceled = function(){
+			// summary:
+			//		Checks whether the deferred has been canceled.
+			// returns: Boolean
+
+			return canceled;
+		};
+
+		this.progress = function(update, strict){
+			// summary:
+			//		Emit a progress update on the deferred.
+			// description:
+			//		Emit a progress update on the deferred. Progress updates
+			//		can be used to communicate updates about the asynchronous
+			//		operation before it has finished.
+			// update: any
+			//		The progress update. Passed to progbacks.
+			// strict: Boolean?
+			//		If strict, will throw an error if the deferred has already
+			//		been fulfilled and consequently no progress can be emitted.
+			// returns: dojo/promise/Promise
+			//		Returns the original promise for the deferred.
+
+			if(!fulfilled){
+				signalWaiting(waiting, PROGRESS, update, null, deferred);
+				return promise;
+			}else if(strict === true){
+				throw new Error(FULFILLED_ERROR_MESSAGE);
+			}else{
+				return promise;
+			}
+		};
+
+		this.resolve = function(value, strict){
+			// summary:
+			//		Resolve the deferred.
+			// description:
+			//		Resolve the deferred, putting it in a success state.
+			// value: any
+			//		The result of the deferred. Passed to callbacks.
+			// strict: Boolean?
+			//		If strict, will throw an error if the deferred has already
+			//		been fulfilled and consequently cannot be resolved.
+			// returns: dojo/promise/Promise
+			//		Returns the original promise for the deferred.
+
+			if(!fulfilled){
+				// Set fulfilled, store value. After signaling waiting listeners unset
+				// waiting.
+				signalWaiting(waiting, fulfilled = RESOLVED, result = value, null, deferred);
+				waiting = null;
+				return promise;
+			}else if(strict === true){
+				throw new Error(FULFILLED_ERROR_MESSAGE);
+			}else{
+				return promise;
+			}
+		};
+
+		var reject = this.reject = function(error, strict){
+			// summary:
+			//		Reject the deferred.
+			// description:
+			//		Reject the deferred, putting it in an error state.
+			// error: any
+			//		The error result of the deferred. Passed to errbacks.
+			// strict: Boolean?
+			//		If strict, will throw an error if the deferred has already
+			//		been fulfilled and consequently cannot be rejected.
+			// returns: dojo/promise/Promise
+			//		Returns the original promise for the deferred.
+
+			if(!fulfilled){
+				if( 1  && Error.captureStackTrace){
+					Error.captureStackTrace(rejection = {}, reject);
+				}
+				signalWaiting(waiting, fulfilled = REJECTED, result = error, rejection, deferred);
+				waiting = null;
+				return promise;
+			}else if(strict === true){
+				throw new Error(FULFILLED_ERROR_MESSAGE);
+			}else{
+				return promise;
+			}
+		};
+
+		this.then = promise.then = function(callback, errback, progback){
+			// summary:
+			//		Add new callbacks to the deferred.
+			// description:
+			//		Add new callbacks to the deferred. Callbacks can be added
+			//		before or after the deferred is fulfilled.
+			// callback: Function?
+			//		Callback to be invoked when the promise is resolved.
+			//		Receives the resolution value.
+			// errback: Function?
+			//		Callback to be invoked when the promise is rejected.
+			//		Receives the rejection error.
+			// progback: Function?
+			//		Callback to be invoked when the promise emits a progress
+			//		update. Receives the progress update.
+			// returns: dojo/promise/Promise
+			//		Returns a new promise for the result of the callback(s).
+			//		This can be used for chaining many asynchronous operations.
+
+			var listener = [progback, callback, errback];
+			// Ensure we cancel the promise we're waiting for, or if callback/errback
+			// have returned a promise, cancel that one.
+			listener.cancel = promise.cancel;
+			listener.deferred = new Deferred(function(reason){
+				// Check whether cancel is really available, returned promises are not
+				// required to expose `cancel`
+				return listener.cancel && listener.cancel(reason);
+			});
+			if(fulfilled && !waiting){
+				signalListener(listener, fulfilled, result, rejection);
+			}else{
+				waiting.push(listener);
+			}
+			return listener.deferred.promise;
+		};
+
+		this.cancel = promise.cancel = function(reason, strict){
+			// summary:
+			//		Inform the deferred it may cancel its asynchronous operation.
+			// description:
+			//		Inform the deferred it may cancel its asynchronous operation.
+			//		The deferred's (optional) canceler is invoked and the
+			//		deferred will be left in a rejected state. Can affect other
+			//		promises that originate with the same deferred.
+			// reason: any
+			//		A message that may be sent to the deferred's canceler,
+			//		explaining why it's being canceled.
+			// strict: Boolean?
+			//		If strict, will throw an error if the deferred has already
+			//		been fulfilled and consequently cannot be canceled.
+			// returns: any
+			//		Returns the rejection reason if the deferred was canceled
+			//		normally.
+
+			if(!fulfilled){
+				// Cancel can be called even after the deferred is fulfilled
+				if(canceler){
+					var returnedReason = canceler(reason);
+					reason = typeof returnedReason === "undefined" ? reason : returnedReason;
+				}
+				canceled = true;
+				if(!fulfilled){
+					// Allow canceler to provide its own reason, but fall back to a CancelError
+					if(typeof reason === "undefined"){
+						reason = new CancelError();
+					}
+					reject(reason);
+					return reason;
+				}else if(fulfilled === REJECTED && result === reason){
+					return reason;
+				}
+			}else if(strict === true){
+				throw new Error(FULFILLED_ERROR_MESSAGE);
+			}
+		};
+
+		freezeObject(promise);
+	};
+
+	Deferred.prototype.toString = function(){
+		// returns: String
+		//		Returns `[object Deferred]`.
+
+		return "[object Deferred]";
+	};
+
+	if(instrumentation){
+		instrumentation(Deferred);
+	}
+
+	return Deferred;
 });
 
 },
@@ -33216,353 +36249,6 @@ define(["./_base", "dojo/_base/lang","dojo/_base/declare", "./matrix", "./shape"
 		Path: Path,
 		TextPath: TextPath
 	};
-});
-
-},
-'dojox/mobile/EdgeToEdgeCategory':function(){
-define([
-	"dojo/_base/declare",
-	"./RoundRectCategory"
-], function(declare, RoundRectCategory){
-
-	// module:
-	//		dojox/mobile/EdgeToEdgeCategory
-
-	return declare("dojox.mobile.EdgeToEdgeCategory", RoundRectCategory, {
-		// summary:
-		//		A category header for an edge-to-edge list.
-		buildRendering: function(){
-			this.inherited(arguments);
-			this.domNode.className = "mblEdgeToEdgeCategory";
-
-			if(this.type && this.type == "long"){
-				this.domNode.className += " mblEdgeToEdgeCategoryLong";
-			}
-		}
-	});
-});
-
-},
-'dojo/Deferred':function(){
-define([
-	"./has",
-	"./_base/lang",
-	"./errors/CancelError",
-	"./promise/Promise",
-	"./promise/instrumentation"
-], function(has, lang, CancelError, Promise, instrumentation){
-	"use strict";
-
-	// module:
-	//		dojo/Deferred
-
-	var PROGRESS = 0,
-			RESOLVED = 1,
-			REJECTED = 2;
-	var FULFILLED_ERROR_MESSAGE = "This deferred has already been fulfilled.";
-
-	var freezeObject = Object.freeze || function(){};
-
-	var signalWaiting = function(waiting, type, result, rejection, deferred){
-		if( 1 ){
-			if(type === REJECTED && Deferred.instrumentRejected && waiting.length === 0){
-				Deferred.instrumentRejected(result, false, rejection, deferred);
-			}
-		}
-
-		for(var i = 0; i < waiting.length; i++){
-			signalListener(waiting[i], type, result, rejection);
-		}
-	};
-
-	var signalListener = function(listener, type, result, rejection){
-		var func = listener[type];
-		var deferred = listener.deferred;
-		if(func){
-			try{
-				var newResult = func(result);
-				if(type === PROGRESS){
-					if(typeof newResult !== "undefined"){
-						signalDeferred(deferred, type, newResult);
-					}
-				}else{
-					if(newResult && typeof newResult.then === "function"){
-						listener.cancel = newResult.cancel;
-						newResult.then(
-								// Only make resolvers if they're actually going to be used
-								makeDeferredSignaler(deferred, RESOLVED),
-								makeDeferredSignaler(deferred, REJECTED),
-								makeDeferredSignaler(deferred, PROGRESS));
-						return;
-					}
-					signalDeferred(deferred, RESOLVED, newResult);
-				}
-			}catch(error){
-				signalDeferred(deferred, REJECTED, error);
-			}
-		}else{
-			signalDeferred(deferred, type, result);
-		}
-
-		if( 1 ){
-			if(type === REJECTED && Deferred.instrumentRejected){
-				Deferred.instrumentRejected(result, !!func, rejection, deferred.promise);
-			}
-		}
-	};
-
-	var makeDeferredSignaler = function(deferred, type){
-		return function(value){
-			signalDeferred(deferred, type, value);
-		};
-	};
-
-	var signalDeferred = function(deferred, type, result){
-		if(!deferred.isCanceled()){
-			switch(type){
-				case PROGRESS:
-					deferred.progress(result);
-					break;
-				case RESOLVED:
-					deferred.resolve(result);
-					break;
-				case REJECTED:
-					deferred.reject(result);
-					break;
-			}
-		}
-	};
-
-	var Deferred = function(canceler){
-		// summary:
-		//		Creates a new deferred. This API is preferred over
-		//		`dojo/_base/Deferred`.
-		// description:
-		//		Creates a new deferred, as an abstraction over (primarily)
-		//		asynchronous operations. The deferred is the private interface
-		//		that should not be returned to calling code. That's what the
-		//		`promise` is for. See `dojo/promise/Promise`.
-		// canceler: Function?
-		//		Will be invoked if the deferred is canceled. The canceler
-		//		receives the reason the deferred was canceled as its argument.
-		//		The deferred is rejected with its return value, or a new
-		//		`dojo/errors/CancelError` instance.
-
-		// promise: dojo/promise/Promise
-		//		The public promise object that clients can add callbacks to. 
-		var promise = this.promise = new Promise();
-
-		var deferred = this;
-		var fulfilled, result, rejection;
-		var canceled = false;
-		var waiting = [];
-
-		if( 1  && Error.captureStackTrace){
-			Error.captureStackTrace(deferred, Deferred);
-			Error.captureStackTrace(promise, Deferred);
-		}
-
-		this.isResolved = promise.isResolved = function(){
-			// summary:
-			//		Checks whether the deferred has been resolved.
-			// returns: Boolean
-
-			return fulfilled === RESOLVED;
-		};
-
-		this.isRejected = promise.isRejected = function(){
-			// summary:
-			//		Checks whether the deferred has been rejected.
-			// returns: Boolean
-
-			return fulfilled === REJECTED;
-		};
-
-		this.isFulfilled = promise.isFulfilled = function(){
-			// summary:
-			//		Checks whether the deferred has been resolved or rejected.
-			// returns: Boolean
-
-			return !!fulfilled;
-		};
-
-		this.isCanceled = promise.isCanceled = function(){
-			// summary:
-			//		Checks whether the deferred has been canceled.
-			// returns: Boolean
-
-			return canceled;
-		};
-
-		this.progress = function(update, strict){
-			// summary:
-			//		Emit a progress update on the deferred.
-			// description:
-			//		Emit a progress update on the deferred. Progress updates
-			//		can be used to communicate updates about the asynchronous
-			//		operation before it has finished.
-			// update: any
-			//		The progress update. Passed to progbacks.
-			// strict: Boolean?
-			//		If strict, will throw an error if the deferred has already
-			//		been fulfilled and consequently no progress can be emitted.
-			// returns: dojo/promise/Promise
-			//		Returns the original promise for the deferred.
-
-			if(!fulfilled){
-				signalWaiting(waiting, PROGRESS, update, null, deferred);
-				return promise;
-			}else if(strict === true){
-				throw new Error(FULFILLED_ERROR_MESSAGE);
-			}else{
-				return promise;
-			}
-		};
-
-		this.resolve = function(value, strict){
-			// summary:
-			//		Resolve the deferred.
-			// description:
-			//		Resolve the deferred, putting it in a success state.
-			// value: any
-			//		The result of the deferred. Passed to callbacks.
-			// strict: Boolean?
-			//		If strict, will throw an error if the deferred has already
-			//		been fulfilled and consequently cannot be resolved.
-			// returns: dojo/promise/Promise
-			//		Returns the original promise for the deferred.
-
-			if(!fulfilled){
-				// Set fulfilled, store value. After signaling waiting listeners unset
-				// waiting.
-				signalWaiting(waiting, fulfilled = RESOLVED, result = value, null, deferred);
-				waiting = null;
-				return promise;
-			}else if(strict === true){
-				throw new Error(FULFILLED_ERROR_MESSAGE);
-			}else{
-				return promise;
-			}
-		};
-
-		var reject = this.reject = function(error, strict){
-			// summary:
-			//		Reject the deferred.
-			// description:
-			//		Reject the deferred, putting it in an error state.
-			// error: any
-			//		The error result of the deferred. Passed to errbacks.
-			// strict: Boolean?
-			//		If strict, will throw an error if the deferred has already
-			//		been fulfilled and consequently cannot be rejected.
-			// returns: dojo/promise/Promise
-			//		Returns the original promise for the deferred.
-
-			if(!fulfilled){
-				if( 1  && Error.captureStackTrace){
-					Error.captureStackTrace(rejection = {}, reject);
-				}
-				signalWaiting(waiting, fulfilled = REJECTED, result = error, rejection, deferred);
-				waiting = null;
-				return promise;
-			}else if(strict === true){
-				throw new Error(FULFILLED_ERROR_MESSAGE);
-			}else{
-				return promise;
-			}
-		};
-
-		this.then = promise.then = function(callback, errback, progback){
-			// summary:
-			//		Add new callbacks to the deferred.
-			// description:
-			//		Add new callbacks to the deferred. Callbacks can be added
-			//		before or after the deferred is fulfilled.
-			// callback: Function?
-			//		Callback to be invoked when the promise is resolved.
-			//		Receives the resolution value.
-			// errback: Function?
-			//		Callback to be invoked when the promise is rejected.
-			//		Receives the rejection error.
-			// progback: Function?
-			//		Callback to be invoked when the promise emits a progress
-			//		update. Receives the progress update.
-			// returns: dojo/promise/Promise
-			//		Returns a new promise for the result of the callback(s).
-			//		This can be used for chaining many asynchronous operations.
-
-			var listener = [progback, callback, errback];
-			// Ensure we cancel the promise we're waiting for, or if callback/errback
-			// have returned a promise, cancel that one.
-			listener.cancel = promise.cancel;
-			listener.deferred = new Deferred(function(reason){
-				// Check whether cancel is really available, returned promises are not
-				// required to expose `cancel`
-				return listener.cancel && listener.cancel(reason);
-			});
-			if(fulfilled && !waiting){
-				signalListener(listener, fulfilled, result, rejection);
-			}else{
-				waiting.push(listener);
-			}
-			return listener.deferred.promise;
-		};
-
-		this.cancel = promise.cancel = function(reason, strict){
-			// summary:
-			//		Inform the deferred it may cancel its asynchronous operation.
-			// description:
-			//		Inform the deferred it may cancel its asynchronous operation.
-			//		The deferred's (optional) canceler is invoked and the
-			//		deferred will be left in a rejected state. Can affect other
-			//		promises that originate with the same deferred.
-			// reason: any
-			//		A message that may be sent to the deferred's canceler,
-			//		explaining why it's being canceled.
-			// strict: Boolean?
-			//		If strict, will throw an error if the deferred has already
-			//		been fulfilled and consequently cannot be canceled.
-			// returns: any
-			//		Returns the rejection reason if the deferred was canceled
-			//		normally.
-
-			if(!fulfilled){
-				// Cancel can be called even after the deferred is fulfilled
-				if(canceler){
-					var returnedReason = canceler(reason);
-					reason = typeof returnedReason === "undefined" ? reason : returnedReason;
-				}
-				canceled = true;
-				if(!fulfilled){
-					// Allow canceler to provide its own reason, but fall back to a CancelError
-					if(typeof reason === "undefined"){
-						reason = new CancelError();
-					}
-					reject(reason);
-					return reason;
-				}else if(fulfilled === REJECTED && result === reason){
-					return reason;
-				}
-			}else if(strict === true){
-				throw new Error(FULFILLED_ERROR_MESSAGE);
-			}
-		};
-
-		freezeObject(promise);
-	};
-
-	Deferred.prototype.toString = function(){
-		// returns: String
-		//		Returns `[object Deferred]`.
-
-		return "[object Deferred]";
-	};
-
-	if(instrumentation){
-		instrumentation(Deferred);
-	}
-
-	return Deferred;
 });
 
 },
@@ -36960,6 +39646,142 @@ define([
 });
 
 },
+'dijit/form/_ListBase':function(){
+define([
+	"dojo/_base/declare", // declare
+	"dojo/on",
+	"dojo/window" // winUtils.scrollIntoView
+], function(declare, on, winUtils){
+
+	// module:
+	//		dijit/form/_ListBase
+
+	return declare("dijit.form._ListBase", null, {
+		// summary:
+		//		Focus-less menu to handle UI events consistently.
+		//		Abstract methods that must be defined externally:
+		//
+		//		- onSelect: item is active (mousedown but not yet mouseup, or keyboard arrow selected but no Enter)
+		//		- onDeselect:  cancels onSelect
+		// tags:
+		//		private
+
+		// selected: DOMNode
+		//		currently selected node
+		selected: null,
+
+		_listConnect: function(/*String|Function*/ eventType, /*String*/ callbackFuncName){
+			// summary:
+			//		Connects 'containerNode' to specified method of this object
+			//		and automatically registers for 'disconnect' on widget destroy.
+			// description:
+			//		Provide widget-specific analog to 'connect'.
+			//		The callback function is called with the normal event object,
+			//		but also a second parameter is passed that indicates which list item
+			//		actually received the event.
+			// returns:
+			//		A handle that can be passed to `disconnect` in order to disconnect
+			//		before the widget is destroyed.
+			// tags:
+			//		private
+
+			var self = this;
+			return self.own(on(self.containerNode,
+				on.selector(
+					function(eventTarget, selector, target){
+						return eventTarget.parentNode == target;
+					},
+					eventType
+				),
+				function(evt){
+					evt.preventDefault();
+					self[callbackFuncName](evt, this);
+				}
+			));
+		},
+
+		selectFirstNode: function(){
+			// summary:
+			//		Select the first displayed item in the list.
+			var first = this.containerNode.firstChild;
+			while(first && first.style.display == "none"){
+				first = first.nextSibling;
+			}
+			this._setSelectedAttr(first);
+		},
+
+		selectLastNode: function(){
+			// summary:
+			//		Select the last displayed item in the list
+			var last = this.containerNode.lastChild;
+			while(last && last.style.display == "none"){
+				last = last.previousSibling;
+			}
+			this._setSelectedAttr(last);
+		},
+
+		selectNextNode: function(){
+			// summary:
+			//		Select the item just below the current selection.
+			//		If nothing selected, select first node.
+			var selectedNode = this.selected;
+			if(!selectedNode){
+				this.selectFirstNode();
+			}else{
+				var next = selectedNode.nextSibling;
+				while(next && next.style.display == "none"){
+					next = next.nextSibling;
+				}
+				if(!next){
+					this.selectFirstNode();
+				}else{
+					this._setSelectedAttr(next);
+				}
+			}
+		},
+
+		selectPreviousNode: function(){
+			// summary:
+			//		Select the item just above the current selection.
+			//		If nothing selected, select last node (if
+			//		you select Previous and try to keep scrolling up the list).
+			var selectedNode = this.selected;
+			if(!selectedNode){
+				this.selectLastNode();
+			}else{
+				var prev = selectedNode.previousSibling;
+				while(prev && prev.style.display == "none"){
+					prev = prev.previousSibling;
+				}
+				if(!prev){
+					this.selectLastNode();
+				}else{
+					this._setSelectedAttr(prev);
+				}
+			}
+		},
+
+		_setSelectedAttr: function(/*DomNode*/ node){
+			// summary:
+			//		Does the actual select.
+			if(this.selected != node){
+				var selectedNode = this.selected;
+				if(selectedNode){
+					this.onDeselect(selectedNode);
+				}
+				if(node){
+					winUtils.scrollIntoView(node);
+					this.onSelect(node);
+				}
+				this._set("selected", node);
+			}else if(node){
+				this.onSelect(node);
+			}
+		}
+	});
+});
+
+},
 'dojox/mobile/RoundRectCategory':function(){
 define([
 	"dojo/_base/declare",
@@ -37338,6 +40160,339 @@ define([
 	};
 
 	return Viewport;
+});
+
+},
+'dojox/mobile/ComboBox':function(){
+define([
+	"dojo/_base/kernel",
+	"dojo/_base/declare",
+	"dojo/_base/lang",
+	"dojo/_base/window",
+	"dojo/dom-geometry",
+	"dojo/dom-style",
+	"dojo/dom-attr",
+	"dojo/window",
+	"dojo/touch",
+	"dijit/form/_AutoCompleterMixin",
+	"dijit/popup",
+	"./_ComboBoxMenu",
+	"./TextBox",
+	"./sniff"
+], function(kernel, declare, lang, win, domGeometry, domStyle, domAttr, windowUtils, touch, AutoCompleterMixin, popup, ComboBoxMenu, TextBox, has){
+	kernel.experimental("dojox.mobile.ComboBox"); // should be using a more native search-type UI
+
+	return declare("dojox.mobile.ComboBox", [TextBox, AutoCompleterMixin], {
+		// summary:
+		//		A non-templated auto-completing text box widget.
+
+		// dropDownClass: [protected extension] String
+		//		Name of the drop-down widget class used to select a date/time.
+		//		Should be specified by subclasses.
+		dropDownClass: "dojox.mobile._ComboBoxMenu",
+
+		// initially disable selection since iphone displays selection handles
+		// that makes it hard to pick from the list
+		
+		// selectOnClick: Boolean
+		//		Flag which enables the selection on click.
+		selectOnClick: false,
+		
+		// autoComplete: Boolean
+		//		Flag which enables the auto-completion.
+		autoComplete: false,
+
+		// dropDown: [protected] Widget
+		//		The widget to display as a popup. This widget *must* be
+		//		defined before the startup function is called.
+		dropDown: null,
+
+		// maxHeight: [protected] int
+		//		The maximum height for the drop-down.
+		//		Any drop-down taller than this value will have scrollbars.
+		//		Set to -1 to limit the height to the available space in the viewport.
+		maxHeight: -1,
+
+		// dropDownPosition: [const] String[]
+		//		This variable controls the position of the drop-down.
+		//		It is an array of strings with the following values:
+		//
+		//		- before: places drop down to the left of the target node/widget, or to the right in
+		//		  the case of RTL scripts like Hebrew and Arabic
+		//		- after: places drop down to the right of the target node/widget, or to the left in
+		//		  the case of RTL scripts like Hebrew and Arabic
+		//		- above: drop down goes above target node
+		//		- below: drop down goes below target node
+		//
+		//		The list is positions is tried, in order, until a position is found where the drop down fits
+		//		within the viewport.
+		dropDownPosition: ["below","above"],
+
+		_throttleOpenClose: function(){
+			// summary:
+			//		Prevents the open/close in rapid succession.
+			// tags:
+			//		private
+			if(this._throttleHandler){
+				this._throttleHandler.remove();
+			}
+			this._throttleHandler = this.defer(function(){ this._throttleHandler = null; }, 500);
+		},
+
+		_onFocus: function(){
+			// summary:
+			//		Shows drop-down if the user is selecting Next/Previous from the virtual keyboard.
+			// tags:
+			//		private
+			this.inherited(arguments);
+			if(!this._opened && !this._throttleHandler){
+				this._startSearchAll(); 
+			}
+
+			if(has("windows-theme")) {
+				this.domNode.blur();
+			}
+		},
+
+		onInput: function(e){
+			this._onKey(e);
+			this.inherited(arguments);
+		},
+
+		_setListAttr: function(v){
+			// tags:
+			//		private
+			this._set('list', v); // needed for Firefox 4+ to prevent HTML5 mode
+		},
+
+		closeDropDown: function(){
+			// summary:
+			//		Closes the drop down on this widget
+			// tags:
+			//		protected
+
+			this._throttleOpenClose();
+			if(this.endHandler){
+				this.disconnect(this.startHandler);
+				this.disconnect(this.endHandler);
+				this.disconnect(this.moveHandler);
+				clearInterval(this.repositionTimer);
+				this.repositionTimer = this.endHandler = null;
+			}
+			this.inherited(arguments);
+			domAttr.remove(this.domNode, "aria-owns");
+			domAttr.set(this.domNode, "aria-expanded", "false");
+			popup.close(this.dropDown);
+			this._opened = false;
+
+			// Remove disable attribute to make input element clickable after context menu closed
+			if(has("windows-theme") && this.domNode.disabled){
+				this.defer(function(){
+					this.domNode.removeAttribute("disabled");
+				}, 300);
+			}
+
+		},
+
+		openDropDown: function(){
+			// summary:
+			//		Opens the dropdown for this widget. To be called only when this.dropDown
+			//		has been created and is ready to display (that is, its data is loaded).
+			// returns:
+			//		Returns the value of popup.open().
+			// tags:
+			//		protected
+
+			var wasClosed = !this._opened;
+			var dropDown = this.dropDown,
+				ddNode = dropDown.domNode,
+				aroundNode = this.domNode,
+				self = this;
+				
+			domAttr.set(dropDown.domNode, "role", "listbox");
+			domAttr.set(this.domNode, "aria-expanded", "true");
+			if(dropDown.id){
+				domAttr.set(this.domNode, "aria-owns", dropDown.id);
+			}
+
+			if(has('touch')){
+				win.global.scrollBy(0, domGeometry.position(aroundNode, false).y); // don't call scrollIntoView since it messes up ScrollableView
+			}
+
+			// TODO: isn't maxHeight dependent on the return value from popup.open(),
+			// i.e., dependent on how much space is available (BK)
+
+			if(!this._preparedNode){
+				this._preparedNode = true;
+				// Check if we have explicitly set width and height on the dropdown widget dom node
+				if(ddNode.style.width){
+					this._explicitDDWidth = true;
+				}
+				if(ddNode.style.height){
+					this._explicitDDHeight = true;
+				}
+			}
+
+			// Code for resizing dropdown (height limitation, or increasing width to match my width)
+			var myStyle = {
+				display: "",
+				overflow: "hidden",
+				visibility: "hidden"
+			};
+			if(!this._explicitDDWidth){
+				myStyle.width = "";
+			}
+			if(!this._explicitDDHeight){
+				myStyle.height = "";
+			}
+			domStyle.set(ddNode, myStyle);
+
+			// Figure out maximum height allowed (if there is a height restriction)
+			var maxHeight = this.maxHeight;
+			if(maxHeight == -1){
+				// limit height to space available in viewport either above or below my domNode
+				// (whichever side has more room)
+				var viewport = windowUtils.getBox(),
+					position = domGeometry.position(aroundNode, false);
+				maxHeight = Math.floor(Math.max(position.y, viewport.h - (position.y + position.h)));
+			}
+
+			// Attach dropDown to DOM and make make visibility:hidden rather than display:none
+			// so we call startup() and also get the size
+			popup.moveOffScreen(dropDown);
+
+			if(dropDown.startup && !dropDown._started){
+				dropDown.startup(); // this has to be done after being added to the DOM
+			}
+			// Get size of drop down, and determine if vertical scroll bar needed
+			var mb = domGeometry.position(this.dropDown.containerNode, false);
+			var overHeight = (maxHeight && mb.h > maxHeight);
+			if(overHeight){
+				mb.h = maxHeight;
+			}
+
+			// Adjust dropdown width to match or be larger than my width
+			mb.w = Math.max(mb.w, aroundNode.offsetWidth);
+			domGeometry.setMarginBox(ddNode, mb);
+
+			var retVal = popup.open({
+				parent: this,
+				popup: dropDown,
+				around: aroundNode,
+				orient: has("windows-theme") ? ["above"] : this.dropDownPosition,
+				onExecute: function(){
+					self.closeDropDown();
+				},
+				onCancel: function(){
+					self.closeDropDown();
+				},
+				onClose: function(){
+					self._opened = false;
+				}
+			});
+			this._opened=true;
+
+			if(wasClosed){
+				var	isGesture = false,
+					skipReposition = false,
+					active = false,
+					wrapper = dropDown.domNode.parentNode,
+					aroundNodePos = domGeometry.position(aroundNode, false),
+					popupPos = domGeometry.position(wrapper, false),
+					deltaX = popupPos.x - aroundNodePos.x,
+					deltaY = popupPos.y - aroundNodePos.y,
+					startX = -1, startY = -1;
+
+				// touchstart isn't really needed since touchmove implies touchstart, but
+				// mousedown is needed since mousemove doesn't know if the left button is down or not
+				this.startHandler = this.connect(win.doc.documentElement, touch.press,
+					function(e){
+						skipReposition = true;
+						active = true;
+						isGesture = false;
+						startX = e.clientX;
+						startY = e.clientY;
+					}
+				);
+				this.moveHandler = this.connect(win.doc.documentElement, touch.move,
+					function(e){
+						skipReposition = true;
+						if(e.touches){
+							active = isGesture = true; // touchmove implies touchstart
+						}else if(active && (e.clientX != startX || e.clientY != startY)){
+							isGesture = true;
+						}
+					}
+				);
+				this.clickHandler = this.connect(dropDown.domNode, "onclick",
+					function(){
+						skipReposition = true;
+						active = isGesture = false; // click implies no gesture movement
+					}
+				);
+				this.endHandler = this.connect(win.doc.documentElement, "onmouseup",//touch.release,
+					function(){
+						this.defer(function(){ // allow onclick to go first
+							skipReposition = true;
+							if(!isGesture && active){ // if click without move, then close dropdown
+								this.closeDropDown();
+							}
+							active = false;
+						});
+					}
+				);
+				this.repositionTimer = setInterval(lang.hitch(this, function(){
+					if(skipReposition){ // don't reposition if busy
+						skipReposition = false;
+						return;
+					}
+					var	currentAroundNodePos = domGeometry.position(aroundNode, false),
+						currentPopupPos = domGeometry.position(wrapper, false),
+						currentDeltaX = currentPopupPos.x - currentAroundNodePos.x,
+						currentDeltaY = currentPopupPos.y - currentAroundNodePos.y;
+					// if the popup is no longer placed correctly, relocate it
+					if(Math.abs(currentDeltaX - deltaX) >= 1 || Math.abs(currentDeltaY - deltaY) >= 1){ // Firefox plays with partial pixels
+						domStyle.set(wrapper, { left: parseInt(domStyle.get(wrapper, "left")) + deltaX - currentDeltaX + 'px', top: parseInt(domStyle.get(wrapper, "top")) + deltaY - currentDeltaY + 'px' });
+					}
+				}), 50); // yield a short time to allow for consolidation for better CPU throughput
+			}
+
+			// We need to disable input control in order to prevent opening the soft keyboard in IE
+			if(has("windows-theme")){
+				this.domNode.setAttribute("disabled", true);
+			}
+
+			return retVal;
+		},
+
+		postCreate: function(){
+			this.inherited(arguments);
+			this.connect(this.domNode, "onclick", "_onClick");
+			domAttr.set(this.domNode, "role", "combobox");
+			domAttr.set(this.domNode, "aria-expanded", "false");
+		},
+
+		destroy: function(){
+			if(this.repositionTimer){
+				clearInterval(this.repositionTimer);
+			}
+			this.inherited(arguments);
+		},
+
+		_onClick: function(/*Event*/ e){
+			// tags:
+			//		private
+			
+			// throttle clicks to prevent double click from doing double actions
+			if(!this._throttleHandler){
+				if(this.opened){
+					this.closeDropDown();
+				}else{
+					this._startSearchAll();
+				}
+			}
+		}
+	});
 });
 
 },
@@ -38899,7 +42054,7 @@ define([
 			//		This function creates a mask that hides corners of one scroll
 			//		bar edge to make it round edge. The other side of the edge is
 			//		always visible and round shaped with the border-radius style.
-			if(!( true ||has("svg"))){ return; }
+			if(!(has("webkit")||has("svg"))){ return; }
 			//var ctx;
 			if(this._scrollBarWrapperV){
 				var h = this._scrollBarWrapperV.offsetHeight;
@@ -38990,13 +42145,13 @@ define([
 			var rule = dm._rule[idx];
 			if(rule){
 				if(from){
-					rule.deleteRule( true ?"from":0);
+					rule.deleteRule(has("webkit")?"from":0);
 					(rule.insertRule||rule.appendRule).call(rule, "from { " + css3.name("transform", true) + ": "+this.makeTranslateStr(from)+"; }");
 				}
 				if(to){
 					if(to.x === undefined){ to.x = from.x; }
 					if(to.y === undefined){ to.y = from.y; }
-					rule.deleteRule( true ?"to":1);
+					rule.deleteRule(has("webkit")?"to":1);
 					(rule.insertRule||rule.appendRule).call(rule, "to { " + css3.name("transform", true) + ": "+this.makeTranslateStr(to)+"; }");
 				}
 			}
@@ -44173,7 +47328,7 @@ define([
 	// Currently the compat code is a workaround for too many different things to be able to
 	// decide based on feature detection. So for now we just disable _compat on the mobile browsers
 	// that are known to support enough CSS3: all webkit-based browsers and IE10 (Windows [Phone] 8).
-	if(!( true  || has("ie") >= 10)){
+	if(!(has("webkit") || has("ie") >= 10)){
 		var s = "dojox/mobile/_compat"; // assign to a variable so as not to be picked up by the build tool
 		require([s]);
 	}
@@ -44243,7 +47398,9 @@ define([
 	});
 });
 
-}}});
+},
+'*now':function(r){r(['dojo/i18n!*preload*dojo/nls/dojo*["ar","ca","cs","da","de","el","en-gb","en-us","es-es","fi-fi","fr-fr","he-il","hu","it-it","ja-jp","ko-kr","nl-nl","nb","pl","pt-br","pt-pt","ru","sk","sl","sv","th","tr","zh-tw","zh-cn","ROOT"]']);}
+}});
 (function(){
 	// must use this.require to make this work in node.js
 	var require = this.require;

@@ -1,0 +1,3 @@
+define('dojo/nls/dojo_zh-tw',{
+'dojo/cldr/nls/number':{"scientificFormat":"#E0","currencySpacing-afterCurrency-currencyMatch":"[:^S:]","infinity":"∞","$locale":"zh-hant-tw","list":";","percentSign":"%","minusSign":"-","currencySpacing-beforeCurrency-surroundingMatch":"[:digit:]","decimalFormat-short":"000T","currencySpacing-afterCurrency-insertBetween":" ","nan":"非數值","plusSign":"+","currencySpacing-afterCurrency-surroundingMatch":"[:digit:]","currencyFormat":"¤#,##0.00","currencySpacing-beforeCurrency-currencyMatch":"[:^S:]","perMille":"‰","group":",","percentFormat":"#,##0%","decimalFormat-long":"000兆","decimalFormat":"#,##0.###","decimal":".","currencySpacing-beforeCurrency-insertBetween":" ","exponential":"E"}
+});

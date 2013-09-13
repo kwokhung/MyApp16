@@ -1,0 +1,8 @@
+{
+"version":3,
+"file":"dojo_ko-kr.js",
+"lineCount":8,
+"mappings":"A;;;;;;SAAAA,MAAA,wBACA,sBADA,yBACiD,6CADjD,mEACoK,iDADpK,aACkO,qBADlO,aAC+P,6CAD/P,iCAC4U,gDAD5U,8DACkb,8CADlb;mDAC8hB,oBAD9hB,mDAComB,8CADpmB;",
+"sources":["dojo_ko-kr.js.uncompressed.js"],
+"names":["define"]
+}

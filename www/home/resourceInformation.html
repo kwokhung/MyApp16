@@ -8,6 +8,7 @@
     <h1 data-dojo-type="dojox/mobile/Heading" data-dojo-props="back: 'Back', moveTo: '#viewResourceList'">Resource Information</h1>
     <div style="height: 100%;" data-dojo-type="dojox/mobile/View" data-dojo-mixins="app/widget/_Resizable">
         <div class="mblSwRoundShape1" data-dojo-type="dojox/mobile/Switch" data-dojo-mixins="app/widget/_Switchable" data-dojo-props="value: 'on', leftLabel: 'On', rightLabel: 'Off', switchOnTopicId: '/switch/resourceInformation/refresh/on', switchOffTopicId: '/switch/resourceInformation/refresh/off', topicId: '/resourceInformation/refresh'"></div>
+        <div data-dojo-type="dojox/mobile/Slider" data-dojo-mixins="app/widget/_Switchable" data-dojo-props=""></div>
         <div style="height: 600px;" data-dojo-type="dojox/mobile/Accordion" data-dojo-props="fixedHeight: true, singleOpen: true">
             <div style="overflow: hidden;" data-dojo-type="dojox/mobile/Container" data-dojo-props="label: 'Summary', selected: true">
                 <form>
