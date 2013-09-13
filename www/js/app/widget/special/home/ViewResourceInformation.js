@@ -9,7 +9,8 @@ define([
 ], function (declare, lang, /*number, */topic, registry, View, _Subscriber) {
     return declare("app.widget.special.home.ViewResourceInformation", [View, _Subscriber], {
         who: null,
-        resourceHeartbeat: null,
+        resourceRefresh: null,
+        resourceRefreshDuration: 1000,
         showDetails: function (data) {
             this.who = data.who;
 
@@ -37,19 +38,19 @@ define([
 
             topic.publish("/switch/resourceInformation/refresh/on");
 
-            if (this.resourceHeartbeat != null) {
-                clearInterval(this.resourceHeartbeat);
-                this.resourceHeartbeat = null;
+            if (this.resourceRefresh != null) {
+                clearInterval(this.resourceRefresh);
+                this.resourceRefresh = null;
             }
 
-            this.resourceHeartbeat = setInterval(lang.hitch(this, function () {
+            this.resourceRefresh = setInterval(lang.hitch(this, function () {
                 topic.publish("/resourceMonitor/tell.someone", {
                     whom: this.who,
                     what: {
                         toDo: "updateYourDetails"
                     }
                 });
-            }), 1000);
+            }), this.resourceRefreshDuration);
         },
         renderDetails: function (data) {
             registry.byId("txtResourceName").set("value", data.what.details.who);
@@ -83,30 +84,34 @@ define([
         refresh: function (data) {
             switch (data.newState) {
                 case "on":
-                    if (this.resourceHeartbeat != null) {
-                        clearInterval(this.resourceHeartbeat);
-                        this.resourceHeartbeat = null;
+                    if (this.resourceRefresh != null) {
+                        clearInterval(this.resourceRefresh);
+                        this.resourceRefresh = null;
                     }
 
-                    this.resourceHeartbeat = setInterval(lang.hitch(this, function () {
+                    this.resourceRefresh = setInterval(lang.hitch(this, function () {
                         topic.publish("/resourceMonitor/tell.someone", {
                             whom: this.who,
                             what: {
                                 toDo: "updateYourDetails"
                             }
                         });
-                    }), 1000);
+                    }), this.resourceRefreshDuration);
 
                     break;
 
                 case "off":
-                    if (this.resourceHeartbeat != null) {
-                        clearInterval(this.resourceHeartbeat);
-                        this.resourceHeartbeat = null;
+                    if (this.resourceRefresh != null) {
+                        clearInterval(this.resourceRefresh);
+                        this.resourceRefresh = null;
                     }
 
                     break;
             }
+        },
+        setRefreshDuration: function (data) {
+            topic.publish("/switch/resourceInformation/refresh/off");
+            this.resourceRefreshDuration = data.newValue * 1000;
         },
         postCreate: function () {
             this.inherited(arguments);
@@ -114,6 +119,7 @@ define([
             this.subscribers.push(topic.subscribe("/resourceInformation/show.details", lang.hitch(this, this.showDetails)));
             this.subscribers.push(topic.subscribe("/resourceInformation/render.details", lang.hitch(this, this.renderDetails)));
             this.subscribers.push(topic.subscribe("/resourceInformation/refresh", lang.hitch(this, this.refresh)));
+            this.subscribers.push(topic.subscribe("/resourceInformation/setRefreshDuration", lang.hitch(this, this.setRefreshDuration)));
 
             this.subscribers.push(topic.subscribe("/dojox/mobile/afterTransitionIn", lang.hitch(this, function (transitionView) {
                 if (transitionView.id == this.id) {
@@ -122,9 +128,9 @@ define([
 
             this.subscribers.push(topic.subscribe("/dojox/mobile/afterTransitionOut", lang.hitch(this, function (transitionView) {
                 if (transitionView.id == this.id) {
-                    if (this.resourceHeartbeat != null) {
-                        clearInterval(this.resourceHeartbeat);
-                        this.resourceHeartbeat = null;
+                    if (this.resourceRefresh != null) {
+                        clearInterval(this.resourceRefresh);
+                        this.resourceRefresh = null;
                     }
                 }
             })));
