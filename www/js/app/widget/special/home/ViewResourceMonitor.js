@@ -290,6 +290,13 @@ define([
             this.subscribers.push(topic.subscribe("/resourceMonitor/tell.other", lang.hitch(this, this.tellOther)));
             this.subscribers.push(topic.subscribe("/resourceMonitor/tell.someone", lang.hitch(this, this.tellSomeone)));
             this.subscribers.push(topic.subscribe("/resourceMonitor/who.are.there", lang.hitch(this, this.whoAreThere)));
+        },
+        destroy: function () {
+            this.inherited(arguments);
+
+            if (this.who != "anonymous") {
+                iAmNoMore({ whoAmI: this.who });
+            }
         }
     });
 });

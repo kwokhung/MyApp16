@@ -7,14 +7,17 @@
 <body>
     <h1 data-dojo-type="dojox/mobile/Heading" data-dojo-props="back: 'Back', moveTo: '#viewResourceList'">Resource Information</h1>
     <div style="height: 100%;" data-dojo-type="dojox/mobile/View" data-dojo-mixins="app/widget/_Resizable">
-        <table style="width: 100%; border: none; border-collapse: collapse; padding: 0;">
+        <table style="width: 300px; border: none; border-collapse: collapse; padding: 0;">
             <tbody>
                 <tr>
-                    <td style="width: 25%;">
-                        <div class="mblSwRoundShape1" data-dojo-type="dojox/mobile/Switch" data-dojo-mixins="app/widget/_Switchable" data-dojo-props="value: 'on', leftLabel: 'On', rightLabel: 'Off', switchOnTopicId: '/switch/resourceInformation/refresh/on', switchOffTopicId: '/switch/resourceInformation/refresh/off', topicId: '/resourceInformation/refresh'"></div>
+                    <td style="width: 100px;">
+                        <div class="mblSwRoundShape1" style="width: 100px;" data-dojo-type="dojox/mobile/Switch" data-dojo-mixins="app/widget/_Switchable" data-dojo-props="value: 'on', leftLabel: 'On', rightLabel: 'Off', switchOnTopicId: '/switch/resourceInformation/refresh/on', switchOffTopicId: '/switch/resourceInformation/refresh/off', topicId: '/resourceInformation/refresh'"></div>
                     </td>
-                    <td style="width: 75%;">
-                        <div data-dojo-type="dojox/mobile/Slider" data-dojo-mixins="app/widget/_Slidable" data-dojo-props="min: 1, max: 10, intermediateChanges: true, value: 1, topicId: '/resourceInformation/setRefreshDuration'"></div>
+                    <td style="width: 100px;">
+                        <div style="width: 100px;" data-dojo-type="dojox/mobile/Slider" data-dojo-mixins="app/widget/_Slidable" data-dojo-props="min: 1, max: 10, intermediateChanges: true, value: 1, setValueTopicId: '/value/resourceInformation/refreshDuration/Slider', topicId: '/resourceInformation/setRefreshDuration'"></div>
+                    </td>
+                    <td style="width: 100px;">
+                        <input style="width: 50px; text-align: right;" data-dojo-type="dojox/mobile/TextBox" data-dojo-mixins="app/widget/_Valuable" data-dojo-props="setValueTopicId: '/value/resourceInformation/refreshDuration/TextBox'" value="1 s" disabled />
                     </td>
                 </tr>
             </tbody>

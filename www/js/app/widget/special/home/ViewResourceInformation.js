@@ -37,6 +37,12 @@ define([
             topic.publish("/resourceServiceList/clear.message");
 
             topic.publish("/switch/resourceInformation/refresh/on");
+            topic.publish("/value/resourceInformation/refreshDuration/Slider", {
+                newValue: this.resourceRefreshDuration / 1000
+            });
+            topic.publish("/value/resourceInformation/refreshDuration/TextBox", {
+                newValue: "" + this.resourceRefreshDuration / 1000 + " s"
+            });
 
             if (this.resourceRefresh != null) {
                 clearInterval(this.resourceRefresh);
@@ -111,6 +117,9 @@ define([
         },
         setRefreshDuration: function (data) {
             topic.publish("/switch/resourceInformation/refresh/off");
+            topic.publish("/value/resourceInformation/refreshDuration/TextBox", {
+                newValue: "" + data.newValue + " s"
+            });
             this.resourceRefreshDuration = data.newValue * 1000;
         },
         postCreate: function () {
