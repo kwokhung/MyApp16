@@ -2,18 +2,22 @@ define([
     "dojo/_base/declare",
     "dojo/_base/lang",
     "dojo/on",
-    "dijit/registry",
+    "dojo/topic",
     "dojox/mobile/View",
     "app/util/app"
-], function (declare, lang, on, registry, View, app) {
+], function (declare, lang, on, topic, View, app) {
     return declare("app.widget.special.home.ViewPhoneInformation", [View], {
         postCreate: function () {
             this.inherited(arguments);
 
             on(this, "afterTransitionIn", lang.hitch(this, function (e) {
                 if (app.device != null) {
-                    registry.byId("txtPlatform").set("value", app.device.platform);
-                    registry.byId("txtVersion").set("value", app.device.version);
+                    topic.publish("/value/phoneInformation/phone/platform/TextBox", {
+                        newValue: app.device.platform
+                    });
+                    topic.publish("/value/phoneInformation/phone/version/TextBox", {
+                        newValue: app.device.version
+                    });
                 }
 
                 if (app.navigator != null) {
@@ -27,13 +31,19 @@ define([
                         connectionStates[Connection.CELL_4G] = "Cell 4G connection";
                         connectionStates[Connection.NONE] = "No network connection";
 
-                        registry.byId("txtConnection").set("value", connectionStates[app.navigator.network.connection.type]);
+                        topic.publish("/value/phoneInformation/connection/TextBox", {
+                            newValue: connectionStates[app.navigator.network.connection.type]
+                        });
                     }
 
                     if (typeof app.navigator.contacts != "undefined") {
                         app.navigator.contacts.find(["displayName", "phoneNumbers"], function (contacts) {
-                            registry.byId("txtName").set("value", contacts[0].displayName);
-                            registry.byId("txtPhone").set("value", contacts[0].phoneNumbers[0].value);
+                            topic.publish("/value/phoneInformation/contact/name/TextBox", {
+                                newValue: contacts[0].displayName
+                            });
+                            topic.publish("/value/phoneInformation/contact/phone/TextBox", {
+                                newValue: contacts[0].phoneNumbers[0].value
+                            });
                         }, function (error) {
                             app.generalHelper.alert("Error getting contacts.", "Error Code: " + error.code);
                         }, {
@@ -44,8 +54,12 @@ define([
 
                     if (typeof app.navigator.geolocation != "undefined") {
                         app.navigator.geolocation.getCurrentPosition(function (position) {
-                            registry.byId("txtLatitude").set("value", position.coords.latitude);
-                            registry.byId("txtLongitude").set("value", position.coords.longitude);
+                            topic.publish("/value/phoneInformation/location/latitude/TextBox", {
+                                newValue: position.coords.latitude
+                            });
+                            topic.publish("/value/phoneInformation/location/longitude/TextBox", {
+                                newValue: position.coords.longitude
+                            });
                         }, function (error) {
                             app.generalHelper.alert("Error getting location.", "Error Code: " + error.code + "\n" + "Error Message: " + error.message);
                         }, {
@@ -55,9 +69,15 @@ define([
 
                     if (typeof app.navigator.accelerometer != "undefined") {
                         app.navigator.accelerometer.watchAcceleration(function (acceleration) {
-                            registry.byId("txtX").set("value", acceleration.x);
-                            registry.byId("txtY").set("value", acceleration.y);
-                            registry.byId("txtZ").set("value", acceleration.z);
+                            topic.publish("/value/phoneInformation/accelerometer/x/TextBox", {
+                                newValue: acceleration.x
+                            });
+                            topic.publish("/value/phoneInformation/accelerometer/y/TextBox", {
+                                newValue: acceleration.y
+                            });
+                            topic.publish("/value/phoneInformation/accelerometer/z/TextBox", {
+                                newValue: acceleration.z
+                            });
                         }, function () {
                             app.generalHelper.alert("Error getting acceleration.", "");
                         }, {

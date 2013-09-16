@@ -137,8 +137,8 @@ define([
                 topic.publish("/resourceList/someone.beat", data);
             }));
         },
-        setResourceUrl: function (resourceUrl) {
-            this.resourceUrl = resourceUrl;
+        setResourceUrl: function (data) {
+            this.resourceUrl = data.url;
             this.socket = io.connect(this.resourceUrl, { "force new connection": false });
 
             this.handleMessage();
