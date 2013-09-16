@@ -2,10 +2,9 @@ define([
     "dojo/_base/declare",
     "dojo/_base/lang",
     "dojo/topic",
-    "dijit/registry",
     "dojox/mobile/View",
     "app/widget/_Subscriber"
-], function (declare, lang, topic, registry, View, _Subscriber) {
+], function (declare, lang, topic, View, _Subscriber) {
     return declare("app.widget.special.home.ViewResourceInformation", [View, _Subscriber], {
         who: null,
         resourceRefresh: null,

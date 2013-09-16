@@ -21,8 +21,8 @@
                 <div data-dojo-type="dojox/mobile/RoundRect">
                     <div data-dojo-type="dojox/mobile/FormLayout" data-dojo-props="columns:'auto'">
                         <div>
-                            <input id="txtIAm" style="width: 250px;" data-dojo-type="dojox/mobile/TextBox" value="" />
-                            <button class="mblRedButton" data-dojo-type="app/widget/special/home/BtnIAm" data-dojo-props="whoId: 'txtIAm'">Send</button>
+                            <input style="width: 250px;" data-dojo-type="dojox/mobile/TextBox" data-dojo-mixins="app/widget/_Valuable" data-dojo-props="topicId: '/btnIAm/setWhoAmI'" value="" />
+                            <button class="mblRedButton" data-dojo-type="app/widget/special/home/BtnIAm" data-dojo-props="setWhoAmITopicId: '/btnIAm/setWhoAmI'">Send</button>
                         </div>
                     </div>
                 </div>
@@ -36,8 +36,8 @@
                 <div data-dojo-type="dojox/mobile/RoundRect">
                     <div data-dojo-type="dojox/mobile/FormLayout" data-dojo-props="columns:'auto'">
                         <div>
-                            <input id="txtIAmNoMore" style="width: 250px;" data-dojo-type="dojox/mobile/TextBox" value="" />
-                            <button class="mblRedButton" data-dojo-type="app/widget/special/home/BtnIAmNoMore" data-dojo-props="whoId: 'txtIAmNoMore'">Send</button>
+                            <input style="width: 250px;" data-dojo-type="dojox/mobile/TextBox" data-dojo-mixins="app/widget/_Valuable" data-dojo-props="topicId: '/btnIAmNot/setWhoAmINot'" value="" />
+                            <button class="mblRedButton" data-dojo-type="app/widget/special/home/BtnIAmNoMore" data-dojo-props="setWhoAmINotTopicId: '/btnIAmNot/setWhoAmINot'">Send</button>
                         </div>
                     </div>
                 </div>
