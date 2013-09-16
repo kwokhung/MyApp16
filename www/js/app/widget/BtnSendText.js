@@ -3,13 +3,11 @@ define([
     "dojo/_base/lang",
     "dojo/on",
     "dojo/topic",
-    "dijit/registry",
     "dojox/mobile/Button",
-    "app/widget/_Clickable",
     "app/widget/_Subscriber",
     "app/util/app"
-], function (declare, lang, on, topic, registry, Button, _Clickable, _Subscriber, app) {
-    return declare("app.widget.BtnSendText", [Button, _Clickable, _Subscriber], {
+], function (declare, lang, on, topic, Button, _Subscriber, app) {
+    return declare("app.widget.BtnSendText", [Button, _Subscriber], {
         what: null,
         setWhatTopicId: null,
         setWhat: function (data) {

@@ -2,9 +2,8 @@ define([
     "dojo/_base/declare",
     "dojo/_base/lang",
     "dojo/on",
-    "dijit/registry",
-    "app/util/app"
-], function (declare, lang, on, registry, app) {
+    "dijit/registry"
+], function (declare, lang, on, registry) {
     return declare("app.widget._Clickable", null, {
         linkToUrlOnClick: function (url) {
             on(this, "click", lang.hitch(this, function (e) {
@@ -52,22 +51,6 @@ define([
         switchToViewOnClickAsUsual: function (viewId) {
             on(this, "click", lang.hitch(this, function (e) {
                 registry.byId(viewId).show();
-            }));
-        },
-        sendTextByIdOnClick: function (textId) {
-            on(this, "click", lang.hitch(this, function (e) {
-                if (e != null) {
-                    e.preventDefault();
-                }
-
-                app.generalHelper.natvieCall("BluetoothSerial", "isConnected", [], function (response) {
-                    app.generalHelper.natvieCall("BluetoothSerial", "write", [registry.byId(textId).get("value") + "\n"], function (response) {
-                    }, function (error) {
-                        app.generalHelper.alert("write", error);
-                    });
-                }, function (error) {
-                    app.generalHelper.alert("isConnected", error);
-                });
             }));
         }
     });
