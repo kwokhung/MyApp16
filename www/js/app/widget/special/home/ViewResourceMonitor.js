@@ -36,6 +36,10 @@ define([
 
                 this.handleConnectMessage();
 
+                this.iAmNoMore({
+                    whoAmI: "Resource Monitor"
+                });
+
                 this.iAm({
                     whoAmI: "Resource Monitor"
                 });
@@ -295,7 +299,9 @@ define([
             this.inherited(arguments);
 
             if (this.who != "anonymous") {
-                iAmNoMore({ whoAmI: this.who });
+                iAmNoMore({
+                    whoAmI: this.who
+                });
             }
         }
     });
