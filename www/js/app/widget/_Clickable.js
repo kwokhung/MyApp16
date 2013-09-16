@@ -54,7 +54,7 @@ define([
                 registry.byId(viewId).show();
             }));
         },
-        sendTextOnClick: function (textId) {
+        sendTextByIdOnClick: function (textId) {
             on(this, "click", lang.hitch(this, function (e) {
                 if (e != null) {
                     e.preventDefault();

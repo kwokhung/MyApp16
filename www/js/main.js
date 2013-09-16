@@ -182,7 +182,7 @@ var main = function () {
                 app.generalHelper.alert("Error", error);
             });*/
 
-            /*app.generalHelper.natvieCall("Plugin02", "isSupported", [], function (response) {
+            app.generalHelper.natvieCall("Plugin02", "isSupported", [], function (response) {
                 app.generalHelper.alert("Response", response);
                 app.generalHelper.natvieCall("Plugin02", "enable", [], function (response) {
                     app.generalHelper.alert("Response", response);
@@ -191,7 +191,7 @@ var main = function () {
                 });
             }, function (error) {
                 app.generalHelper.alert("Error", error);
-            });*/
+            });
 
             require([
                 "dojox/mobile/compat",

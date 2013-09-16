@@ -2,18 +2,43 @@ define([
     "dojo/_base/declare",
     "dojo/_base/lang",
     "dojo/on",
+    "dojo/topic",
     "dijit/registry",
     "dojox/mobile/Button",
-    "app/widget/_Clickable"
-], function (declare, lang, on, registry, Button, _Clickable) {
-    return declare("app.widget.BtnSendText", [Button, _Clickable], {
-        textId: null,
+    "app/widget/_Clickable",
+    "app/widget/_Subscriber",
+    "app/util/app"
+], function (declare, lang, on, topic, registry, Button, _Clickable, _Subscriber, app) {
+    return declare("app.widget.BtnSendText", [Button, _Clickable, _Subscriber], {
+        what: null,
+        setWhatTopicId: null,
+        setWhat: function (data) {
+            this.what = data.newValue;
+        },
+        sendTextOnClick: function () {
+            on(this, "click", lang.hitch(this, function (e) {
+                if (e != null) {
+                    e.preventDefault();
+                }
+
+                app.generalHelper.natvieCall("BluetoothSerial", "isConnected", [], lang.hitch(this, function (response) {
+                    app.generalHelper.natvieCall("BluetoothSerial", "write", [this.what + "\n"], lang.hitch(this, function (response) {
+                    }), lang.hitch(this, function (error) {
+                        app.generalHelper.alert("write", error);
+                    }));
+                }), lang.hitch(this, function (error) {
+                    app.generalHelper.alert("isConnected", error);
+                }));
+            }));
+        },
         postCreate: function () {
             this.inherited(arguments);
 
-            if (this.textId != null) {
-                this.sendTextOnClick(this.textId);
+            if (this.setWhatTopicId != null) {
+                this.subscribers.push(topic.subscribe(this.setWhatTopicId, lang.hitch(this, this.setWhat)));
             }
+
+            this.sendTextOnClick();
         }
     });
 });
