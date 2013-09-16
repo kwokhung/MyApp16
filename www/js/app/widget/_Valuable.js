@@ -1,10 +1,11 @@
 define([
     "dojo/_base/declare",
     "dojo/_base/lang",
+    "dojo/_base/array",
     "dojo/on",
     "dojo/topic",
     "app/widget/_Subscriber"
-], function (declare, lang, on, topic, _Subscriber) {
+], function (declare, lang, array, on, topic, _Subscriber) {
     return declare("app.widget._Valuable", [_Subscriber], {
         setValueTopicId: null,
         topicId: null,
@@ -20,9 +21,18 @@ define([
 
             if (this.topicId != null) {
                 on(this, "change", lang.hitch(this, function (newValue) {
-                    topic.publish(this.topicId, {
-                        newValue: newValue
-                    });
+                    if (Array.isArray(this.topicId)) {
+                        array.forEach(this.topicId, lang.hitch(this, function (item, index) {
+                            topic.publish(item, {
+                                newValue: newValue
+                            });
+                        }));
+                    }
+                    else {
+                        topic.publish(this.topicId, {
+                            newValue: newValue
+                        });
+                    }
                 }));
             }
         }

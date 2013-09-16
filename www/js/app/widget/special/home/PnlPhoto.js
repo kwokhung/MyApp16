@@ -1,14 +1,11 @@
 define([
     "dojo/_base/declare",
     "dojo/_base/lang",
-    "dojo/_base/array",
-    "dojo/dom-geometry",
     "dojo/dom-construct",
-    "dojo/on",
     "dojo/topic",
     "dojox/mobile/Pane",
     "app/widget/_Subscriber"
-], function (declare, lang, array, domGeom, domConstruct, on, topic, Pane, _Subscriber) {
+], function (declare, lang, domConstruct, topic, Pane, _Subscriber) {
     return declare("app.widget.special.home.PnlPhoto", [Pane, _Subscriber], {
         backgroundColor: "transparent",
         photo: null,

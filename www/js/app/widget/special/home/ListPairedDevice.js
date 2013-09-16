@@ -1,14 +1,13 @@
 define([
     "dojo/_base/declare",
     "dojo/_base/lang",
-    "dojo/_base/array",
     "dojo/on",
     "dojo/string",
     "dijit/registry",
     "dojox/mobile/RoundRectStoreList",
     "app/util/StoredData",
     "app/util/app"
-], function (declare, lang, array, on, string, registry, RoundRectStoreList, StoredData, app) {
+], function (declare, lang, on, string, registry, RoundRectStoreList, StoredData, app) {
     return declare("app.widget.special.home.ListPairedDevice", [RoundRectStoreList, StoredData], {
         appendPairedDevice: function (label, message) {
             var itemCount = this.data.length;

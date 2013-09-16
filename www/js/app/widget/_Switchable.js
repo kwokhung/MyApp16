@@ -1,10 +1,11 @@
 define([
     "dojo/_base/declare",
     "dojo/_base/lang",
+    "dojo/_base/array",
     "dojo/on",
     "dojo/topic",
     "app/widget/_Subscriber"
-], function (declare, lang, on, topic, _Subscriber) {
+], function (declare, lang, array, on, topic, _Subscriber) {
     return declare("app.widget._Switchable", [_Subscriber], {
         switchOnTopicId: null,
         switchOffTopicId: null,
@@ -28,7 +29,18 @@ define([
 
             if (this.topicId != null) {
                 on(this, "stateChanged", lang.hitch(this, function (newState) {
-                    topic.publish(this.topicId, { newState: newState });
+                    if (Array.isArray(this.topicId)) {
+                        array.forEach(this.topicId, lang.hitch(this, function (item, index) {
+                            topic.publish(item, {
+                                newState: newState
+                            });
+                        }));
+                    }
+                    else {
+                        topic.publish(this.topicId, {
+                            newState: newState
+                        });
+                    }
                 }));
             }
         }
