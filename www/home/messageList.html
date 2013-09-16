@@ -21,10 +21,10 @@
                 <div data-dojo-type="dojox/mobile/RoundRect">
                     <div data-dojo-type="dojox/mobile/FormLayout" data-dojo-props="columns:'auto'">
                         <div>
-                            <input id="txtTellWhat" style="width: 250px;" data-dojo-type="dojox/mobile/TextBox" value="" />
-                            <button class="mblRedButton" data-dojo-type="app/widget/special/home/BtnTellOther" data-dojo-props="whatId: 'txtTellWhat'">Send</button>
-                            <input id="txtTellWhom" style="width: 250px;" data-dojo-type="dojox/mobile/TextBox" value="" />
-                            <button class="mblRedButton" data-dojo-type="app/widget/special/home/BtnTellSomeone" data-dojo-props="whomId: 'txtTellWhom', whatId: 'txtTellWhat'">Send</button>
+                            <input style="width: 250px;" data-dojo-type="dojox/mobile/TextBox" data-dojo-mixins="app/widget/_Valuable" data-dojo-props="topicId: '/btnTellXXX/setWhat'" value="" />
+                            <button class="mblRedButton" data-dojo-type="app/widget/special/home/BtnTellOther" data-dojo-props="setWhatTopicId: '/btnTellXXX/setWhat'">Send</button>
+                            <input style="width: 250px;" data-dojo-type="dojox/mobile/TextBox" data-dojo-mixins="app/widget/_Valuable" data-dojo-props="topicId: '/btnTellSomeone/setWhom'" value="" />
+                            <button class="mblRedButton" data-dojo-type="app/widget/special/home/BtnTellSomeone" data-dojo-props="setWhomTopicId: '/btnTellSomeone/setWhom', setWhatTopicId: '/btnTellXXX/setWhat'">Send</button>
                         </div>
                     </div>
                 </div>
