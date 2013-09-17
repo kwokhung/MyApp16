@@ -3,9 +3,10 @@ define([
     "dojo/_base/lang",
     "dojo/on",
     "dojo/string",
+    "dojo/topic",
     "dojox/mobile/Button",
     "app/util/app"
-], function (declare, lang, on, string, Button, app) {
+], function (declare, lang, on, string, topic, Button, app) {
     return declare("app.widget.special.home.BtnGetMarketOutlook", [Button], {
         postCreate: function () {
             this.inherited(arguments);
@@ -23,7 +24,9 @@ define([
                     }),
                     null,
                     function (response) {
-                        document.getElementById("blkMarketOutlook").innerHTML = response.analysis;
+                        topic.publish("/value/marketOutlook/analysis/Pane", {
+                            newValue: response.analysis
+                        });
                     }
                 );
             }));
