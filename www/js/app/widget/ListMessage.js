@@ -1,10 +1,13 @@
 define([
     "dojo/_base/declare",
+    "dojo/_base/lang",
     "dojo/json",
+    "dojo/topic",
     "dojox/mobile/RoundRectStoreList",
-    "app/util/StoredData"
-], function (declare, json, RoundRectStoreList, StoredData) {
-    return declare("app.widget.ListMessage", [RoundRectStoreList, StoredData], {
+    "app/util/StoredData",
+    "app/widget/_Subscriber"
+], function (declare, lang, json, topic, RoundRectStoreList, StoredData, _Subscriber) {
+    return declare("app.widget.ListMessage", [RoundRectStoreList, StoredData, _Subscriber], {
         appendMessage: function (data) {
             var itemCount = this.data.length;
             var itemId = this.id + "_" + (itemCount + 1);
@@ -37,11 +40,16 @@ define([
                 "variableHeight": true
             });
         },
+        someoneSaid: function (data) {
+            this.appendMessage(data);
+        },
         postCreate: function () {
             this.inherited(arguments);
 
             this.storeLabel = "Message";
             this.setStore(this.store);
+
+            this.subscribers.push(topic.subscribe("/bluetooth/messageList/someone.said", lang.hitch(this, this.someoneSaid)));
         }
     });
 });

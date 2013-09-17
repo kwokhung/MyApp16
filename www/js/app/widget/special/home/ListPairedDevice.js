@@ -65,7 +65,7 @@ define([
             }));
         },
         appendMessage: function (label, message) {
-            registry.byId("lstMessage").appendMessage({
+            topic.publish("/bluetooth/messageList/someone.said", {
                 who: label,
                 what: message,
                 when: new Date().yyyyMMddHHmmss()
