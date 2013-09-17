@@ -1,6 +1,7 @@
 define([
     "dojo/_base/declare",
     "dojo/_base/lang",
+    "dojo/_base/array",
     "dojo/on",
     "dojo/string",
     "dojo/topic",
@@ -8,7 +9,7 @@ define([
     "dojox/mobile/RoundRectStoreList",
     "app/util/StoredData",
     "app/util/app"
-], function (declare, lang, on, string, topic, registry, RoundRectStoreList, StoredData, app) {
+], function (declare, lang, array, on, string, topic, registry, RoundRectStoreList, StoredData, app) {
     return declare("app.widget.special.home.ListPairedDevice", [RoundRectStoreList, StoredData], {
         appendPairedDevice: function (data) {
             var itemCount = this.data.length;
@@ -50,6 +51,7 @@ define([
 
                 app.generalHelper.natvieCall("BluetoothSerial", "isConnected", [], lang.hitch(this, function (response) {
                     this.appendMessage("isConnected", response);
+
                     app.generalHelper.natvieCall("BluetoothSerial", "disconnect", [], lang.hitch(this, function (response) {
                         this.appendMessage("disconnect", response);
                     }), lang.hitch(this, function (error) {
@@ -57,13 +59,16 @@ define([
                     }));
                 }), lang.hitch(this, function (error) {
                     this.appendMessage("isConnected", error);
+
                     app.generalHelper.natvieCall("BluetoothSerial", "connect", [this.store.get(itemId).address], lang.hitch(this, function (response) {
                         this.appendMessage("connect", response);
+
                         app.generalHelper.natvieCall("BluetoothSerial", "subscribe", ["\n"], lang.hitch(this, function (response) {
                             this.appendMessage("subscribe", response);
                         }), lang.hitch(this, function (error) {
                             this.appendMessage("subscribe", error);
                         }));
+
                         app.generalHelper.natvieCall("BluetoothSerial", "write", ["Hello\n"], lang.hitch(this, function (response) {
                             this.appendMessage("write", response);
                         }), lang.hitch(this, function (error) {
@@ -85,8 +90,14 @@ define([
         getPairedDevice: function () {
             app.generalHelper.natvieCall("BluetoothSerial", "isEnabled", [], lang.hitch(this, function (response) {
                 app.generalHelper.natvieCall("BluetoothSerial", "list", [], lang.hitch(this, function (response) {
-                    response.forEach(lang.hitch(this, function (device) {
+                    /*response.forEach(lang.hitch(this, function (device) {
                         this.appendPairedDevice({ name: device.name, address: device.address });
+                    }));*/
+                    array.forEach(this.store.query({}), lang.hitch(this, function (item, index) {
+                        this.store.remove(item.id);
+                    }));
+                    array.forEach(response, lang.hitch(this, function (item, index) {
+                        this.appendPairedDevice({ name: item.name, address: item.address });
                     }));
                 }), lang.hitch(this, lang.hitch(this, function (error) {
                     this.appendMessage("list", error);
