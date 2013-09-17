@@ -8,7 +8,7 @@ define([
     "app/widget/_ScrollableStoreList",
     "app/widget/_Subscriber"
 ], function (declare, lang, json, topic, RoundRectStoreList, StoredData, _ScrollableStoreList, _Subscriber) {
-    return declare("app.widget.ListMessage", [RoundRectStoreList, StoredData, _ScrollableStoreList, _Subscriber], {
+    return declare("app.widget.special.home.ListBluetoothMessage", [RoundRectStoreList, StoredData, _ScrollableStoreList, _Subscriber], {
         appendMessage: function (data) {
             var itemCount = this.data.length;
             var itemId = this.id + "_" + (itemCount + 1);
