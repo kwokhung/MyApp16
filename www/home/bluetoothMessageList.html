@@ -6,23 +6,23 @@
 </head>
 <body>
     <h1 data-dojo-type="dojox/mobile/Heading" data-dojo-props="back: 'Back', moveTo: '#viewBluetooth'">Bluetooth Message List</h1>
-    <div style="height: 100%;" data-dojo-type="dojox/mobile/ScrollableView" data-dojo-mixins="app/widget/_Resizable">
+    <div data-dojo-type="dojox/mobile/ScrollableView" data-dojo-mixins="app/widget/_Resizable">
         <div data-dojo-type="dojox/mobile/RoundRect" data-dojo-props="shadow: true">
             <div data-dojo-type="dojox/mobile/ScrollablePane" data-dojo-mixins="app/widget/_Resizable" data-dojo-props="height: '500px'">
                 <ul data-dojo-type="app/widget/ListMessage">
                 </ul>
             </div>
         </div>
-        <div style="height: 200px;" data-dojo-type="dojox/mobile/Overlay" data-dojo-mixins="app/widget/_ShowHideSubscriber" data-dojo-props="showTopicId: '/diagTellOther/show', hideTopicId: '/diagTellOther/hide'">
+        <div style="height: 200px;" data-dojo-type="dojox/mobile/Overlay" data-dojo-mixins="app/widget/_ShowHideSubscriber" data-dojo-props="showTopicId: '/bluetooth/diagTellOther/show', hideTopicId: '/bluetooth/diagTellOther/hide'">
             <h1 data-dojo-type="dojox/mobile/Heading" data-dojo-props="label:'Tell other'">
-                <span style="float: right;" data-dojo-type="dojox/mobile/ToolBarButton" data-dojo-mixins="app/widget/_Publishable" data-dojo-props="label:'Done', topicId: '/diagTellOther/hide'"></span>
+                <span style="float: right;" data-dojo-type="dojox/mobile/ToolBarButton" data-dojo-mixins="app/widget/_Publishable" data-dojo-props="label:'Done', topicId: '/bluetooth/diagTellOther/hide'"></span>
             </h1>
             <form>
                 <div data-dojo-type="dojox/mobile/RoundRect">
                     <div data-dojo-type="dojox/mobile/FormLayout" data-dojo-props="columns:'auto'">
                         <div>
-                            <input style="width: 250px;" data-dojo-type="dojox/mobile/TextBox" data-dojo-mixins="app/widget/_Valuable" data-dojo-props="topicId: ['/btnTellOther/setWhat', '/btnTellSomeone/setWhat']" value="" />
-                            <button class="mblRedButton" data-dojo-type="app/widget/special/home/BtnTellOther" data-dojo-props="setWhatTopicId: '/btnTellOther/setWhat'">Send</button>
+                            <input style="width: 250px;" data-dojo-type="dojox/mobile/TextBox" data-dojo-mixins="app/widget/_Valuable" data-dojo-props="topicId: '/btnSendText/setWhat'" value="" />
+                            <button class="mblRedButton" data-dojo-type="app/widget/BtnSendText" data-dojo-props="setWhatTopicId: '/btnSendText/setWhat'">Send</button>
                         </div>
                     </div>
                 </div>
@@ -39,7 +39,7 @@
                     <td style="width: 50%;">
                         <div style="height: 42px;" data-dojo-type="dojox/mobile/GridLayout" data-dojo-props="cols: 2">
                             <div data-dojo-type="dojox/mobile/Pane">
-                                <button class="mblRedButton full" data-dojo-type="dojox/mobile/Button" data-dojo-mixins="app/widget/_Publishable" data-dojo-props="topicId: '/diagTellOther/show'">Tell other...</button>
+                                <button class="mblRedButton full" data-dojo-type="dojox/mobile/Button" data-dojo-mixins="app/widget/_Publishable" data-dojo-props="topicId: '/bluetooth/diagTellOther/show'">Tell other...</button>
                             </div>
                             <div data-dojo-type="dojox/mobile/Pane">
                                 <button class="mblBlueButton full" data-dojo-type="dojox/mobile/Button" data-dojo-mixins="app/widget/_Publishable" data-dojo-props="topicId: '/bluetooth/messageList/clear.message'">Clear</button>

@@ -7,31 +7,12 @@
 <body>
     <h1 data-dojo-type="dojox/mobile/Heading" data-dojo-props="back: 'Back', moveTo: '#viewHome'">Bluetooth</h1>
     <div data-dojo-type="dojox/mobile/ScrollableView" data-dojo-mixins="app/widget/_Resizable">
-        <div style="height: 200px;" data-dojo-type="dojox/mobile/RoundRect" data-dojo-props="shadow: true">
-            <div data-dojo-type="dojox/mobile/ScrollablePane" data-dojo-mixins="app/widget/_Resizable" data-dojo-props="height: '200px'">
+        <div data-dojo-type="dojox/mobile/RoundRect" data-dojo-props="shadow: true">
+            <div data-dojo-type="dojox/mobile/ScrollablePane" data-dojo-mixins="app/widget/_Resizable" data-dojo-props="height: '450px'">
                 <ul data-dojo-type="app/widget/special/home/ListPairedDevice">
                 </ul>
             </div>
         </div>
-        <div style="height: 200px;" data-dojo-type="dojox/mobile/RoundRect" data-dojo-props="shadow: true">
-            <div data-dojo-type="dojox/mobile/ScrollablePane" data-dojo-mixins="app/widget/_Resizable" data-dojo-props="height: '200px'">
-                <ul data-dojo-type="app/widget/ListMessage">
-                </ul>
-            </div>
-        </div>
-        <form>
-            <div data-dojo-type="dojox/mobile/RoundRect">
-                <div data-dojo-type="dojox/mobile/FormLayout" data-dojo-props="columns:'auto'">
-                    <div>
-                        <fieldset>
-                            <legend>Your message</legend>
-                            <input style="width: 250px;" data-dojo-type="dojox/mobile/TextBox" data-dojo-mixins="app/widget/_Valuable" data-dojo-props="topicId: '/btnSendText/setWhat'" value="" />
-                            <button class="mblBlueButton" data-dojo-type="app/widget/BtnSendText" data-dojo-props="setWhatTopicId: '/btnSendText/setWhat'">Send</button>
-                        </fieldset>
-                    </div>
-                </div>
-            </div>
-        </form>
     </div>
     <h1 style="height: 84px;" data-dojo-type="dojox/mobile/Heading" data-dojo-props="fixed: 'bottom'">
         <table style="width: 100%; border: none; border-collapse: collapse; padding: 0;">
