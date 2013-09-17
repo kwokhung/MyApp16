@@ -41,7 +41,6 @@ define([
             });
         },
         someoneSaid: function (data) {
-            alert(data);
             this.appendMessage(data);
         },
         postCreate: function () {

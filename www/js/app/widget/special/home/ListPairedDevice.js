@@ -66,8 +66,6 @@ define([
             }));
         },
         appendMessage: function (label, message) {
-            alert(label);
-            alert(message);
             topic.publish("/bluetooth/messageList/someone.said", {
                 who: label,
                 what: message,
