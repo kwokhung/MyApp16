@@ -65,8 +65,11 @@ define([
             }));
         },
         appendMessage: function (label, message) {
-            //this.store.put({ "id": this.id + "_" + (this.data.length + 1), "label": label, "rightText": message.replace(/\n/g, "<br />"), "variableHeight": true });
-            registry.byId("lstMessage").appendMessage(label, message);
+            registry.byId("lstMessage").appendMessage({
+                who: label,
+                what: message,
+                when: new Date().yyyyMMddHHmmss()
+            });
         },
         getPairedDevice: function () {
             app.generalHelper.natvieCall("BluetoothSerial", "isEnabled", [], lang.hitch(this, function (response) {
