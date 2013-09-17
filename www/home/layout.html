@@ -1,0 +1,77 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Layout</title>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+</head>
+<body>
+    <h1 data-dojo-type="dojox/mobile/Heading" data-dojo-props="back: 'Back', moveTo: '#viewHome'">Layout</h1>
+    <div data-dojo-type="dojox/mobile/View">
+        <div style="height: 600px;" data-dojo-type="dojox/mobile/FixedSplitter" data-dojo-props="orientation: 'V', variablePane: 1">
+            <div style="background-color: yellow; height: 100px; overflow: hidden;" data-dojo-type="dojox/mobile/Container">
+                <div data-dojo-type="dojox/mobile/RoundRect" data-dojo-props="shadow: true">
+                    <h3>FixedSplitter fragment example</h3>
+                    pane #1.1
+                </div>
+            </div>
+            <div data-dojo-type="dojox/mobile/FixedSplitter" data-dojo-props="orientation: 'H', variablePane: 1">
+                <div style="background-color: pink; width: 30%;" data-dojo-type="dojox/mobile/Container">
+                    <div data-dojo-type="dojox/mobile/RoundRect" data-dojo-props="shadow: true">
+                        <h3>FixedSplitter fragment example</h3>
+                        pane #2
+                    </div>
+                </div>
+                <div style="overflow: hidden;" data-dojo-type="dojox/mobile/Container">
+                    <div data-dojo-type="dojox/mobile/SwapView">
+                        <div data-dojo-type="dojox/mobile/Container">
+                            <div data-dojo-type="dojox/mobile/RoundRect" data-dojo-props="shadow: true">
+                                <div data-dojo-type="dojox/mobile/ScrollablePane" data-dojo-mixins="app/widget/_Resizable" data-dojo-props="height: '100px'">
+                                    <p>
+                                        Dojo Mobile is a world class HTML5 mobile JavaScript framework that enables rapid development of mobile web applications with a native look and feel on modern webkit-enabled mobile devices.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div data-dojo-type="dojox/mobile/SwapView">
+                        <div data-dojo-type="dojox/mobile/Container">
+                            <div data-dojo-type="dojox/mobile/RoundRect" data-dojo-props="shadow: true">
+                                <p>
+                                    Dojo Mobile is a world class HTML5 mobile JavaScript framework that enables rapid development of mobile web applications with a native look and feel on modern webkit-enabled mobile devices.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="background-color: transparent; height: 300px; overflow: hidden;" data-dojo-type="dojox/mobile/Container">
+                <div data-dojo-type="dojox/mobile/RoundRect" data-dojo-props="shadow: true">
+                    <h3>FixedSplitter fragment example</h3>
+                    <div data-dojo-type="dojox/mobile/Carousel" data-dojo-props="height: '200px', navButton: true, numVisible: 1, title: 'Category'">
+                        <div data-dojo-type="dojox/mobile/SwapView">
+                            <div data-dojo-type="dojox/mobile/Container">
+                                <div data-dojo-type="dojox/mobile/RoundRect" data-dojo-props="shadow: true">
+                                    <div data-dojo-type="dojox/mobile/ScrollablePane" data-dojo-mixins="app/widget/_Resizable" data-dojo-props="height: '100px'">
+                                        <p>
+                                            Dojo Mobile is a world class HTML5 mobile JavaScript framework that enables rapid development of mobile web applications with a native look and feel on modern webkit-enabled mobile devices.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div data-dojo-type="dojox/mobile/SwapView">
+                            <div data-dojo-type="dojox/mobile/Container">
+                                <div data-dojo-type="dojox/mobile/RoundRect" data-dojo-props="shadow: true">
+                                    <p>
+                                        Dojo Mobile is a world class HTML5 mobile JavaScript framework that enables rapid development of mobile web applications with a native look and feel on modern webkit-enabled mobile devices.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
