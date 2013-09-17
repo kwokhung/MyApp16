@@ -90,11 +90,12 @@ define([
             });
         },
         getPairedDevice: function () {
+            array.forEach(this.store.query({}), lang.hitch(this, function (item, index) {
+                this.store.remove(item.id);
+            }));
+
             app.generalHelper.natvieCall("BluetoothSerial", "isEnabled", [], lang.hitch(this, function (response) {
                 app.generalHelper.natvieCall("BluetoothSerial", "list", [], lang.hitch(this, function (response) {
-                    array.forEach(this.store.query({}), lang.hitch(this, function (item, index) {
-                        this.store.remove(item.id);
-                    }));
                     array.forEach(response, lang.hitch(this, function (item, index) {
                         this.appendPairedDevice({ name: item.name, address: item.address });
                     }));

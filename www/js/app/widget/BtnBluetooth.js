@@ -22,6 +22,8 @@ define([
                         topic.publish("/pairedDeviceList/who.are.there");
                     }), lang.hitch(this, function (error) {
                         app.generalHelper.alert("Error", error);
+
+                        topic.publish("/pairedDeviceList/who.are.there");
                     }));
                 }), lang.hitch(this, function (error) {
                     app.generalHelper.alert("Error", error);
