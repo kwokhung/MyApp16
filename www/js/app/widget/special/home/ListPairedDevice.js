@@ -8,9 +8,11 @@ define([
     "dijit/registry",
     "dojox/mobile/RoundRectStoreList",
     "app/util/StoredData",
+    "app/widget/_ScrollableStoreList",
+    "app/widget/_Subscriber",
     "app/util/app"
-], function (declare, lang, array, on, string, topic, registry, RoundRectStoreList, StoredData, app) {
-    return declare("app.widget.special.home.ListPairedDevice", [RoundRectStoreList, StoredData], {
+], function (declare, lang, array, on, string, topic, registry, RoundRectStoreList, StoredData, _ScrollableStoreList, _Subscriber, app) {
+    return declare("app.widget.special.home.ListPairedDevice", [RoundRectStoreList, StoredData, _ScrollableStoreList, _Subscriber], {
         appendPairedDevice: function (data) {
             var itemCount = this.data.length;
             var itemId = this.id + "_" + (itemCount + 1);
@@ -90,9 +92,6 @@ define([
         getPairedDevice: function () {
             app.generalHelper.natvieCall("BluetoothSerial", "isEnabled", [], lang.hitch(this, function (response) {
                 app.generalHelper.natvieCall("BluetoothSerial", "list", [], lang.hitch(this, function (response) {
-                    /*response.forEach(lang.hitch(this, function (device) {
-                        this.appendPairedDevice({ name: device.name, address: device.address });
-                    }));*/
                     array.forEach(this.store.query({}), lang.hitch(this, function (item, index) {
                         this.store.remove(item.id);
                     }));
@@ -106,6 +105,9 @@ define([
                 this.appendMessage("isEnabled", error);
             }));
         },
+        whoAreThere: function () {
+            this.getPairedDevice();
+        },
         postCreate: function () {
             this.inherited(arguments);
 
@@ -113,6 +115,11 @@ define([
             this.setStore(this.store);
 
             this.getPairedDevice();
+
+            this.subscribers.push(topic.subscribe("/pairedDeviceList/who.are.there", lang.hitch(this, this.whoAreThere)));
+            this.subscribers.push(topic.subscribe("/pairedDeviceList/clear.message", lang.hitch(this, this.clearMessage)));
+            this.subscribers.push(topic.subscribe("/pairedDeviceList/goto.top", lang.hitch(this, this.gotoTop)));
+            this.subscribers.push(topic.subscribe("/pairedDeviceList/goto.bottom", lang.hitch(this, this.gotoBottom)));
         }
     });
 });
