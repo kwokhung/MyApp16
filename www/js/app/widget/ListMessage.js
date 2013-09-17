@@ -5,9 +5,10 @@ define([
     "dojo/topic",
     "dojox/mobile/RoundRectStoreList",
     "app/util/StoredData",
+    "app/widget/_ScrollableStoreList",
     "app/widget/_Subscriber"
-], function (declare, lang, json, topic, RoundRectStoreList, StoredData, _Subscriber) {
-    return declare("app.widget.ListMessage", [RoundRectStoreList, StoredData, _Subscriber], {
+], function (declare, lang, json, topic, RoundRectStoreList, StoredData, _ScrollableStoreList, _Subscriber) {
+    return declare("app.widget.ListMessage", [RoundRectStoreList, StoredData, _ScrollableStoreList, _Subscriber], {
         appendMessage: function (data) {
             var itemCount = this.data.length;
             var itemId = this.id + "_" + (itemCount + 1);
@@ -50,6 +51,9 @@ define([
             this.setStore(this.store);
 
             this.subscribers.push(topic.subscribe("/bluetooth/messageList/someone.said", lang.hitch(this, this.someoneSaid)));
+            this.subscribers.push(topic.subscribe("/bluetooth/messageList/clear.message", lang.hitch(this, this.clearMessage)));
+            this.subscribers.push(topic.subscribe("/bluetooth/messageList/goto.top", lang.hitch(this, this.gotoTop)));
+            this.subscribers.push(topic.subscribe("/bluetooth/messageList/goto.bottom", lang.hitch(this, this.gotoBottom)));
         }
     });
 });
