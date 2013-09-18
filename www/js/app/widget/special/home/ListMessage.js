@@ -22,7 +22,6 @@ define([
                 "<span style='font-size: 50%; color: green;'>" +
                     data.when.dateFormat() + ": ";
 
-
             if (typeof data.what != "undefined" && (typeof data.what == "string" || (data.what != null && data.what.constructor == String))) {
                 label = label + data.what.replace(/\n/g, "<br />");
             }

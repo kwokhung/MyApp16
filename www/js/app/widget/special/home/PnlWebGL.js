@@ -230,7 +230,9 @@ define([
                 var canvas = domConstruct.create("canvas", {
                     width: this.width,
                     height: this.height,
-                    style: { backgroundColor: this.backgroundColor },
+                    style: {
+                        backgroundColor: this.backgroundColor
+                    },
                     innerHTML: "Your browser does not support the HTML5 canvas element."
                 }, this.domNode);
 
