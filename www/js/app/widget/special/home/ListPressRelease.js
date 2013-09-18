@@ -31,6 +31,7 @@ define([
                 "id": itemId,
                 "label": label,
                 "headline": data.headline,
+                "date": data.date,
                 "moveTo": "#viewPressRelease",
                 "variableHeight": true
             });
@@ -41,7 +42,17 @@ define([
                 }
 
                 topic.publish("/value/pressRelease/headline/Pane", {
-                    newValue: this.store.get(itemId).headline
+                    newValue: 
+                        "<span style='color: blue;'>" +
+                            this.store.get(itemId).headline +
+                        "</span>"
+                });
+
+                topic.publish("/value/pressRelease/date/Pane", {
+                    newValue:
+                        "<span style='font-size: 50%; color: green;'>" +
+                            this.store.get(itemId).date.dateFormat() +
+                        "</span>"
                 });
             }));
 
