@@ -2,13 +2,14 @@ define([
     "dojo/_base/declare",
     "dojo/_base/lang",
     "dojo/_base/array",
+    "dojo/number",
     "dojo/topic",
     "dijit/registry",
     "dojox/mobile/RoundRectStoreList",
     "app/util/StoredData",
     "app/widget/_ScrollableStoreList",
     "app/widget/_Subscriber"
-], function (declare, lang, array, topic, registry, RoundRectStoreList, StoredData, _ScrollableStoreList, _Subscriber) {
+], function (declare, lang, array, number, topic, registry, RoundRectStoreList, StoredData, _ScrollableStoreList, _Subscriber) {
     return declare("app.widget.special.home.ListResourceProcess", [RoundRectStoreList, StoredData, _ScrollableStoreList, _Subscriber], {
         appendMessage: function (data) {
             var itemCount = this.data.length;
@@ -38,7 +39,7 @@ define([
                     "</span>" +
                     "<br />" +
                     "<span style='font-size: 50%; color: green;'>" +
-                        "Working Set Size: " + (data.workingSetSize / 1024 / 1024).format("0,000.000") + " MB" +
+                        "Working Set Size: " + number.format(data.workingSetSize / 1024 / 1024, { pattern: "#,###.###" }) + " MB" +
                     "</span>",
                 "variableHeight": true
             });

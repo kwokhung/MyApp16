@@ -2,13 +2,14 @@ define([
     "dojo/_base/declare",
     "dojo/_base/lang",
     "dojo/_base/array",
+    "dojo/number",
     "dojo/topic",
     "dijit/registry",
     "dojox/mobile/RoundRectStoreList",
     "app/util/StoredData",
     "app/widget/_ScrollableStoreList",
     "app/widget/_Subscriber"
-], function (declare, lang, array, topic, registry, RoundRectStoreList, StoredData, _ScrollableStoreList, _Subscriber) {
+], function (declare, lang, array, number, topic, registry, RoundRectStoreList, StoredData, _ScrollableStoreList, _Subscriber) {
     return declare("app.widget.special.home.ListResourceDisk", [RoundRectStoreList, StoredData, _ScrollableStoreList, _Subscriber], {
         appendMessage: function (data) {
             var itemCount = this.data.length;
@@ -22,7 +23,7 @@ define([
                     "</span>" +
                     "<br />" +
                     "<span style='font-size: 50%; color: green;'>" +
-                        "Free Disk Size: " + (data.freeSpace / 1024 / 1024 / 1024).format("0,000.000") + " GB" + " of " + (data.size / 1024 / 1024 / 1024).format("0,000.000") + " GB" +
+                        "Free Disk Size: " + number.format(data.freeSpace / 1024 / 1024 / 1024, { pattern: "#,###.###" }) + " GB" + " of " + number.format(data.size / 1024 / 1024 / 1024, { pattern: "#,###.###" }) + " GB" +
                     "</span>",
                 "variableHeight": true
             });

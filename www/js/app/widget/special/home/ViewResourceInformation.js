@@ -1,10 +1,11 @@
 define([
     "dojo/_base/declare",
     "dojo/_base/lang",
+    "dojo/number",
     "dojo/topic",
     "dojox/mobile/View",
     "app/widget/_Subscriber"
-], function (declare, lang, topic, View, _Subscriber) {
+], function (declare, lang, number, topic, View, _Subscriber) {
     return declare("app.widget.special.home.ViewResourceInformation", [View, _Subscriber], {
         who: null,
         resourceRefresh: null,
@@ -114,7 +115,7 @@ define([
                     newValue: data.what.details.computerSystem.systemType
                 });
                 topic.publish("/value/resourceInformation/resourceComputerSystemTotalPhysicalMemory/TextBox", {
-                    newValue: (data.what.details.computerSystem.totalPhysicalMemory / 1024 / 1024 / 1024).format("0,000.000") + " GB"
+                    newValue: number.format(data.what.details.computerSystem.totalPhysicalMemory / 1024 / 1024 / 1024, { pattern: "#,###.###" }) + " GB"
                 });
                 topic.publish("/value/resourceInformation/resourceComputerSystemStatus/TextBox", {
                     newValue: data.what.details.computerSystem.status
@@ -136,10 +137,10 @@ define([
                     newValue: data.what.details.operatingSystem.manufacturer
                 });
                 topic.publish("/value/resourceInformation/resourceOperatingSystemFreePhysicalMemory/TextBox", {
-                    newValue: (data.what.details.operatingSystem.freePhysicalMemory / 1024 / 1024).format("0,000.000") + " GB"
+                    newValue: number.format(data.what.details.operatingSystem.freePhysicalMemory / 1024 / 1024, { pattern: "#,###.###" }) + " GB"
                 });
                 topic.publish("/value/resourceInformation/resourceOperatingSystemFreeVirtualMemory/TextBox", {
-                    newValue: (data.what.details.operatingSystem.freeVirtualMemory / 1024 / 1024).format("0,000.000") + " GB"
+                    newValue: number.format(data.what.details.operatingSystem.freeVirtualMemory / 1024 / 1024, { pattern: "#,###.###" }) + " GB"
                 });
                 topic.publish("/value/resourceInformation/resourceOperatingSystemLocalDateTime/TextBox", {
                     newValue: data.what.details.operatingSystem.localDateTime.dateFormat()

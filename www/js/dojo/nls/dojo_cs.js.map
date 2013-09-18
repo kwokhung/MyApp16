@@ -1,8 +1,0 @@
-{
-"version":3,
-"file":"dojo_cs.js",
-"lineCount":8,
-"mappings":"A;;;;;;SAAAA,MAAA,qBACA,sBADA,yBACiD,6CADjD,mEACoK,iDADpK,aACkO,qBADlO,mBACqQ,6CADrQ,iCACkV,gDADlV,mDAC6a,8CAD7a;8DAC0hB,oBAD1hB,0DACumB,8CADvmB;",
-"sources":["dojo_cs.js.uncompressed.js"],
-"names":["define"]
-}
