@@ -42,11 +42,11 @@ define([
                 "id": itemId,
                 "label": label,
                 "address": data.address,
-                "variableHeight": true,
-                "anchorLabel": true
+                "moveTo": "#viewBluetoothMessageList",
+                "variableHeight": true
             });
 
-            on(registry.byId(itemId), "anchorLabelClicked", lang.hitch(this, function (e) {
+            on(registry.byId(itemId), "click", lang.hitch(this, function (e) {
                 if (e != null) {
                     e.preventDefault();
                 }
