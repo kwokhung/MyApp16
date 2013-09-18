@@ -40,6 +40,10 @@ define([
                 "label": label,
                 "variableHeight": true
             });
+
+            topic.publish("/resourceMonitor/tell.other", {
+                what: label
+            });
         },
         someoneSaid: function (data) {
             this.appendMessage(data);
