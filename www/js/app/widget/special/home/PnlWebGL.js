@@ -311,7 +311,7 @@ define([
                         alert("Unable to initialize the shader program.");
                     }
                 } else {
-                    alert("Your browser does not support WebGL.");
+                    console.debug("Your browser does not support WebGL.");
                 }
             } catch (ex) {
                 alert(ex.message);
