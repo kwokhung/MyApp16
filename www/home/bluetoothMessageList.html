@@ -5,15 +5,35 @@
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 </head>
 <body>
-    <div style="height: 500px;" data-dojo-type="dojox/mobile/FixedSplitter" data-dojo-props="orientation: 'V', variablePane: 1">
+    <div style="height: 500px;" data-dojo-type="dojox/mobile/FixedSplitter" data-dojo-props="orientation: 'V', variablePane: -1">
         <div data-dojo-type="dojox/mobile/Container">
             <h1 data-dojo-type="dojox/mobile/Heading" data-dojo-props="back: 'Back', moveTo: '#viewBluetooth'">Bluetooth Message List</h1>
         </div>
-        <div data-dojo-type="dojox/mobile/Container">
-            <div data-dojo-type="dojox/mobile/RoundRect" data-dojo-props="shadow: true">
-                <div data-dojo-type="dojox/mobile/ScrollablePane" data-dojo-mixins="app/widget/_Resizable" data-dojo-props="height: '400px'">
-                    <ul data-dojo-type="app/widget/special/home/ListBluetoothMessage">
-                    </ul>
+        <div data-dojo-type="dojox/mobile/FixedSplitter" data-dojo-props="orientation: 'H', variablePane: 0">
+            <div style="overflow: hidden;" data-dojo-type="dojox/mobile/Container">
+                <div data-dojo-type="dojox/mobile/RoundRect" data-dojo-props="shadow: true">
+                    <div data-dojo-type="dojox/mobile/ScrollablePane" data-dojo-mixins="app/widget/_Resizable" data-dojo-props="height: '400px'">
+                        <ul data-dojo-type="app/widget/special/home/ListBluetoothMessage">
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div style="width: 100px; overflow: hidden;" data-dojo-type="dojox/mobile/Container">
+                <div data-dojo-type="dojox/mobile/ScrollableView" data-dojo-mixins="app/widget/_Resizable">
+                    <div style="height: 400px;" data-dojo-type="dojox/mobile/GridLayout" data-dojo-props="cols: 1">
+                        <div data-dojo-type="dojox/mobile/Pane">
+                            <button class="full" data-dojo-type="dojox/mobile/Button" data-dojo-mixins="app/widget/_Publishable" data-dojo-props="topicId: '/bluetooth/messageList/goto.top'">Top</button>
+                        </div>
+                        <div data-dojo-type="dojox/mobile/Pane">
+                            <button class="full" data-dojo-type="dojox/mobile/Button" data-dojo-mixins="app/widget/_Publishable" data-dojo-props="topicId: '/bluetooth/diagTellOther/show'">Tell other...</button>
+                        </div>
+                        <div data-dojo-type="dojox/mobile/Pane">
+                            <button class="full" data-dojo-type="dojox/mobile/Button" data-dojo-mixins="app/widget/_Publishable" data-dojo-props="topicId: '/bluetooth/messageList/clear.message'">Clear</button>
+                        </div>
+                        <div data-dojo-type="dojox/mobile/Pane">
+                            <button class="full" data-dojo-type="dojox/mobile/Button" data-dojo-mixins="app/widget/_Publishable" data-dojo-props="topicId: '/bluetooth/messageList/goto.bottom'">Bottom</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
