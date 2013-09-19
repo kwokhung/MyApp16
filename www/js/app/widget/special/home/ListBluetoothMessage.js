@@ -41,6 +41,8 @@ define([
                 "variableHeight": true
             });
 
+            this.getParent().scrollIntoView(registry.byId(itemId).domNode);
+
             topic.publish("/resourceMonitor/tell.other", {
                 what: label
             });

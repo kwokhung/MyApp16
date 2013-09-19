@@ -81,6 +81,8 @@ define([
                     }));
                 }));
             }));
+
+            this.getParent().scrollIntoView(registry.byId(itemId).domNode);
         },
         appendMessage: function (label, message) {
             topic.publish("/bluetooth/messageList/someone.said", {
