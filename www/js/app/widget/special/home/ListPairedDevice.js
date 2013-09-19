@@ -24,7 +24,6 @@ define([
                 "<br />" +
                 "<span style='font-size: 50%; color: green;'>";
 
-
             if (typeof data.address != "undefined" && (typeof data.address == "string" || (data.address != null && data.address.constructor == String))) {
                 label = label + data.address.replace(/\n/g, "<br />");
             }

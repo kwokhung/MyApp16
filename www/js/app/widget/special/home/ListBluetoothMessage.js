@@ -3,11 +3,12 @@ define([
     "dojo/_base/lang",
     "dojo/json",
     "dojo/topic",
+    "dijit/registry",
     "dojox/mobile/RoundRectStoreList",
     "app/util/StoredData",
     "app/widget/_ScrollableStoreList",
     "app/widget/_Subscriber"
-], function (declare, lang, json, topic, RoundRectStoreList, StoredData, _ScrollableStoreList, _Subscriber) {
+], function (declare, lang, json, topic, registry, RoundRectStoreList, StoredData, _ScrollableStoreList, _Subscriber) {
     return declare("app.widget.special.home.ListBluetoothMessage", [RoundRectStoreList, StoredData, _ScrollableStoreList, _Subscriber], {
         appendMessage: function (data) {
             var itemCount = this.data.length;
@@ -20,7 +21,6 @@ define([
                 "<br />" +
                 "<span style='font-size: 50%; color: green;'>" +
                     data.when.dateFormat() + ": ";
-
 
             if (typeof data.what != "undefined" && (typeof data.what == "string" || (data.what != null && data.what.constructor == String))) {
                 label = label + data.what.replace(/\n/g, "<br />");
