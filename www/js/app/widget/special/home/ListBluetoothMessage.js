@@ -1,6 +1,7 @@
 define([
     "dojo/_base/declare",
     "dojo/_base/lang",
+    "dojo/on",
     "dojo/json",
     "dojo/topic",
     "dijit/registry",
@@ -8,7 +9,7 @@ define([
     "app/util/StoredData",
     "app/widget/_ScrollableStoreList",
     "app/widget/_Subscriber"
-], function (declare, lang, json, topic, registry, RoundRectStoreList, StoredData, _ScrollableStoreList, _Subscriber) {
+], function (declare, lang, on, json, topic, registry, RoundRectStoreList, StoredData, _ScrollableStoreList, _Subscriber) {
     return declare("app.widget.special.home.ListBluetoothMessage", [RoundRectStoreList, StoredData, _ScrollableStoreList, _Subscriber], {
         appendMessage: function (data) {
             var itemCount = this.data.length;
