@@ -34,11 +34,13 @@
             </h1>
         </div>
         <div data-dojo-type="dojox/mobile/FixedSplitter" data-dojo-props="orientation: 'H', variablePane: 1">
-            <div style="background-color: pink; width: 30%;" data-dojo-type="dojox/mobile/Container">
-                <div data-dojo-type="dojox/mobile/RoundRect" data-dojo-props="shadow: true">
-                    <h3>FixedSplitter fragment example</h3>
-                    pane #2
+            <div style="background-color: pink; width: 30%; overflow: hidden;" data-dojo-type="dojox/mobile/Container">
+                <div data-dojo-type="dojox/mobile/ScrollableView" data-dojo-mixins="app/widget/_Resizable">
+                    <div data-dojo-type="dojox/mobile/RoundRect" data-dojo-props="shadow: true">
+                        <h3>FixedSplitter fragment example</h3>
+                        pane #2
                    
+                    </div>
                 </div>
             </div>
             <div style="overflow: hidden;" data-dojo-type="dojox/mobile/Container">
