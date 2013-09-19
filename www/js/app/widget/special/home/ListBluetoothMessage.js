@@ -38,8 +38,31 @@ define([
             this.store.put({
                 "id": itemId,
                 "label": label,
+                "what": data.what,
+                "when": data.when,
+                "moveTo": "#viewBluetoothMessage",
                 "variableHeight": true
             });
+
+            on(registry.byId(itemId), "click", lang.hitch(this, function (e) {
+                if (e != null) {
+                    e.preventDefault();
+                }
+
+                topic.publish("/value/bluetoothMessage/what/Pane", {
+                    newValue:
+                        "<span style='color: blue;'>" +
+                            this.store.get(itemId).what +
+                        "</span>"
+                });
+
+                topic.publish("/value/bluetoothMessage/when/Pane", {
+                    newValue:
+                        "<span style='font-size: 50%; color: green;'>" +
+                            this.store.get(itemId).when.dateFormat() +
+                        "</span>"
+                });
+            }));
 
             this.getParent().scrollIntoView(registry.byId(itemId).domNode);
 
