@@ -139,7 +139,8 @@ define([
         },
         setResourceUrl: function (data) {
             this.resourceUrl = data.url;
-            this.socket = io.connect(this.resourceUrl, { "force new connection": false });
+            var parsedUrl = app.nwHelper.parseUrl(this.resourceUrl);
+            this.socket = io.connect(parsedUrl.schemeName + "://" + parsedUrl.hostName + ":" + (typeof parsedUrl.port == "undefined" ? "80" : parsedUrl.port), { "force new connection": false });
 
             this.handleMessage();
         },
