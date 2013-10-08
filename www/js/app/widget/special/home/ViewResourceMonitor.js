@@ -79,10 +79,7 @@ define([
             socket.on("heartbeat", lang.hitch(this, function (data) {
                 this.appendMessage({ who: "heartbeat", what: data.when });
 
-                socket.emit("heartbeat", {
-                    who: this.who,
-                    when: new Date().yyyyMMddHHmmss()
-                }, lang.hitch(this, this.logMessage));
+                this.heartbeat();
             }));
 
             socket.on("you.are", lang.hitch(this, function (data) {
@@ -147,7 +144,7 @@ define([
         iAm: function (data) {
             if (typeof data != "undefined" && typeof data.whoAmI != "undefined" && data.whoAmI != null && data.whoAmI != "") {
                 if (this.socket != null) {
-                    this.socket.emit("i.am", {
+                    this.socket.emit("resource:i.am", {
                         who: this.who,
                         whoAmI: data.whoAmI,
                         when: new Date().yyyyMMddHHmmss()
@@ -165,7 +162,7 @@ define([
             }
             else {
                 if (this.socket != null) {
-                    this.socket.emit("i.am", {
+                    this.socket.emit("resource:i.am", {
                         who: this.who,
                         whoAmI: this.who,
                         when: new Date().yyyyMMddHHmmss()
@@ -176,7 +173,7 @@ define([
         iAmNoMore: function (data) {
             if (typeof data != "undefined" && typeof data.whoAmI != "undefined" && data.whoAmI != null && data.whoAmI != "") {
                 if (this.socket != null) {
-                    this.socket.emit("i.am.no.more", {
+                    this.socket.emit("resource:i.am.no.more", {
                         who: this.who,
                         whoAmI: data.whoAmI,
                         when: new Date().yyyyMMddHHmmss()
@@ -194,7 +191,7 @@ define([
             }
             else {
                 if (this.socket != null) {
-                    this.socket.emit("i.am.no.more", {
+                    this.socket.emit("resource:i.am.no.more", {
                         who: this.who,
                         whoAmI: this.who,
                         when: new Date().yyyyMMddHHmmss()
@@ -211,6 +208,14 @@ define([
                 }
             }
         },
+        heartbeat: function (data) {
+            if (this.socket != null) {
+                this.socket.emit("resource:heartbeat", {
+                    who: this.who,
+                    when: new Date().yyyyMMddHHmmss()
+                }, lang.hitch(this, this.logMessage));
+            }
+        },
         tellOther: function (data) {
             if (this.socket != null) {
                 var enhancedData = {
@@ -219,7 +224,7 @@ define([
                     when: new Date().yyyyMMddHHmmss()
                 };
 
-                this.socket.emit("tell.other", enhancedData, lang.hitch(this, this.logMessage));
+                this.socket.emit("resource:tell.other", enhancedData, lang.hitch(this, this.logMessage));
 
                 topic.publish("/messageList/someone.said", enhancedData);
             }
@@ -233,14 +238,14 @@ define([
                     when: new Date().yyyyMMddHHmmss()
                 };
 
-                this.socket.emit("tell.someone", enhancedData, lang.hitch(this, this.logMessage));
+                this.socket.emit("resource:tell.someone", enhancedData, lang.hitch(this, this.logMessage));
 
                 topic.publish("/messageList/someone.said", enhancedData);
             }
         },
         whoAreThere: function () {
             if (this.socket != null) {
-                this.socket.emit("who.are.there", {
+                this.socket.emit("resource:who.are.there", {
                     who: this.who,
                     when: new Date().yyyyMMddHHmmss()
                 }, lang.hitch(this, this.logMessage));
@@ -292,6 +297,7 @@ define([
             this.subscribers.push(topic.subscribe("/resourceMonitor/set.resource.url", lang.hitch(this, this.setResourceUrl)));
             this.subscribers.push(topic.subscribe("/resourceMonitor/i.am", lang.hitch(this, this.iAm)));
             this.subscribers.push(topic.subscribe("/resourceMonitor/i.am.no.more", lang.hitch(this, this.iAmNoMore)));
+            this.subscribers.push(topic.subscribe("/resourceMonitor/heartbeat", lang.hitch(this, this.heartbeat)));
             this.subscribers.push(topic.subscribe("/resourceMonitor/tell.other", lang.hitch(this, this.tellOther)));
             this.subscribers.push(topic.subscribe("/resourceMonitor/tell.someone", lang.hitch(this, this.tellSomeone)));
             this.subscribers.push(topic.subscribe("/resourceMonitor/who.are.there", lang.hitch(this, this.whoAreThere)));
