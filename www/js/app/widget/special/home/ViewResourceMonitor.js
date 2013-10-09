@@ -6,14 +6,16 @@ define([
     "dojox/mobile/View",
     "app/util/special/mobile/SimpleDialog",
     "app/util/app",
+    "app/util/ResourceConnectionHelper",
     "app/util/ConnectedResourceHelper",
     "app/util/ResourceHelper",
     "app/widget/_Subscriber"
-], function (declare, lang, array, topic, View, Dialog, app, ConnectedResourceHelper, ResourceHelper, _Subscriber) {
+], function (declare, lang, array, topic, View, Dialog, app, ResourceConnectionHelper, ConnectedResourceHelper, ResourceHelper, _Subscriber) {
     return declare("app.widget.special.home.ViewResourceMonitor", [View, _Subscriber], {
         resourceUrl: null,
         who: "anonymous",
         socket: null,
+        resourceConnectionHelper: null,
         connectedResourceHelper: null,
         resourceHelper: null,
         appendMessage: function (data) {
@@ -28,61 +30,12 @@ define([
                 this._handleException(result.message);
             }
         },
-        handleMessage: function () {
-            var socket = this.socket;
-
-            socket.on("connecting", lang.hitch(this, function () {
-                this.appendMessage({ who: "System", what: "connecting" });
-            }));
-
-            socket.on("connect", lang.hitch(this, function () {
-                this.appendMessage({ who: "System", what: "connect" });
-
-                this.connectedResourceHelper.onMessage();
-
-                this.iAmNoMore({
-                    whoAmI: "Resource Monitor"
-                });
-
-                this.iAm({
-                    whoAmI: "Resource Monitor"
-                });
-            }));
-
-            socket.on("connect_failed", lang.hitch(this, function (e) {
-                this.appendMessage({ who: "System", what: (e ? e.type : "connect_failed") });
-            }));
-
-            socket.on("message", lang.hitch(this, function (message, callback) {
-                this.appendMessage({ who: "System", what: message });
-            }));
-
-            socket.on("disconnect", lang.hitch(this, function () {
-                this.appendMessage({ who: "disconnect", what: "disconnect" });
-            }));
-
-            socket.on("reconnecting", lang.hitch(this, function () {
-                this.appendMessage({ who: "System", what: "reconnecting" });
-            }));
-
-            socket.on("reconnect", lang.hitch(this, function () {
-                this.appendMessage({ who: "System", what: "reconnect" });
-            }));
-
-            socket.on("reconnect_failed", lang.hitch(this, function () {
-                this.appendMessage({ who: "System", what: (e ? e.type : "reconnect_failed") });
-            }));
-
-            socket.on("error", lang.hitch(this, function (e) {
-                this.appendMessage({ who: "System", what: (e ? e.type : "unknown error") });
-            }));
-        },
         setResourceUrl: function (data) {
             this.resourceUrl = data.url;
             var parsedUrl = app.nwHelper.parseUrl(this.resourceUrl);
             this.socket = io.connect(parsedUrl.schemeName + "://" + parsedUrl.hostName + ":" + (typeof parsedUrl.port == "undefined" ? "80" : parsedUrl.port), { "force new connection": false });
 
-            this.handleMessage();
+            this.resourceConnectionHelper.onMessage();
         },
         iAm: function (data) {
             this.resourceHelper.handleIAm(data);
@@ -152,6 +105,10 @@ define([
         },
         postCreate: function () {
             this.inherited(arguments);
+
+            this.resourceConnectionHelper = new ResourceConnectionHelper({
+                resourceMonitor: this
+            });
 
             this.connectedResourceHelper = new ConnectedResourceHelper({
                 resourceMonitor: this
