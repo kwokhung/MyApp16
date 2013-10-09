@@ -12,9 +12,9 @@ define([
     "app/widget/_Subscriber"
 ], function (declare, lang, array, topic, View, Dialog, app, ResourceConnectionHelper, ResourceInboundHelper, ResourceOutboundHelper, _Subscriber) {
     return declare("app.widget.special.home.ViewResourceMonitor", [View, _Subscriber], {
-        resourceUrl: null,
         who: "anonymous",
         socket: null,
+        resourceUrl: null,
         resourceConnectionHelper: null,
         resourceInboundHelper: null,
         resourceOutboundHelper: null,
@@ -119,6 +119,7 @@ define([
             });
 
             this.subscribers.push(topic.subscribe("/resourceMonitor/set.resource.url", lang.hitch(this, this.setResourceUrl)));
+
             this.subscribers.push(topic.subscribe("/resourceMonitor/i.am", lang.hitch(this, this.iAm)));
             this.subscribers.push(topic.subscribe("/resourceMonitor/i.am.no.more", lang.hitch(this, this.iAmNoMore)));
             this.subscribers.push(topic.subscribe("/resourceMonitor/heartbeat", lang.hitch(this, this.heartbeat)));

@@ -1,9 +1,7 @@
 ﻿define([
     "dojo/_base/declare",
-    "dojo/_base/lang",
-    "dojo/_base/array",
-    "dojo/topic"
-], function (declare, lang, array, topic) {
+    "dojo/_base/lang"
+], function (declare, lang) {
     return declare("app.util.ResourceConnectionHelper", null, {
         resourceMonitor: null,
         constructor: function (kwArgs) {
