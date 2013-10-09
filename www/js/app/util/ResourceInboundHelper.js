@@ -4,7 +4,7 @@
     "dojo/_base/array",
     "dojo/topic"
 ], function (declare, lang, array, topic) {
-    return declare("app.util.ConnectedResourceHelper", null, {
+    return declare("app.util.ResourceInboundHelper", null, {
         resourceMonitor: null,
         constructor: function (kwArgs) {
             lang.mixin(this, kwArgs);

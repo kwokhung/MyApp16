@@ -21,7 +21,7 @@
             this.resourceMonitor.socket.on("connect", lang.hitch(this, function () {
                 this.resourceMonitor.appendMessage({ who: "System", what: "connect" });
 
-                this.resourceMonitor.connectedResourceHelper.onMessage();
+                this.resourceMonitor.resourceInboundHelper.onMessage();
 
                 this.resourceMonitor.iAmNoMore({
                     whoAmI: "Resource Monitor"

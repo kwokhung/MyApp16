@@ -7,17 +7,17 @@ define([
     "app/util/special/mobile/SimpleDialog",
     "app/util/app",
     "app/util/ResourceConnectionHelper",
-    "app/util/ConnectedResourceHelper",
-    "app/util/ResourceHelper",
+    "app/util/ResourceInboundHelper",
+    "app/util/ResourceOutboundHelper",
     "app/widget/_Subscriber"
-], function (declare, lang, array, topic, View, Dialog, app, ResourceConnectionHelper, ConnectedResourceHelper, ResourceHelper, _Subscriber) {
+], function (declare, lang, array, topic, View, Dialog, app, ResourceConnectionHelper, ResourceInboundHelper, ResourceOutboundHelper, _Subscriber) {
     return declare("app.widget.special.home.ViewResourceMonitor", [View, _Subscriber], {
         resourceUrl: null,
         who: "anonymous",
         socket: null,
         resourceConnectionHelper: null,
-        connectedResourceHelper: null,
-        resourceHelper: null,
+        resourceInboundHelper: null,
+        resourceOutboundHelper: null,
         appendMessage: function (data) {
             topic.publish("/resourceMonitorMessageList/resourceMonitor.said", data);
         },
@@ -38,30 +38,30 @@ define([
             this.resourceConnectionHelper.onMessage();
         },
         iAm: function (data) {
-            this.resourceHelper.handleIAm(data);
+            this.resourceOutboundHelper.handleIAm(data);
         },
         iAmNoMore: function (data) {
-            this.resourceHelper.handleIAmNoMore(data);
+            this.resourceOutboundHelper.handleIAmNoMore(data);
         },
         heartbeat: function () {
-            this.resourceHelper.handleHeartbeat();
+            this.resourceOutboundHelper.handleHeartbeat();
         },
         tellOther: function (data) {
-            var enhancedData = this.resourceHelper.handleTellOther(data);
+            var enhancedData = this.resourceOutboundHelper.handleTellOther(data);
 
             if (enhancedData != null) {
                 topic.publish("/messageList/someone.said", enhancedData);
             }
         },
         tellSomeone: function (data) {
-            var enhancedData = this.resourceHelper.handleTellSomeone(data);
+            var enhancedData = this.resourceOutboundHelper.handleTellSomeone(data);
 
             if (enhancedData != null) {
                 topic.publish("/messageList/someone.said", enhancedData);
             }
         },
         whoAreThere: function () {
-            this.resourceHelper.handleWhoAreThere();
+            this.resourceOutboundHelper.handleWhoAreThere();
         },
         whatToDo: function (data) {
             switch (data.what.toDo) {
@@ -110,11 +110,11 @@ define([
                 resourceMonitor: this
             });
 
-            this.connectedResourceHelper = new ConnectedResourceHelper({
+            this.resourceInboundHelper = new ResourceInboundHelper({
                 resourceMonitor: this
             });
 
-            this.resourceHelper = new ResourceHelper({
+            this.resourceOutboundHelper = new ResourceOutboundHelper({
                 resourceMonitor: this
             });
 

@@ -2,7 +2,7 @@
     "dojo/_base/declare",
     "dojo/_base/lang"
 ], function (declare, lang) {
-    return declare("app.util.ResourceHelper", null, {
+    return declare("app.util.ResourceOutboundHelper", null, {
         resourceMonitor: null,
         constructor: function (kwArgs) {
             lang.mixin(this, kwArgs);
