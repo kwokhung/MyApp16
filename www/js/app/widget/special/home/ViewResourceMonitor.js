@@ -12,9 +12,9 @@ define([
     "app/widget/_Subscriber"
 ], function (declare, lang, array, topic, View, Dialog, app, ResourceConnectionHelper, ResourceInboundHelper, ResourceOutboundHelper, _Subscriber) {
     return declare("app.widget.special.home.ViewResourceMonitor", [View, _Subscriber], {
+        resourceUrl: null,
         who: "anonymous",
         socket: null,
-        resourceUrl: null,
         resourceConnectionHelper: null,
         resourceInboundHelper: null,
         resourceOutboundHelper: null,
