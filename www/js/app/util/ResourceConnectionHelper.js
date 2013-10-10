@@ -39,7 +39,7 @@
             }));
 
             this.resourceMonitor.socket.on("disconnect", lang.hitch(this, function () {
-                this.resourceMonitor.appendMessage({ who: "disconnect", what: "disconnect" });
+                this.resourceMonitor.appendMessage({ who: "System", what: "disconnect" });
             }));
 
             this.resourceMonitor.socket.on("reconnecting", lang.hitch(this, function () {

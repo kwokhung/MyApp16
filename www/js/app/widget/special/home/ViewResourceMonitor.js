@@ -1,22 +1,23 @@
 define([
     "dojo/_base/declare",
     "dojo/_base/lang",
-    "dojo/_base/array",
     "dojo/topic",
     "dojox/mobile/View",
     "app/util/special/mobile/SimpleDialog",
     "app/util/app",
     "app/util/ResourceConnectionHelper",
     "app/util/ResourceInboundHelper",
+    "app/util/ResourceTodoHelper",
     "app/util/ResourceOutboundHelper",
     "app/widget/_Subscriber"
-], function (declare, lang, array, topic, View, Dialog, app, ResourceConnectionHelper, ResourceInboundHelper, ResourceOutboundHelper, _Subscriber) {
+], function (declare, lang, topic, View, Dialog, app, ResourceConnectionHelper, ResourceInboundHelper, ResourceTodoHelper, ResourceOutboundHelper, _Subscriber) {
     return declare("app.widget.special.home.ViewResourceMonitor", [View, _Subscriber], {
         resourceUrl: null,
         who: "anonymous",
         socket: null,
         resourceConnectionHelper: null,
         resourceInboundHelper: null,
+        resourceTodoHelper: null,
         resourceOutboundHelper: null,
         appendMessage: function (data) {
             topic.publish("/resourceMonitorMessageList/resourceMonitor.said", data);
@@ -63,37 +64,6 @@ define([
         whoAreThere: function () {
             this.resourceOutboundHelper.handleWhoAreThere();
         },
-        whatToDo: function (data) {
-            switch (data.what.toDo) {
-                case "updateYourDetails":
-                    this.tellSomeone({
-                        whom: data.who,
-                        what: {
-                            toDo: "updateHisDetails",
-                            details: {
-                                who: this.who
-                            }
-                        }
-                    });
-
-                    break;
-
-                case "updateHisDetails":
-                    topic.publish("/resourceInformation/render.details", data);
-
-                    break;
-
-                case "drawCanvas":
-                    topic.publish("/canvas/draw", data);
-
-                    break;
-
-                case "displayPhoto":
-                    topic.publish("/photo/display", data);
-
-                    break;
-            }
-        },
         _handleException: function (ex) {
             var exceptionErrorDialog = new Dialog({
                 title: app.bundle.MsgSystemError,
@@ -111,6 +81,10 @@ define([
             });
 
             this.resourceInboundHelper = new ResourceInboundHelper({
+                resourceMonitor: this
+            });
+
+            this.resourceTodoHelper = new ResourceTodoHelper({
                 resourceMonitor: this
             });
 
