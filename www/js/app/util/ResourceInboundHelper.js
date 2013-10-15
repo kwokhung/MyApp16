@@ -52,7 +52,7 @@
 
                 topic.publish("/messageList/someone.said", data);
 
-                if (typeof data.what.toDo != "undefined" && data.what.toDo != null) {
+                if (typeof data.what != "undefined" && data.what != null && typeof data.what.toDo != "undefined" && data.what.toDo != null) {
                     this.resourceMonitor.resourceTodoHelper.whatToDo(data);
                 }
             }));
